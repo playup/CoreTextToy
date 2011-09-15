@@ -54,22 +54,22 @@
 
 
         theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)self.standardFont.CTFont, (__bridge NSString *)kCTFontAttributeName,
+            (__bridge_transfer id)self.standardFont.CTFont, (__bridge NSString *)kCTFontAttributeName,
             NULL];
         [attributesForTagSets setObject:theAttributes forKey:[NSSet set]];
 
         theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)[self.standardFont boldItalicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+            (__bridge_transfer id)[self.standardFont boldItalicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
             NULL];
         [attributesForTagSets setObject:theAttributes forKey:[NSSet setWithObjects:@"b", @"i", NULL]];
 
         theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)[self.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+            (__bridge_transfer id)[self.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
             NULL];
         [attributesForTagSets setObject:theAttributes forKey:[NSSet setWithObjects:@"b", NULL]];
 
         theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)[self.standardFont italicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+            (__bridge_transfer id)[self.standardFont italicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
             NULL];
         [attributesForTagSets setObject:theAttributes forKey:[NSSet setWithObjects:@"i", NULL]];
         
