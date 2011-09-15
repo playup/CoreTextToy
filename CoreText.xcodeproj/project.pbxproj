@@ -224,6 +224,7 @@
 		45FF282513CD6920006D9574 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = toxicsoftware.com;
 			};
 			buildConfigurationList = 45FF282813CD6920006D9574 /* Build configuration list for PBXProject "CoreText" */;

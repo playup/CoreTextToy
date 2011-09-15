@@ -18,6 +18,8 @@
 @property (readwrite, nonatomic, retain) UIFont *standardFont;
 @property (readwrite, nonatomic, retain) NSSet *supportedTags;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *attributesForTagSets;
+
+- (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack;
 @end
 
 #pragma mark -
@@ -49,6 +51,7 @@
         attributesForTagSets = [NSMutableDictionary dictionary];
         
         NSDictionary *theAttributes = NULL;
+
 
         theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
             (__bridge_transfer id)self.standardFont.CTFont, (__bridge NSString *)kCTFontAttributeName,
@@ -86,10 +89,8 @@
 
     NSMutableAttributedString *theAttributedString = [[NSMutableAttributedString alloc] init];
   
-    __block NSMutableDictionary *theAttributes = NULL;  
+    __block NSDictionary *theAttributes = NULL;  
   
-    NSMutableArray *theStyleStack = [NSMutableArray array];
-
     CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
     
     theParser.openTagHandler = ^(NSString *inTag, NSArray *tagStack) {
@@ -97,27 +98,14 @@
             {
             [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:theAttributes]];
             }
-        else if ([self.supportedTags containsObject:inTag])
-            {
-            [theStyleStack addObject:inTag];
-            }
         };
 
     theParser.closeTagHandler = ^(NSString *inTag, NSArray *tagStack) {
-        if ([self.supportedTags containsObject:inTag])
-            {
-            [theStyleStack removeLastObject];
-            }
         };
     
 
     theParser.textHandler = ^(NSString *inString, NSArray *tagStack) {
-        theAttributes = [NSMutableDictionary dictionary];
-        NSSet *theActiveTagSet = [NSSet setWithArray:theStyleStack];
-        
-        NSDictionary *theAttributesForActiveTagSet = [self.attributesForTagSets objectForKey:theActiveTagSet];
-        [theAttributes addEntriesFromDictionary:theAttributesForActiveTagSet];
-        
+        theAttributes = [self attributesForTagStack:tagStack];
         [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:inString attributes:theAttributes]];
         };
     
@@ -128,6 +116,63 @@
         }
 
     return([theAttributedString copy]);
+    }
+
+#pragma mark -
+
+- (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack
+    {
+    NSMutableSet *theStyles = [NSMutableSet set];
+
+    BOOL theSmallFlag = NO;
+
+    NSMutableDictionary *theAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+        NULL];
+    
+    for (NSString *theTag in inTagStack)
+        {
+        if ([theTag isEqualToString:@"b"] || [theTag isEqualToString:@"strong"])
+            {
+            [theStyles addObject:@"Bold"];
+            }
+        else if ([theTag isEqualToString:@"i"] || [theTag isEqualToString:@"em"] || [theTag isEqualToString:@"cite"] || [theTag isEqualToString:@"var"])
+            {
+            [theStyles addObject:@"Italic"];
+            }
+        else if ([theTag isEqualToString:@"ins"])
+            {
+            [theAttributes setObject:[NSNumber numberWithInt:kCTUnderlineStyleSingle] forKey:(__bridge id)kCTUnderlineStyleAttributeName];
+            }
+        else if ([theTag isEqualToString:@"small"])
+            {
+            theSmallFlag = YES;
+            }
+        }
+    
+    UIFont *theFont = self.standardFont;
+    
+    if ([theStyles containsObject:@"Bold"] && [theStyles containsObject:@"Italic"])
+        {
+        theFont = [theFont boldItalicFont];
+        }
+    else if ([theStyles containsObject:@"Bold"])
+        {
+        theFont = [theFont boldFont];
+        }
+    else if ([theStyles containsObject:@"Italic"])
+        {
+        theFont = [theFont italicFont];
+        }
+
+    if (theSmallFlag == YES)
+        {
+        theFont = [theFont fontWithSize:theFont.pointSize - 3];
+        }
+
+
+    [theAttributes setObject:(__bridge_transfer id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+    
+    return(theAttributes);
     }
 
 @end

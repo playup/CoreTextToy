@@ -21,7 +21,7 @@
 @synthesize editView;
 @synthesize previewView;
 
-- (void)awakeFromNib
+- (void)viewDidLoad
     {
     self.previewView.text = [NSAttributedString attributedStringWithMarkup:self.editView.text error:NULL];
     }
