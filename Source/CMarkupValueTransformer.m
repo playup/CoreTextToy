@@ -47,70 +47,7 @@
         
         attributesForTagSets = [NSMutableArray array];
         
-        NSDictionary *theAttributes = NULL;
-        
-        theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)self.standardFont.CTFont, (__bridge NSString *)kCTFontAttributeName,
-            NULL];
-        [attributesForTagSets addObject:
-            [NSDictionary dictionaryWithObjectsAndKeys:
-                theAttributes, @"attributes",
-                [NSSet set], @"tags",
-                NULL]
-            ];
-
-        theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)[self.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
-            NULL];
-        [attributesForTagSets addObject:
-            [NSDictionary dictionaryWithObjectsAndKeys:
-                theAttributes, @"attributes",
-                [NSSet setWithObjects:@"b", NULL], @"tags",
-                NULL]
-            ];
-
-        theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)[self.standardFont italicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
-            NULL];
-        [attributesForTagSets addObject:
-            [NSDictionary dictionaryWithObjectsAndKeys:
-                theAttributes, @"attributes",
-                [NSSet setWithObjects:@"i", NULL], @"tags",
-                NULL]
-            ];
-
-        theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)[self.standardFont boldItalicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
-            NULL];
-        [attributesForTagSets addObject:
-            [NSDictionary dictionaryWithObjectsAndKeys:
-                theAttributes, @"attributes",
-                [NSSet setWithObjects:@"b", @"i", NULL], @"tags",
-                NULL]
-            ];
-
-        theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
-            [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
-            NULL];
-        [attributesForTagSets addObject:
-            [NSDictionary dictionaryWithObjectsAndKeys:
-                theAttributes, @"attributes",
-                [NSSet setWithObjects:@"a", NULL], @"tags",
-                NULL]
-            ];
-
-        theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)[UIColor purpleColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
-            NULL];
-        [attributesForTagSets addObject:
-            [NSDictionary dictionaryWithObjectsAndKeys:
-                theAttributes, @"attributes",
-                [NSSet setWithObjects:@"purple", NULL], @"tags",
-                NULL]
-            ];
-        
-        // TODO generate supported tags from attributesForTagSets keys.
+        [self addStandardStyles];
 		}
 	return(self);
 	}
@@ -154,7 +91,6 @@
 
         };
     
-
     theParser.textHandler = ^(NSString *inString, NSArray *tagStack) { 
         theTextAttributes = [[self attributesForTagStack:tagStack] mutableCopy];
         
@@ -173,6 +109,79 @@
         }
 
     return([theAttributedString copy]);
+    }
+
+- (void)resetStyles
+    {
+    self.attributesForTagSets = [NSMutableArray array];
+    
+    NSDictionary *theAttributes = NULL;
+    
+    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+        (__bridge id)self.standardFont.CTFont, (__bridge NSString *)kCTFontAttributeName,
+        NULL];
+    [attributesForTagSets addObject:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            theAttributes, @"attributes",
+            [NSSet set], @"tags",
+            NULL]
+        ];
+    }
+    
+- (void)addStandardStyles
+    {
+    NSDictionary *theAttributes = NULL;
+    
+    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+        (__bridge id)[self.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+        NULL];
+    [attributesForTagSets addObject:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            theAttributes, @"attributes",
+            [NSSet setWithObjects:@"b", NULL], @"tags",
+            NULL]
+        ];
+
+    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+        (__bridge id)[self.standardFont italicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+        NULL];
+    [attributesForTagSets addObject:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            theAttributes, @"attributes",
+            [NSSet setWithObjects:@"i", NULL], @"tags",
+            NULL]
+        ];
+
+    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+        (__bridge id)[self.standardFont boldItalicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+        NULL];
+    [attributesForTagSets addObject:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            theAttributes, @"attributes",
+            [NSSet setWithObjects:@"b", @"i", NULL], @"tags",
+            NULL]
+        ];
+
+    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+        (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
+        [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
+        NULL];
+    [attributesForTagSets addObject:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            theAttributes, @"attributes",
+            [NSSet setWithObjects:@"a", NULL], @"tags",
+            NULL]
+        ];
+    }
+
+- (void)addStyleAttributes:(NSDictionary *)inAttributes forTagSet:(NSSet *)inTagSet
+    {
+    [self.attributesForTagSets addObject:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            inAttributes, @"attributes",
+            inTagSet, @"tags",
+            NULL]
+        ];
     }
 
 #pragma mark -

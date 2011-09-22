@@ -14,6 +14,10 @@
 
 - (id)transformedValue:(id)value error:(NSError **)outError;
 
+- (void)resetStyles;
+- (void)addStandardStyles;
+- (void)addStyleAttributes:(NSDictionary *)inAttributes forTagSet:(NSSet *)inTagSet;
+
 @end
 
 #pragma mark -
