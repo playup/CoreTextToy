@@ -8,6 +8,8 @@
 
 #import "UIFont_CoreTextExtensions.h"
 
+#import <objc/runtime.h>
+
 @implementation UIFont (UIFont_CoreTextExtensions)
 
 + (NSSet *)featuresForFontName:(NSString *)inFontName
@@ -39,12 +41,19 @@
     }
 
 
+static void *kCTFontKey;
+
 - (CTFontRef)CTFont
     {
-    CTFontRef theFont = CTFontCreateWithName((__bridge CFStringRef)self.fontName, self.pointSize, NULL);
-    
-    NSAssert1(theFont != NULL, @"Could not convert font %@ to CTFont", self.fontName);
+    // Alas poor [(id)theFont autorelease]...
+    CTFontRef theFont = (__bridge CTFontRef)objc_getAssociatedObject(self, &kCTFontKey);
+    if (theFont == NULL)
+        {
+        theFont = CTFontCreateWithName((__bridge CFStringRef)self.fontName, self.pointSize, NULL);
+        NSAssert1(theFont != NULL, @"Could not convert font %@ to CTFont", self.fontName);
         
+        objc_setAssociatedObject(self, &kCTFontKey, (__bridge id)theFont, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
     return(theFont);
     }
 
