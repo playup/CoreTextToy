@@ -21,8 +21,27 @@
 @implementation CCoreTextLabel
 
 @synthesize text;
+@synthesize URLHandler;
 
 @synthesize framesetter;
+
+- (id)initWithFrame:(CGRect)frame
+    {
+    if ((self = [super initWithFrame:frame]) != NULL)
+        {
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
+        }
+    return(self);
+    }
+
+- (id)initWithCoder:(NSCoder *)inCoder
+    {
+    if ((self = [super initWithCoder:inCoder]) != NULL)
+        {
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
+        }
+    return(self);
+    }
 
 - (void)dealloc
     {
@@ -61,13 +80,6 @@
         }
     }
 
-- (void)awakeFromNib
-    {
-    // TODO this is all just test code.
-    self.layer.borderWidth = 1.0;
-    self.layer.borderColor = [UIColor redColor].CGColor;
-    }
-
 - (void)drawRect:(CGRect)rect
     {
     if (self.framesetter)
@@ -91,4 +103,51 @@
         }
     }
 
+- (void)tap:(UITapGestureRecognizer *)inGestureRecognizer
+    {
+    CGPoint theLocation = [inGestureRecognizer locationInView:self];
+
+    theLocation.y *= -1;
+    theLocation.y += self.bounds.size.height;
+    
+    UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:self.bounds];
+
+    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){ .length = [self.text length] }, thePath.CGPath, NULL);
+
+//    NSLog(@"###################");
+
+    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
+    
+    __block CGPoint theLastLineOrigin = (CGPoint){ 0, CGFLOAT_MAX };
+    
+    [theLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+
+        CGPoint theLineOrigin;
+        CTFrameGetLineOrigins(theFrame, CFRangeMake(idx, 1), &theLineOrigin);
+
+//        NSLog(@"%d %g %g %g", idx, theLocation.y, theLineOrigin.y, theLastLineOrigin.y);
+
+        
+        if (theLocation.y > theLineOrigin.y && theLocation.y < theLastLineOrigin.y)
+            {
+            CTLineRef theLine = (__bridge CTLineRef)obj;
+            
+            CFIndex theIndex = CTLineGetStringIndexForPosition(theLine, (CGPoint){ .x = theLocation.x - theLineOrigin.x, theLocation.y - theLineOrigin.y });
+            if (theIndex != NSNotFound && theIndex < self.text.length)
+                {
+                NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:NULL];
+                NSURL *theLink = [theAttributes objectForKey:@"link"];
+                if (self.URLHandler)
+                    {
+                    self.URLHandler(theLink);
+                    }
+                }
+            }
+        theLastLineOrigin = theLineOrigin;
+        }];
+    }
+
+
 @end
+

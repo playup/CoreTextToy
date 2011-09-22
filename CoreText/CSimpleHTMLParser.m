@@ -8,6 +8,12 @@
 
 #import "CSimpleHTMLParser.h"
 
+#import "NSScanner+HTMLExtensions.h"
+
+@interface CSimpleHTMLParser ()
+- (NSString *)stringForEntity:(NSString *)inEntity;
+@end
+
 @implementation CSimpleHTMLParser
 
 @synthesize openTagHandler;
@@ -18,13 +24,32 @@
 	{
 	if ((self = [super init]) != NULL)
 		{
-        openTagHandler = ^(NSString *tag, NSArray *tagStack) {};
+        openTagHandler = ^(NSString *tag, NSDictionary *attributes, NSArray *tagStack) {};
         closeTagHandler = ^(NSString *tag, NSArray *tagStack) {};
         textHandler = ^(NSString *text, NSArray *tagStack) {};
 		}
 	return(self);
 	}
 
+- (NSString *)stringForEntity:(NSString *)inEntity
+    {
+    static NSDictionary *sEntities = NULL;
+    static dispatch_once_t sOnceToken;
+    dispatch_once(&sOnceToken, ^{
+        sEntities = [NSDictionary dictionaryWithObjectsAndKeys:
+            @"\"", @"quot",
+            @"&", @"amp",
+            @"'", @"apos",
+            @"<", @"lt",
+            @">", @"gt",
+            [NSString stringWithFormat:@"%C", 0xA0], @"nbsp",
+            NULL];
+        });
+    
+    NSString *theString = [sEntities objectForKey:inEntity];
+    
+    return(theString);
+    }
 
 - (BOOL)parseString:(NSString *)inString error:(NSError **)outError
     {
@@ -37,8 +62,6 @@
             *outError = [NSError errorWithDomain:@"TODO" code:-1 userInfo:theDictionary];
             }
         };
-    
-    
     
     NSMutableCharacterSet *theCharacterSet = [[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy];
     [theCharacterSet addCharactersInString:@"<&"];
@@ -58,6 +81,7 @@
         NSString *theRun = NULL;
 
         NSString *theTag = NULL;
+        NSDictionary *theAttributes = NULL;
 
         if ([theScanner scanString:@"</" intoString:NULL] == YES)
             {
@@ -91,41 +115,59 @@
             [theTagStack removeObjectsInRange:(NSRange){ .location = theIndex, .length = theTagStack.count - theIndex }];
             
             }
-        else if ([theScanner scanString:@"<" intoString:NULL] == YES)
+        else if ([theScanner scanOpenTag:&theTag attributes:&theAttributes] == YES)
             {
-            if ([theScanner scanUpToString:@">" intoString:&theTag] == NO)
-                {
-                theErrorBlock(@"< not followed by >");
-                return(NO);
-                }
-            if ([theScanner scanString:@">" intoString:NULL] == NO)
-                {
-                theErrorBlock(@"< not followed by >");
-                return(NO);
-                }            
-        
             if (theString.length > 0)
                 {
                 theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
                 self.textHandler(theString, theTagStack);
+                theString = [NSMutableString string]; 
                 }
             
-            theString = [NSMutableString string]; 
-            
-            self.openTagHandler(theTag, theTagStack);
+            self.openTagHandler(theTag, theAttributes, theTagStack);
             
             [theTagStack addObject:theTag];
+            }
+        else if ([theScanner scanString:@"&" intoString:NULL] == YES)
+            {
+            NSString *theEntity = NULL;
+            if ([theScanner scanUpToString:@";" intoString:&theEntity] == NO)
+                {
+                theErrorBlock(@"& not followed by ;");
+                return(NO);
+                }
+            if ([theScanner scanString:@";" intoString:NULL] == NO)
+                {
+                theErrorBlock(@"& not followed by ;");
+                return(NO);
+                }
+
+            if (theString.length > 0)
+                {
+                theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
+                self.textHandler(theString, theTagStack);
+                theString = [NSMutableString string]; 
+                }
+
+            NSString *theEntityString = [self stringForEntity:theEntity];
+            if (theEntityString.length > 0)
+                {
+                self.textHandler(theEntityString, theTagStack);
+                theLastCharacterWasWhitespace = NO;
+                }
             }
         else if ([theScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL])
             {
             if (theLastCharacterWasWhitespace == NO)
                 {
                 [theString appendString:@" "];
+                theLastCharacterWasWhitespace = YES;
                 }
             }
         else if ([theScanner scanCharactersFromSet:theCharacterSet intoString:&theRun])
             {
             [theString appendString:theRun];
+            theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
             }
         }
     

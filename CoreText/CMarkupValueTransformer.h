@@ -10,6 +10,8 @@
 
 @interface CMarkupValueTransformer : NSValueTransformer
 
+@property (readwrite, nonatomic, retain) UIFont *standardFont;
+
 - (id)transformedValue:(id)value error:(NSError **)outError;
 
 @end

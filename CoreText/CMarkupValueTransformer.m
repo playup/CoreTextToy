@@ -14,10 +14,10 @@
 #import "CMarkupValueTransformer.h"
 #import "CSimpleHTMLParser.h"
 
+
+
 @interface CMarkupValueTransformer ()
-@property (readwrite, nonatomic, retain) UIFont *standardFont;
-@property (readwrite, nonatomic, retain) NSSet *supportedTags;
-@property (readwrite, nonatomic, retain) NSMutableDictionary *attributesForTagSets;
+@property (readwrite, nonatomic, retain) NSMutableArray *attributesForTagSets;
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack;
 @end
@@ -27,7 +27,6 @@
 @implementation CMarkupValueTransformer
 
 @synthesize standardFont;
-@synthesize supportedTags;
 @synthesize attributesForTagSets;
 
 + (Class)transformedValueClass
@@ -46,32 +45,70 @@
 		{
         standardFont = [UIFont fontWithName:@"Helvetica" size:16.0];
         
-        supportedTags = [NSSet setWithObjects:@"b", @"i", NULL];
-        
-        attributesForTagSets = [NSMutableDictionary dictionary];
+        attributesForTagSets = [NSMutableArray array];
         
         NSDictionary *theAttributes = NULL;
-
+        
+        theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+            (__bridge id)self.standardFont.CTFont, (__bridge NSString *)kCTFontAttributeName,
+            NULL];
+        [attributesForTagSets addObject:
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                theAttributes, @"attributes",
+                [NSSet set], @"tags",
+                NULL]
+            ];
 
         theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge_transfer id)self.standardFont.CTFont, (__bridge NSString *)kCTFontAttributeName,
+            (__bridge id)[self.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
             NULL];
-        [attributesForTagSets setObject:theAttributes forKey:[NSSet set]];
+        [attributesForTagSets addObject:
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                theAttributes, @"attributes",
+                [NSSet setWithObjects:@"b", NULL], @"tags",
+                NULL]
+            ];
 
         theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge_transfer id)[self.standardFont boldItalicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+            (__bridge id)[self.standardFont italicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
             NULL];
-        [attributesForTagSets setObject:theAttributes forKey:[NSSet setWithObjects:@"b", @"i", NULL]];
+        [attributesForTagSets addObject:
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                theAttributes, @"attributes",
+                [NSSet setWithObjects:@"i", NULL], @"tags",
+                NULL]
+            ];
 
         theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge_transfer id)[self.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+            (__bridge id)[self.standardFont boldItalicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
             NULL];
-        [attributesForTagSets setObject:theAttributes forKey:[NSSet setWithObjects:@"b", NULL]];
+        [attributesForTagSets addObject:
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                theAttributes, @"attributes",
+                [NSSet setWithObjects:@"b", @"i", NULL], @"tags",
+                NULL]
+            ];
 
         theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge_transfer id)[self.standardFont italicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+            (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
+            [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
             NULL];
-        [attributesForTagSets setObject:theAttributes forKey:[NSSet setWithObjects:@"i", NULL]];
+        [attributesForTagSets addObject:
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                theAttributes, @"attributes",
+                [NSSet setWithObjects:@"a", NULL], @"tags",
+                NULL]
+            ];
+
+        theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+            (__bridge id)[UIColor purpleColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
+            NULL];
+        [attributesForTagSets addObject:
+            [NSDictionary dictionaryWithObjectsAndKeys:
+                theAttributes, @"attributes",
+                [NSSet setWithObjects:@"purple", NULL], @"tags",
+                NULL]
+            ];
         
         // TODO generate supported tags from attributesForTagSets keys.
 		}
@@ -89,24 +126,44 @@
 
     NSMutableAttributedString *theAttributedString = [[NSMutableAttributedString alloc] init];
   
-    __block NSDictionary *theAttributes = NULL;  
+    __block NSMutableDictionary *theTextAttributes = NULL;  
+    __block NSURL *theCurrentLink = NULL;
   
     CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
     
-    theParser.openTagHandler = ^(NSString *inTag, NSArray *tagStack) {
+    theParser.openTagHandler = ^(NSString *inTag, NSDictionary *inAttributes, NSArray *tagStack) {
+    
+        if ([inTag isEqualToString:@"a"] == YES)
+            {
+            NSString *theURLString = [inAttributes objectForKey:@"href"];
+            theCurrentLink = [NSURL URLWithString:theURLString];
+            }
+    
         if ([inTag isEqualToString:@"br"])
             {
-            [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:theAttributes]];
+            [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:theTextAttributes]];
             }
         };
 
     theParser.closeTagHandler = ^(NSString *inTag, NSArray *tagStack) {
+
+        if ([inTag isEqualToString:@"a"] == YES)
+            {
+            theCurrentLink = NULL;
+            }
+
         };
     
 
-    theParser.textHandler = ^(NSString *inString, NSArray *tagStack) {
-        theAttributes = [self attributesForTagStack:tagStack];
-        [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:inString attributes:theAttributes]];
+    theParser.textHandler = ^(NSString *inString, NSArray *tagStack) { 
+        theTextAttributes = [[self attributesForTagStack:tagStack] mutableCopy];
+        
+        if (theCurrentLink != NULL)
+            {
+            [theTextAttributes setObject:theCurrentLink forKey:@"link"];
+            }
+        
+        [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:inString attributes:theTextAttributes]];
         };
     
     
@@ -122,55 +179,17 @@
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack
     {
-    NSMutableSet *theStyles = [NSMutableSet set];
-
-    BOOL theSmallFlag = NO;
-
-    NSMutableDictionary *theAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-        NULL];
-    
-    for (NSString *theTag in inTagStack)
+    NSSet *theTagSet = [NSSet setWithArray:inTagStack];
+    NSMutableDictionary *theAttributes = [NSMutableDictionary dictionary];
+    for (NSDictionary *theDictionary in self.attributesForTagSets)
         {
-        if ([theTag isEqualToString:@"b"] || [theTag isEqualToString:@"strong"])
+        NSSet *theTags = [theDictionary objectForKey:@"tags"];
+        
+        if (theTags.count == 0 || [theTags isSubsetOfSet:theTagSet])
             {
-            [theStyles addObject:@"Bold"];
-            }
-        else if ([theTag isEqualToString:@"i"] || [theTag isEqualToString:@"em"] || [theTag isEqualToString:@"cite"] || [theTag isEqualToString:@"var"])
-            {
-            [theStyles addObject:@"Italic"];
-            }
-        else if ([theTag isEqualToString:@"ins"])
-            {
-            [theAttributes setObject:[NSNumber numberWithInt:kCTUnderlineStyleSingle] forKey:(__bridge id)kCTUnderlineStyleAttributeName];
-            }
-        else if ([theTag isEqualToString:@"small"])
-            {
-            theSmallFlag = YES;
+            [theAttributes addEntriesFromDictionary:[theDictionary objectForKey:@"attributes"]];
             }
         }
-    
-    UIFont *theFont = self.standardFont;
-    
-    if ([theStyles containsObject:@"Bold"] && [theStyles containsObject:@"Italic"])
-        {
-        theFont = [theFont boldItalicFont];
-        }
-    else if ([theStyles containsObject:@"Bold"])
-        {
-        theFont = [theFont boldFont];
-        }
-    else if ([theStyles containsObject:@"Italic"])
-        {
-        theFont = [theFont italicFont];
-        }
-
-    if (theSmallFlag == YES)
-        {
-        theFont = [theFont fontWithSize:theFont.pointSize - 3];
-        }
-
-
-    [theAttributes setObject:(__bridge_transfer id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
     
     return(theAttributes);
     }

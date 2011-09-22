@@ -10,7 +10,7 @@
 
 @interface CSimpleHTMLParser : NSObject
 
-@property (readwrite, nonatomic, copy) void (^openTagHandler)(NSString *tag, NSArray *tagStack);
+@property (readwrite, nonatomic, copy) void (^openTagHandler)(NSString *tag, NSDictionary *attributes, NSArray *tagStack);
 @property (readwrite, nonatomic, copy) void (^closeTagHandler)(NSString *tag, NSArray *tagStack);
 @property (readwrite, nonatomic, copy) void (^textHandler)(NSString *text, NSArray *tagStack);
 

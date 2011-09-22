@@ -12,5 +12,6 @@
 
 @property (readwrite, nonatomic, retain) NSAttributedString *text;
 
+@property (readwrite, nonatomic, copy) void (^URLHandler)(NSURL *);
 
 @end
