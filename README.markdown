@@ -9,11 +9,14 @@ At the moment it only supports "b" and "i" tags (in any valid, nested combinatio
 
 #### TODO
 
-* Support HTML entities
-* Support tags with attributes. This is important for the "a" tag.
+* Add more things to TODO list
+
+#### TODO (DONE)
 * Support _basic_ CSS styling (changing colour of text perhaps)
 * Support links
 * Support tags like "p" & <s>"br"</s> that don't style the text but do control flow <ins>(br is now implemented)</ins>
+* Support HTML entities
+* Support tags with attributes. This is important for the "a" tag.
 
 ### UIFont_CoreTextExtensions
 
