@@ -16,6 +16,8 @@
 
 @interface CCoreTextLabel ()
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
+
+- (void)tap:(UITapGestureRecognizer *)inGestureRecognizer;
 @end
 
 @implementation CCoreTextLabel
@@ -134,7 +136,7 @@
             CTLineRef theLine = (__bridge CTLineRef)obj;
             
             CFIndex theIndex = CTLineGetStringIndexForPosition(theLine, (CGPoint){ .x = theLocation.x - theLineOrigin.x, theLocation.y - theLineOrigin.y });
-            if (theIndex != NSNotFound && theIndex < self.text.length)
+            if (theIndex != NSNotFound && (NSUInteger)theIndex < self.text.length)
                 {
                 NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:NULL];
                 NSURL *theLink = [theAttributes objectForKey:@"link"];
