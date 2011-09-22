@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1891" systemVersion="11A511" targetRuntime="iOS.CocoaTouch.iPad" nextObjectID="11" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1934" systemVersion="11C55" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
     <dependencies>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="884"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="931"/>
     </dependencies>
     <scenes>
         <scene sceneID="4">
@@ -14,15 +14,22 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="6" customClass="CCoreTextLabel">
-                                <rect key="frame" x="0.0" y="136" width="768" height="256"/>
+                                <rect key="frame" x="20" y="184" width="728" height="256"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="&lt;b>hello &lt;i>world&lt;/i>&lt;/b>" id="7">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="128"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" id="7">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="184"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">&lt;b>hello &lt;i>world&lt;/i>&lt;/b>&lt;br>
+A lot of entites are supported. &amp;amp; &amp;lt; &amp;gt;&lt;br>
+White space mostly follows normal HTML rules. (But a bit buggy?)&lt;br>
+&lt;purple>Custom tags can be used for simple styling&lt;/purple>&lt;br>
+&lt;purple>&lt;b>Styles will&lt;/b>&lt;i>accumulate&lt;/i>&lt;/purple>&lt;br>
+Links will work too:
+&lt;a href="http://apple.com">Apple&lt;/a>&lt;br>
+&lt;a href="http://google.com">Google&lt;/a>&lt;br></string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
@@ -40,6 +47,18 @@
             </objects>
         </scene>
     </scenes>
+    <classes>
+        <class className="CCoreTextLabel" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CCoreTextLabel.h"/>
+        </class>
+        <class className="CoreTextViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreTextViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="editView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="previewView" candidateClass="CCoreTextLabel"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>
