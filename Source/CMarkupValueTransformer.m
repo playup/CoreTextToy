@@ -47,6 +47,8 @@
         
         attributesForTagSets = [NSMutableArray array];
         
+        [self resetStyles];
+        
         [self addStandardStyles];
 		}
 	return(self);
