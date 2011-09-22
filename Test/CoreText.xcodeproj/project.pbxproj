@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		450543DF142AA31E00EEFA62 /* NSScanner+HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 450543DE142AA31E00EEFA62 /* NSScanner+HTMLExtensions.m */; };
-		4506230E13D0BB6100086997 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4506230D13D0BB6100086997 /* CMarkupValueTransformer.m */; };
-		4506231113D0D26900086997 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4506231013D0D26900086997 /* CSimpleHTMLParser.m */; };
-		4506231213D0D48200086997 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4506231013D0D26900086997 /* CSimpleHTMLParser.m */; };
-		45DC555213CD6F1B00F115ED /* UIFont_CoreTextExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DC555113CD6F1B00F115ED /* UIFont_CoreTextExtensions.m */; };
+		45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */; };
+		45DEC481142BBEDB009FBCC6 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */; };
+		45DEC482142BBEDB009FBCC6 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */; };
+		45DEC483142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47D142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m */; };
+		45DEC484142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47F142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m */; };
 		45FF283313CD6920006D9574 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283213CD6920006D9574 /* UIKit.framework */; };
 		45FF283513CD6920006D9574 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283413CD6920006D9574 /* Foundation.framework */; };
 		45FF283713CD6920006D9574 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283613CD6920006D9574 /* CoreGraphics.framework */; };
@@ -27,7 +27,6 @@
 		45FF285C13CD6920006D9574 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45FF285A13CD6920006D9574 /* InfoPlist.strings */; };
 		45FF285E13CD6920006D9574 /* CoreTextTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 45FF285D13CD6920006D9574 /* CoreTextTests.h */; };
 		45FF286013CD6920006D9574 /* CoreTextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FF285F13CD6920006D9574 /* CoreTextTests.m */; };
-		45FF286B13CD693F006D9574 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FF286A13CD693F006D9574 /* CCoreTextLabel.m */; };
 		45FF286D13CD695E006D9574 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF286C13CD695E006D9574 /* CoreText.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,14 +41,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		450543DD142AA31D00EEFA62 /* NSScanner+HTMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSScanner+HTMLExtensions.h"; sourceTree = "<group>"; };
-		450543DE142AA31E00EEFA62 /* NSScanner+HTMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSScanner+HTMLExtensions.m"; sourceTree = "<group>"; };
-		4506230C13D0BB6100086997 /* CMarkupValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMarkupValueTransformer.h; sourceTree = "<group>"; };
-		4506230D13D0BB6100086997 /* CMarkupValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMarkupValueTransformer.m; sourceTree = "<group>"; };
-		4506230F13D0D26900086997 /* CSimpleHTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSimpleHTMLParser.h; sourceTree = "<group>"; };
-		4506231013D0D26900086997 /* CSimpleHTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSimpleHTMLParser.m; sourceTree = "<group>"; };
-		45DC555013CD6F1B00F115ED /* UIFont_CoreTextExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFont_CoreTextExtensions.h; sourceTree = "<group>"; };
-		45DC555113CD6F1B00F115ED /* UIFont_CoreTextExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFont_CoreTextExtensions.m; sourceTree = "<group>"; };
+		45DEC476142BBEDB009FBCC6 /* CCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel.h; sourceTree = "<group>"; };
+		45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel.m; sourceTree = "<group>"; };
+		45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMarkupValueTransformer.h; sourceTree = "<group>"; };
+		45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMarkupValueTransformer.m; sourceTree = "<group>"; };
+		45DEC47A142BBEDB009FBCC6 /* CSimpleHTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSimpleHTMLParser.h; sourceTree = "<group>"; };
+		45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSimpleHTMLParser.m; sourceTree = "<group>"; };
+		45DEC47C142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSScanner_HTMLExtensions.h; sourceTree = "<group>"; };
+		45DEC47D142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScanner_HTMLExtensions.m; sourceTree = "<group>"; };
+		45DEC47E142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFont_CoreTextExtensions.h; sourceTree = "<group>"; };
+		45DEC47F142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFont_CoreTextExtensions.m; sourceTree = "<group>"; };
 		45FF282E13CD6920006D9574 /* CoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45FF283213CD6920006D9574 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		45FF283413CD6920006D9574 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -69,8 +70,6 @@
 		45FF285B13CD6920006D9574 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		45FF285D13CD6920006D9574 /* CoreTextTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreTextTests.h; sourceTree = "<group>"; };
 		45FF285F13CD6920006D9574 /* CoreTextTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreTextTests.m; sourceTree = "<group>"; };
-		45FF286913CD693F006D9574 /* CCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel.h; sourceTree = "<group>"; };
-		45FF286A13CD693F006D9574 /* CCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel.m; sourceTree = "<group>"; };
 		45FF286C13CD695E006D9574 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -100,9 +99,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45DEC475142BBEDB009FBCC6 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				45DEC476142BBEDB009FBCC6 /* CCoreTextLabel.h */,
+				45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */,
+				45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */,
+				45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */,
+				45DEC47A142BBEDB009FBCC6 /* CSimpleHTMLParser.h */,
+				45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */,
+				45DEC47C142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.h */,
+				45DEC47D142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m */,
+				45DEC47E142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.h */,
+				45DEC47F142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m */,
+			);
+			name = Source;
+			path = ../Source;
+			sourceTree = "<group>";
+		};
 		45FF282313CD6920006D9574 = {
 			isa = PBXGroup;
 			children = (
+				45DEC475142BBEDB009FBCC6 /* Source */,
 				45FF283813CD6920006D9574 /* CoreText */,
 				45FF285713CD6920006D9574 /* CoreTextTests */,
 				45FF283113CD6920006D9574 /* Frameworks */,
@@ -139,16 +157,6 @@
 				45FF284413CD6920006D9574 /* MainStoryboard.storyboard */,
 				45FF284713CD6920006D9574 /* CoreTextViewController.h */,
 				45FF284813CD6920006D9574 /* CoreTextViewController.m */,
-				45FF286913CD693F006D9574 /* CCoreTextLabel.h */,
-				45FF286A13CD693F006D9574 /* CCoreTextLabel.m */,
-				45DC555013CD6F1B00F115ED /* UIFont_CoreTextExtensions.h */,
-				45DC555113CD6F1B00F115ED /* UIFont_CoreTextExtensions.m */,
-				4506230C13D0BB6100086997 /* CMarkupValueTransformer.h */,
-				4506230D13D0BB6100086997 /* CMarkupValueTransformer.m */,
-				4506230F13D0D26900086997 /* CSimpleHTMLParser.h */,
-				4506231013D0D26900086997 /* CSimpleHTMLParser.m */,
-				450543DD142AA31D00EEFA62 /* NSScanner+HTMLExtensions.h */,
-				450543DE142AA31E00EEFA62 /* NSScanner+HTMLExtensions.m */,
 				45FF283913CD6920006D9574 /* Supporting Files */,
 			);
 			path = CoreText;
@@ -295,11 +303,11 @@
 				45FF283F13CD6920006D9574 /* main.m in Sources */,
 				45FF284313CD6920006D9574 /* CoreTextAppDelegate.m in Sources */,
 				45FF284913CD6920006D9574 /* CoreTextViewController.m in Sources */,
-				45FF286B13CD693F006D9574 /* CCoreTextLabel.m in Sources */,
-				45DC555213CD6F1B00F115ED /* UIFont_CoreTextExtensions.m in Sources */,
-				4506230E13D0BB6100086997 /* CMarkupValueTransformer.m in Sources */,
-				4506231113D0D26900086997 /* CSimpleHTMLParser.m in Sources */,
-				450543DF142AA31E00EEFA62 /* NSScanner+HTMLExtensions.m in Sources */,
+				45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */,
+				45DEC481142BBEDB009FBCC6 /* CMarkupValueTransformer.m in Sources */,
+				45DEC482142BBEDB009FBCC6 /* CSimpleHTMLParser.m in Sources */,
+				45DEC483142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m in Sources */,
+				45DEC484142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +316,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				45FF286013CD6920006D9574 /* CoreTextTests.m in Sources */,
-				4506231213D0D48200086997 /* CSimpleHTMLParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

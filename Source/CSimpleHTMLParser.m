@@ -8,7 +8,7 @@
 
 #import "CSimpleHTMLParser.h"
 
-#import "NSScanner+HTMLExtensions.h"
+#import "NSScanner_HTMLExtensions.h"
 
 @interface CSimpleHTMLParser ()
 - (NSString *)stringForEntity:(NSString *)inEntity;

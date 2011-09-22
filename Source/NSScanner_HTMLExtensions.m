@@ -1,12 +1,12 @@
 //
-//  NSScanner+HTMLExtensions.m
+//  NSScanner_HTMLExtensions.m
 //  CoreText
 //
 //  Created by Jonathan Wight on 9/21/11.
 //  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
 //
 
-#import "NSScanner+HTMLExtensions.h"
+#import "NSScanner_HTMLExtensions.h"
 
 @implementation NSScanner (HTMLExtensions)
 

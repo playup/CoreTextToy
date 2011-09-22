@@ -1,5 +1,5 @@
 //
-//  NSScanner+HTMLExtensions.h
+//  NSScanner_HTMLExtensions.h
 //  CoreText
 //
 //  Created by Jonathan Wight on 9/21/11.

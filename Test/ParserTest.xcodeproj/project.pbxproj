@@ -10,7 +10,8 @@
 		4506232313D0D4A100086997 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4506232213D0D4A100086997 /* Foundation.framework */; };
 		4506232613D0D4A100086997 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4506232513D0D4A100086997 /* main.m */; };
 		4506232A13D0D4A100086997 /* ParserTest.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4506232913D0D4A100086997 /* ParserTest.1 */; };
-		4506233213D0D4B000086997 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4506233113D0D4B000086997 /* CSimpleHTMLParser.m */; };
+		45DEC48E142BBF25009FBCC6 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC48B142BBF25009FBCC6 /* CSimpleHTMLParser.m */; };
+		45DEC48F142BBF25009FBCC6 /* NSScanner_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC48D142BBF25009FBCC6 /* NSScanner_HTMLExtensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,8 +33,10 @@
 		4506232513D0D4A100086997 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4506232813D0D4A100086997 /* ParserTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ParserTest-Prefix.pch"; sourceTree = "<group>"; };
 		4506232913D0D4A100086997 /* ParserTest.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = ParserTest.1; sourceTree = "<group>"; };
-		4506233013D0D4B000086997 /* CSimpleHTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSimpleHTMLParser.h; path = ../../CoreText/CoreText/CSimpleHTMLParser.h; sourceTree = "<group>"; };
-		4506233113D0D4B000086997 /* CSimpleHTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSimpleHTMLParser.m; path = ../../CoreText/CoreText/CSimpleHTMLParser.m; sourceTree = "<group>"; };
+		45DEC48A142BBF25009FBCC6 /* CSimpleHTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSimpleHTMLParser.h; path = ../../Source/CSimpleHTMLParser.h; sourceTree = "<group>"; };
+		45DEC48B142BBF25009FBCC6 /* CSimpleHTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSimpleHTMLParser.m; path = ../../Source/CSimpleHTMLParser.m; sourceTree = "<group>"; };
+		45DEC48C142BBF25009FBCC6 /* NSScanner_HTMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSScanner_HTMLExtensions.h; path = ../../Source/NSScanner_HTMLExtensions.h; sourceTree = "<group>"; };
+		45DEC48D142BBF25009FBCC6 /* NSScanner_HTMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSScanner_HTMLExtensions.m; path = ../../Source/NSScanner_HTMLExtensions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +80,10 @@
 			isa = PBXGroup;
 			children = (
 				4506232513D0D4A100086997 /* main.m */,
-				4506233013D0D4B000086997 /* CSimpleHTMLParser.h */,
-				4506233113D0D4B000086997 /* CSimpleHTMLParser.m */,
+				45DEC48A142BBF25009FBCC6 /* CSimpleHTMLParser.h */,
+				45DEC48B142BBF25009FBCC6 /* CSimpleHTMLParser.m */,
+				45DEC48C142BBF25009FBCC6 /* NSScanner_HTMLExtensions.h */,
+				45DEC48D142BBF25009FBCC6 /* NSScanner_HTMLExtensions.m */,
 				4506232913D0D4A100086997 /* ParserTest.1 */,
 				4506232713D0D4A100086997 /* Supporting Files */,
 			);
@@ -119,6 +124,7 @@
 		4506231513D0D4A100086997 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = toxicsoftware.com;
 			};
 			buildConfigurationList = 4506231813D0D4A100086997 /* Build configuration list for PBXProject "ParserTest" */;
@@ -144,7 +150,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4506232613D0D4A100086997 /* main.m in Sources */,
-				4506233213D0D4B000086997 /* CSimpleHTMLParser.m in Sources */,
+				45DEC48E142BBF25009FBCC6 /* CSimpleHTMLParser.m in Sources */,
+				45DEC48F142BBF25009FBCC6 /* NSScanner_HTMLExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +242,7 @@
 				4506232F13D0D4A100086997 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
