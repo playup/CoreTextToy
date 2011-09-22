@@ -8,6 +8,8 @@
 
 #import "CoreTextViewController.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "CMarkupValueTransformer.h"
 #import "CCoreTextLabel.h"
 
@@ -24,6 +26,13 @@
 - (void)viewDidLoad
     {
     self.previewView.text = [NSAttributedString attributedStringWithMarkup:self.editView.text error:NULL];
+    
+    self.previewView.layer.borderWidth = 1.0;
+    self.previewView.layer.borderColor = [UIColor redColor].CGColor;
+    self.previewView.URLHandler = ^(NSURL *inURL) {
+        UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"URL" message:[NSString stringWithFormat:@"You tapped: %@", [inURL absoluteString]] delegate:NULL cancelButtonTitle:@"What's it to you?" otherButtonTitles:NULL];
+        [theAlertView show];
+        };
     }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
