@@ -8,22 +8,27 @@
 
 #import <Foundation/Foundation.h>
 
+#import "NSString_HTMLExtensions.h"
 #import "CSimpleHTMLParser.h"
 
 int main (int argc, const char * argv[])
     {
     @autoreleasepool
         {
-        CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
-        theParser.openTagHandler = ^(NSString *text, NSDictionary *attribites, NSArray *tagStack) { NSLog(@"TAG:  \"%@\"", text); };        
-        theParser.closeTagHandler = ^(NSString *text, NSArray *tagStack) { NSLog(@"/TAG: \"%@\"", text); };        
-        theParser.textHandler = ^(NSString *text, NSArray *tagStack) { NSLog(@"TEXT: \"%@\"", text); };        
-                
-        NSError *theError = NULL;
-        if ([theParser parseString:@"<i>hello </i><br><b>world</b>" error:&theError] == NO)
-            {
-            NSLog(@"Error: %@", theError);
-            }
+        NSLog(@"%@", [@"hello http://world how are you?" stringByMarkingUpString]);
+        
+        
+        
+//        CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
+//        theParser.openTagHandler = ^(NSString *text, NSDictionary *attribites, NSArray *tagStack) { NSLog(@"TAG:  \"%@\"", text); };        
+//        theParser.closeTagHandler = ^(NSString *text, NSArray *tagStack) { NSLog(@"/TAG: \"%@\"", text); };        
+//        theParser.textHandler = ^(NSString *text, NSArray *tagStack) { NSLog(@"TEXT: \"%@\"", text); };        
+//                
+//        NSError *theError = NULL;
+//        if ([theParser parseString:@"<i>hello </i><br><b>world</b>" error:&theError] == NO)
+//            {
+//            NSLog(@"Error: %@", theError);
+//            }
         
         }
     return 0;
