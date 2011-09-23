@@ -27,6 +27,14 @@
 
 @synthesize framesetter;
 
++ (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size
+    {
+    CTFramesetterRef theFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)inString);
+    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){ .length = inString.length }, NULL, size, NULL);
+    CFRelease(theFramesetter);
+    return(theSize);
+    }
+
 - (id)initWithFrame:(CGRect)frame
     {
     if ((self = [super initWithFrame:frame]) != NULL)
@@ -80,6 +88,12 @@
 
         [self setNeedsDisplay];
         }
+    }
+
+- (CGSize)sizeThatFits:(CGSize)size
+    {
+    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){ .length = self.text.length }, NULL, size, NULL);
+    return(theSize);    
     }
 
 - (void)drawRect:(CGRect)rect

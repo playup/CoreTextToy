@@ -14,4 +14,6 @@
 
 @property (readwrite, nonatomic, copy) void (^URLHandler)(NSURL *);
 
++ (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size;
+
 @end
