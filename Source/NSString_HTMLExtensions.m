@@ -45,7 +45,7 @@
 
 - (NSString *)stringByMarkingUpString
     {
-    NSString *theString = [theString stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+    NSString *theString = [self stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
     theString = [theString stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
     theString = [theString stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
     theString = [self stringByLinkifyingString];
