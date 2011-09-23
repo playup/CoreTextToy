@@ -21,6 +21,15 @@ Beginning of a UILabel workalike that uses CoreTest to render NSAttributedString
 
 UIWebViews are expensive to create and are pretty much overkill when all you need is a simple UILabel type class that shows static styled text.
 
+### Why does this even exist? Why not just use https://github.com/Cocoanetics/NSAttributedString-Additions-for-HTML
+
+CCoreTextLabel is designed simply to show static text on screen, akin to UILabel. "NSAttributedString-Additions-for-HTML" seems to do a lot of things that I just dont need.
+
+### How much HTML does this thing support?
+
+It uses a minimal subset of HTML. In fact don't think of it as pure HTML - think of it as just a convenient method for creating NSAttributedString
+
+Only a handful of tags are supported right now, but you can define your own quite easily.
 
 ### So how do I get HTML into CCoreTextLabel?
 
