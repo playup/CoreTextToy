@@ -1,10 +1,33 @@
 //
 //  CMarkupValueTransformer.m
-//  CoreText
+//  TouchCode
 //
 //  Created by Jonathan Wight on 07/15/11.
 //  Copyright 2011 toxicsoftware.com. All rights reserved.
 //
+//  Redistribution and use in source and binary forms, with or without modification, are
+//  permitted provided that the following conditions are met:
+//
+//     1. Redistributions of source code must retain the above copyright notice, this list of
+//        conditions and the following disclaimer.
+//
+//     2. Redistributions in binary form must reproduce the above copyright notice, this list
+//        of conditions and the following disclaimer in the documentation and/or other materials
+//        provided with the distribution.
+//
+//  THIS SOFTWARE IS PROVIDED BY TOXICSOFTWARE.COM ``AS IS'' AND ANY EXPRESS OR IMPLIED
+//  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+//  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL TOXICSOFTWARE.COM OR
+//  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+//  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+//  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+//  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+//  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+//  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+//  The views and conclusions contained in the software and documentation are those of the
+//  authors and should not be interpreted as representing official policies, either expressed
+//  or implied, of toxicsoftware.com.
 
 #import "CMarkupValueTransformer.h"
 
@@ -33,7 +56,7 @@
     {
     return([NSAttributedString class]);
     }
-    
+
 + (BOOL)allowsReverseTransformation
     {
     return(NO);
@@ -44,11 +67,11 @@
 	if ((self = [super init]) != NULL)
 		{
         standardFont = [UIFont fontWithName:@"Helvetica" size:16.0];
-        
+
         attributesForTagSets = [NSMutableArray array];
-        
+
         [self resetStyles];
-        
+
         [self addStandardStyles];
 		}
 	return(self);
@@ -64,20 +87,20 @@
     NSString *theMarkup = value;
 
     NSMutableAttributedString *theAttributedString = [[NSMutableAttributedString alloc] init];
-  
-    __block NSMutableDictionary *theTextAttributes = NULL;  
+
+    __block NSMutableDictionary *theTextAttributes = NULL;
     __block NSURL *theCurrentLink = NULL;
-  
+
     CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
-    
+
     theParser.openTagHandler = ^(NSString *inTag, NSDictionary *inAttributes, NSArray *tagStack) {
-    
+
         if ([inTag isEqualToString:@"a"] == YES)
             {
             NSString *theURLString = [inAttributes objectForKey:@"href"];
             theCurrentLink = [NSURL URLWithString:theURLString];
             }
-    
+
         if ([inTag isEqualToString:@"br"])
             {
             [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:theTextAttributes]];
@@ -92,19 +115,19 @@
             }
 
         };
-    
-    theParser.textHandler = ^(NSString *inString, NSArray *tagStack) { 
+
+    theParser.textHandler = ^(NSString *inString, NSArray *tagStack) {
         theTextAttributes = [[self attributesForTagStack:tagStack] mutableCopy];
-        
+
         if (theCurrentLink != NULL)
             {
             [theTextAttributes setObject:theCurrentLink forKey:@"link"];
             }
-        
+
         [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:inString attributes:theTextAttributes]];
         };
-    
-    
+
+
     if ([theParser parseString:theMarkup error:outError] == NO)
         {
         return(NULL);
@@ -116,9 +139,9 @@
 - (void)resetStyles
     {
     self.attributesForTagSets = [NSMutableArray array];
-    
+
     NSDictionary *theAttributes = NULL;
-    
+
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)self.standardFont.CTFont, (__bridge NSString *)kCTFontAttributeName,
         NULL];
@@ -129,11 +152,11 @@
             NULL]
         ];
     }
-    
+
 - (void)addStandardStyles
     {
     NSDictionary *theAttributes = NULL;
-    
+
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[self.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
         NULL];
@@ -195,13 +218,13 @@
     for (NSDictionary *theDictionary in self.attributesForTagSets)
         {
         NSSet *theTags = [theDictionary objectForKey:@"tags"];
-        
+
         if (theTags.count == 0 || [theTags isSubsetOfSet:theTagSet])
             {
             [theAttributes addEntriesFromDictionary:[theDictionary objectForKey:@"attributes"]];
             }
         }
-    
+
     return(theAttributes);
     }
 
