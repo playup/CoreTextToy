@@ -33,7 +33,7 @@
 
 @interface CMarkupValueTransformer : NSValueTransformer
 
-@property (readwrite, nonatomic, retain) UIFont *standardFont;
+@property (readwrite, nonatomic, strong) UIFont *standardFont;
 
 - (id)transformedValue:(id)value error:(NSError **)outError;
 

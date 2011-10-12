@@ -33,7 +33,7 @@
 
 @interface CCoreTextLabel : UIView
 
-@property (readwrite, nonatomic, retain) NSAttributedString *text;
+@property (readwrite, nonatomic, strong) NSAttributedString *text;
 
 @property (readwrite, nonatomic, copy) void (^URLHandler)(NSURL *);
 

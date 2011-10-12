@@ -40,7 +40,7 @@
 
 
 @interface CMarkupValueTransformer ()
-@property (readwrite, nonatomic, retain) NSMutableArray *attributesForTagSets;
+@property (readwrite, nonatomic, strong) NSMutableArray *attributesForTagSets;
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack;
 @end
