@@ -153,8 +153,6 @@
 
     CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){ .length = [self.text length] }, thePath.CGPath, NULL);
 
-//    NSLog(@"###################");
-
     NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
 
     __block CGPoint theLastLineOrigin = (CGPoint){ 0, CGFLOAT_MAX };
@@ -164,9 +162,6 @@
 
         CGPoint theLineOrigin;
         CTFrameGetLineOrigins(theFrame, CFRangeMake(idx, 1), &theLineOrigin);
-
-//        NSLog(@"%d %g %g %g", idx, theLocation.y, theLineOrigin.y, theLastLineOrigin.y);
-
 
         if (theLocation.y > theLineOrigin.y && theLocation.y < theLastLineOrigin.y)
             {
