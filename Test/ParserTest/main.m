@@ -38,20 +38,33 @@ int main (int argc, const char * argv[])
     {
     @autoreleasepool
         {
-        NSLog(@"%@", [@"hello http://world how are you?" stringByMarkingUpString]);
+//        NSLog(@"%@", [@"hello http://world how are you?" stringByMarkingUpString]);
 
+        CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
+        theParser.openTagHandler = ^(NSString *text, NSDictionary *attribites, NSArray *tagStack) { if ([text isEqualToString:@"br"]) printf("\n"); };
+//        theParser.closeTagHandler = ^(NSString *text, NSArray *tagStack) { printf("", [text UTF8String]); };
+        theParser.textHandler = ^(NSString *text, NSArray *tagStack) { printf("[%s]", [text UTF8String]); };
 
+        NSError *theError = NULL;
 
-//        CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
-//        theParser.openTagHandler = ^(NSString *text, NSDictionary *attribites, NSArray *tagStack) { NSLog(@"TAG:  \"%@\"", text); };
-//        theParser.closeTagHandler = ^(NSString *text, NSArray *tagStack) { NSLog(@"/TAG: \"%@\"", text); };
-//        theParser.textHandler = ^(NSString *text, NSArray *tagStack) { NSLog(@"TEXT: \"%@\"", text); };
-//
-//        NSError *theError = NULL;
-//        if ([theParser parseString:@"<i>hello </i><br><b>world</b>" error:&theError] == NO)
-//            {
-//            NSLog(@"Error: %@", theError);
-//            }
+//        NSString *theMarkup = @"\n\n\n\n\n";
+        
+        NSString *theMarkup = @"<b>hello <i>world</i></b><br>\
+A lot of entites are supported. &amp; &lt; &gt;<br>\
+White space mostly follows normal HTML rules. (But a bit buggy?)<br>\
+<purple>Custom tags can be used for simple styling</purple><br>\
+<purple><b>Styles will</b><i>accumulate</i></purple><br>\
+<img href=\"placeholder.png\">image tags might work too<br>\
+Links will work too:<br>\
+<a href=\"http://apple.com\">Apple</a><br>\
+<a href=\"http://google.com\">Google</a><br>\
+";
+        
+        if ([theParser parseString:theMarkup error:&theError] == NO)
+            {
+            NSLog(@"Error: %@", theError);
+            }
+        NSLog(@"DONE");
 
         }
     return 0;
