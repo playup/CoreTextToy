@@ -60,9 +60,6 @@
         {
         self.contentMode = UIViewContentModeRedraw;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
-        
-        renderer = [[CCoreTextRenderer alloc] init];
-        renderer.size = self.bounds.size;
         }
     return(self);
     }
@@ -73,9 +70,6 @@
         {
         self.contentMode = UIViewContentModeRedraw;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
-
-        renderer = [[CCoreTextRenderer alloc] init];
-        renderer.size = self.bounds.size;
         }
     return(self);
     }
@@ -87,7 +81,8 @@
 
 - (void)setText:(NSAttributedString *)inText
     {
-    self.renderer.text = inText;
+    self.renderer = [[CCoreTextRenderer alloc] initWithText:inText size:self.bounds.size];
+    [self setNeedsDisplay];
     }
     
 - (CGSize)sizeThatFits:(CGSize)size

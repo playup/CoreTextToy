@@ -10,10 +10,12 @@
 
 @interface CCoreTextRenderer : NSObject
 
-@property (readwrite, nonatomic, strong) NSAttributedString *text;
-@property (readwrite, nonatomic, assign) CGSize size;
+@property (readonly, nonatomic, strong) NSAttributedString *text;
+@property (readonly, nonatomic, assign) CGSize size;
 
 + (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size;
+
+- (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize;
 
 - (CGSize)sizeThatFits:(CGSize)inSize;
 - (void)draw;

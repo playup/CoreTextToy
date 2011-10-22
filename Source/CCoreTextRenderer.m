@@ -8,12 +8,13 @@
 
 #import "CCoreTextRenderer.h"
 
-
 #import <CoreText/CoreText.h>
 #import <QuartzCore/QuartzCore.h>
 
 #import "UIFont_CoreTextExtensions.h"
 #import "CMarkupValueTransformer.h"
+
+//#define CORE_TEXT_SHOW_RUNS 1
 
 static CGFloat MyCTRunDelegateGetAscentCallback(void *refCon);
 static CGFloat MyCTRunDelegateGetDescentCallback(void *refCon);
@@ -23,7 +24,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
 @property (readwrite, nonatomic, retain) NSAttributedString *normalizedText;
 
-//- (void)tap:(UITapGestureRecognizer *)inGestureRecognizer;
+- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins handler:(void (^)(CTRunRef, CGRect))inHandler;
 @end
 
 @implementation CCoreTextRenderer
@@ -41,6 +42,16 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
     CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){ .length = inString.length }, NULL, size, NULL);
     CFRelease(theFramesetter);
     return(theSize);
+    }
+
+- (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize
+    {
+    if ((self = [super init]) != NULL)
+        {
+        text = inText;
+        size = inSize;
+        }
+    return self;
     }
 
 - (void)dealloc
@@ -62,22 +73,6 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
             }
         }
     return(framesetter);
-    }
-
-- (void)setText:(NSAttributedString *)inText
-    {
-    if (text != inText)
-        {
-        text = inText;
-
-        if (framesetter)
-            {
-            CFRelease(framesetter);
-            framesetter = NULL;
-            }
-
-        self.normalizedText = NULL;
-        }
     }
 
 - (NSAttributedString *)normalizedText
@@ -115,17 +110,25 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
 
 - (void)draw
     {
-    if (self.framesetter == NULL)
-        {
-        return;
-        }
-        
-    // ### Work out the inset bounds...
-
     // ### Get and set up the context...
     CGContextRef theContext = UIGraphicsGetCurrentContext();
     CGContextSaveGState(theContext);
 
+    #if CORE_TEXT_SHOW_RUNS == 1
+        {
+        CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){ .length = self.normalizedText.length }, NULL, self.size, NULL);
+
+        CGRect theFrame = { .size = theSize };
+        theFrame.size.width = floor(theFrame.size.width);
+        theFrame.size.height = floor(theFrame.size.height);
+        
+        CGContextSaveGState(theContext);
+        CGContextSetStrokeColorWithColor(theContext, [UIColor greenColor].CGColor);
+        CGContextSetLineWidth(theContext, 0.5);
+        CGContextStrokeRect(theContext, theFrame);
+        CGContextRestoreGState(theContext);
+        }
+    #endif /* CORE_TEXT_SHOW_RUNS == 1 */
 
     CGContextScaleCTM(theContext, 1.0, -1.0);
     CGContextTranslateCTM(theContext, 0, -self.size.height);
@@ -134,28 +137,74 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
     UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
     CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){ .length = [self.normalizedText length] }, thePath.CGPath, NULL);
 
+    // ### Get the lines and the line origin points...
+    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
+    CGPoint *theLineOrigins = malloc(sizeof(CGPoint) * theLines.count);
+    CTFrameGetLineOrigins(theFrame, (CFRange){}, theLineOrigins); 
+
+    #if CORE_TEXT_SHOW_RUNS == 1
+        {
+        CGContextSaveGState(theContext);
+        CGContextSetStrokeColorWithColor(theContext, [UIColor redColor].CGColor);
+        CGContextSetLineWidth(theContext, 0.5);
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CTRunRef inRun, CGRect inRect) {
+
+            CGRect theStrokeRect = inRect;
+            theStrokeRect.origin.x = floor(theStrokeRect.origin.x) + 0.5;
+            theStrokeRect.origin.y = floor(theStrokeRect.origin.y) + 0.5;
+            theStrokeRect.size.width = floor(theStrokeRect.size.width) - 1.0;
+            theStrokeRect.size.height = floor(theStrokeRect.size.height) - 1.0;
+            
+            CGContextStrokeRect(theContext, theStrokeRect);
+
+            }];
+        CGContextRestoreGState(theContext);
+        }        
+    #endif /* CORE_TEXT_SHOW_RUNS == 1 */
+
+    // ### Reset the text position (important!)
+    CGContextSetTextPosition(theContext, 0, 0);
+
     // ### Render the text...
     CTFrameDraw(theFrame, theContext);
 
     // ### Reset the text position (important!)
     CGContextSetTextPosition(theContext, 0, 0);
-    
-    // ### Get the lines and the line origin points...
-    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
-    // TODO this could blow the stack...
-    CGPoint theLineOrigins[theLines.count];
-    CTFrameGetLineOrigins(theFrame, (CFRange){}, theLineOrigins); 
+
+    // ### Iterate through each line...
+    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CTRunRef inRun, CGRect inRect) {
+        NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+        // ### If we have an image we draw it...
+        UIImage *theImage = [theAttributes objectForKey:@"image"];
+        if (theImage != NULL)
+            {
+            // We use CGContextDrawImage because it understands the CTM
+            CGContextDrawImage(theContext, inRect, theImage.CGImage);
+            }
+        }];
+
+    free(theLineOrigins);
+
+    CFRelease(theFrame);
+
+    CGContextRestoreGState(theContext);
+    }
+
+- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins handler:(void (^)(CTRunRef, CGRect))inHandler
+    {
+    CGContextRef theContext = UIGraphicsGetCurrentContext();
+
 
     // ### Iterate through each line...
     NSUInteger idx = 0;
-    for (id obj in theLines)
+    for (id obj in (__bridge NSArray *)inLines)
         {
         CTLineRef theLine = (__bridge CTLineRef)obj;
 
         // ### Get the line rect offseting it by the line origin
         CGRect theLineRect = CTLineGetImageBounds(theLine, theContext);     
-        theLineRect.origin.x += theLineOrigins[idx].x;
-        theLineRect.origin.y += theLineOrigins[idx].y;
+        theLineRect.origin.x += inLineOrigins[idx].x;
+        theLineRect.origin.y += inLineOrigins[idx].y;
         
         // ### Iterate each run... Keeping track of our X position...
         CGFloat theXPosition = 0;
@@ -172,31 +221,9 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
                 .size = { theWidth, theAscent + theDescent },
                 };
 
-            // ### Optionally stroke the run rect...
-            if (0)
+            if (inHandler)
                 {
-                CGRect theStrokeRect = theRunRect;
-                theStrokeRect.origin.x = floor(theStrokeRect.origin.x) + 0.5;
-                theStrokeRect.origin.y = floor(theStrokeRect.origin.y) + 0.5;
-                theStrokeRect.size.width = floor(theStrokeRect.size.width) - 1.0;
-                theStrokeRect.size.height = floor(theStrokeRect.size.height) - 1.0;
-                
-                CGContextSaveGState(theContext);
-                CGContextSetStrokeColorWithColor(theContext, [UIColor redColor].CGColor);
-                CGContextSetLineWidth(theContext, 0.5);
-                CGContextStrokeRect(theContext, theStrokeRect);
-                CGContextRestoreGState(theContext);
-                }
-
-            // ### Get the attributes...
-            NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(theRun);
-            
-            // ### If we have an image we draw it...
-            UIImage *theImage = [theAttributes objectForKey:@"image"];
-            if (theImage != NULL)
-                {
-                // We use CGContextDrawImage because it understands the CTM
-                CGContextDrawImage(theContext, theRunRect, theImage.CGImage);
+                inHandler(theRun, theRunRect);
                 }
 
             theXPosition += theWidth;
@@ -204,10 +231,6 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
 
         idx++;
         }
-
-    CFRelease(theFrame);
-
-    CGContextRestoreGState(theContext);
     }
 
 - (NSDictionary *)attributesAtPoint:(CGPoint)inPoint
