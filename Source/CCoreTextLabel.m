@@ -59,6 +59,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
 
 + (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size
     {
+    #warning TODO -- this doesn't support images or insets yet...
     CTFramesetterRef theFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)inString);
     CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){ .length = inString.length }, NULL, size, NULL);
     CFRelease(theFramesetter);
@@ -153,7 +154,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
 
 - (CGSize)sizeThatFits:(CGSize)size
     {
-    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){ .length = self.text.length }, NULL, size, NULL);
+    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){ .length = self.normalizedText.length }, NULL, size, NULL);
     return(theSize);
     }
 
@@ -171,12 +172,15 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
     // ### Get and set up the context...
     CGContextRef theContext = UIGraphicsGetCurrentContext();
     CGContextSaveGState(theContext);
+    CGContextTranslateCTM(theContext, theBounds.origin.x, theBounds.origin.y);
+
+
     CGContextScaleCTM(theContext, 1.0, -1.0);
-    CGContextTranslateCTM(theContext, 0.0, -theBounds.size.height);
+    CGContextTranslateCTM(theContext, 0, -theBounds.size.height);
 
     // ### Create a frame...
-    UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:theBounds];
-    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){ .length = [self.text length] }, thePath.CGPath, NULL);
+    UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = theBounds.size }];
+    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){ .length = [self.normalizedText length] }, thePath.CGPath, NULL);
 
     // ### Render the text...
     CTFrameDraw(theFrame, theContext);
@@ -262,13 +266,12 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
     CGRect theBounds = self.bounds;
     theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
 
-
     theLocation.y *= -1;
     theLocation.y += theBounds.size.height;
 
     UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:theBounds];
 
-    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){ .length = [self.text length] }, thePath.CGPath, NULL);
+    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){ .length = [self.normalizedText length] }, thePath.CGPath, NULL);
 
     NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
 
@@ -284,9 +287,9 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
             CTLineRef theLine = (__bridge CTLineRef)obj;
 
             CFIndex theIndex = CTLineGetStringIndexForPosition(theLine, (CGPoint){ .x = theLocation.x - theLineOrigin.x, theLocation.y - theLineOrigin.y });
-            if (theIndex != NSNotFound && (NSUInteger)theIndex < self.text.length)
+            if (theIndex != NSNotFound && (NSUInteger)theIndex < self.normalizedText.length)
                 {
-                NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:NULL];
+                NSDictionary *theAttributes = [self.normalizedText attributesAtIndex:theIndex effectiveRange:NULL];
                 NSURL *theLink = [theAttributes objectForKey:@"link"];
                 if (self.URLHandler)
                     {
@@ -297,7 +300,6 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
         theLastLineOrigin = theLineOrigin;
         }];
     }
-
 
 @end
 

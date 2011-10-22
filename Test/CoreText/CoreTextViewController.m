@@ -51,7 +51,10 @@
     {
     self.previewView.layer.borderWidth = 1.0;
     self.previewView.layer.borderColor = [UIColor blackColor].CGColor;
-    self.previewView.insets = (UIEdgeInsets){ };
+    self.previewView.insets = (UIEdgeInsets){
+        .left = 8.0, .right = 8.0,
+        .top = 8.0, .bottom = 0.0,
+        };
     self.previewView.URLHandler = ^(NSURL *inURL) {
         UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"URL" message:[NSString stringWithFormat:@"You tapped: %@", [inURL absoluteString]] delegate:NULL cancelButtonTitle:@"What's it to you?" otherButtonTitles:NULL];
         [theAlertView show];
