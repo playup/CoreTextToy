@@ -11,6 +11,7 @@
 		4506232613D0D4A100086997 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4506232513D0D4A100086997 /* main.m */; };
 		4506232A13D0D4A100086997 /* ParserTest.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4506232913D0D4A100086997 /* ParserTest.1 */; };
 		4517E51F142D05EE00BDE732 /* NSString_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4517E51E142D05EE00BDE732 /* NSString_HTMLExtensions.m */; };
+		4528EA591453827500814B3E /* NSScanner_DebugExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4528EA581453827500814B3E /* NSScanner_DebugExtensions.m */; };
 		45DEC48E142BBF25009FBCC6 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC48B142BBF25009FBCC6 /* CSimpleHTMLParser.m */; };
 		45DEC48F142BBF25009FBCC6 /* NSScanner_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC48D142BBF25009FBCC6 /* NSScanner_HTMLExtensions.m */; };
 /* End PBXBuildFile section */
@@ -36,6 +37,8 @@
 		4506232913D0D4A100086997 /* ParserTest.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = ParserTest.1; sourceTree = "<group>"; };
 		4517E51D142D05EE00BDE732 /* NSString_HTMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSString_HTMLExtensions.h; path = ../../Source/NSString_HTMLExtensions.h; sourceTree = "<group>"; };
 		4517E51E142D05EE00BDE732 /* NSString_HTMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSString_HTMLExtensions.m; path = ../../Source/NSString_HTMLExtensions.m; sourceTree = "<group>"; };
+		4528EA571453827500814B3E /* NSScanner_DebugExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NSScanner_DebugExtensions.h; sourceTree = "<group>"; };
+		4528EA581453827500814B3E /* NSScanner_DebugExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScanner_DebugExtensions.m; sourceTree = "<group>"; };
 		45DEC48A142BBF25009FBCC6 /* CSimpleHTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSimpleHTMLParser.h; path = ../../Source/CSimpleHTMLParser.h; sourceTree = "<group>"; };
 		45DEC48B142BBF25009FBCC6 /* CSimpleHTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CSimpleHTMLParser.m; path = ../../Source/CSimpleHTMLParser.m; sourceTree = "<group>"; };
 		45DEC48C142BBF25009FBCC6 /* NSScanner_HTMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSScanner_HTMLExtensions.h; path = ../../Source/NSScanner_HTMLExtensions.h; sourceTree = "<group>"; };
@@ -89,6 +92,8 @@
 				45DEC48D142BBF25009FBCC6 /* NSScanner_HTMLExtensions.m */,
 				4517E51D142D05EE00BDE732 /* NSString_HTMLExtensions.h */,
 				4517E51E142D05EE00BDE732 /* NSString_HTMLExtensions.m */,
+				4528EA571453827500814B3E /* NSScanner_DebugExtensions.h */,
+				4528EA581453827500814B3E /* NSScanner_DebugExtensions.m */,
 				4506232913D0D4A100086997 /* ParserTest.1 */,
 				4506232713D0D4A100086997 /* Supporting Files */,
 			);
@@ -158,6 +163,7 @@
 				45DEC48E142BBF25009FBCC6 /* CSimpleHTMLParser.m in Sources */,
 				45DEC48F142BBF25009FBCC6 /* NSScanner_HTMLExtensions.m in Sources */,
 				4517E51F142D05EE00BDE732 /* NSString_HTMLExtensions.m in Sources */,
+				4528EA591453827500814B3E /* NSScanner_DebugExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
