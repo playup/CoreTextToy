@@ -43,7 +43,6 @@
     {
     NSUInteger theSavedScanLocation = self.scanLocation;
     NSCharacterSet *theSavedCharactersToBeSkipped = self.charactersToBeSkipped;
-    self.charactersToBeSkipped = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
     if ([self scanString:@"<" intoString:NULL] == NO)
         {
@@ -52,6 +51,7 @@
         return(NO);
         }
 
+    self.charactersToBeSkipped = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 
     NSString *theTag = NULL;
     if ([self scanCharactersFromSet:[NSCharacterSet letterCharacterSet] intoString:&theTag] == NO)
