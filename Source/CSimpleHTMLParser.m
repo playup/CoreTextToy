@@ -121,7 +121,7 @@
 
             if (theString.length > 0)
                 {
-                theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
+                theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
                 self.textHandler(theString, theTagStack);
                 }
             theString = [NSMutableString string];
@@ -147,9 +147,18 @@
                 theString = [NSMutableString string];
                 }
 
-            self.openTagHandler(theTag, theAttributes, theTagStack);
+            if ([theTag isEqualToString:@"br"])
+                {
+                theLastCharacterWasWhitespace = YES;
+                self.textHandler(@"\n", theTagStack);
+                theString = [NSMutableString string];
+                }
+            else
+                {
+                self.openTagHandler(theTag, theAttributes, theTagStack);
 
-            [theTagStack addObject:theTag];
+                [theTagStack addObject:theTag];
+                }
             }
         else if ([theScanner scanString:@"&" intoString:NULL] == YES)
             {

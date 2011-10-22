@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4528EA61145386F500814B3E /* NSAttributedString_DebugExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */; };
 		453E8B7E1453255000C8A559 /* MissingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E8B7D1453255000C8A559 /* MissingImage.png */; };
 		453E8B85145334F500C8A559 /* CCoreTextRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453E8B84145334F500C8A559 /* CCoreTextRenderer.m */; };
 		45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */; };
@@ -43,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4528EA5F145386F500814B3E /* NSAttributedString_DebugExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NSAttributedString_DebugExtensions.h; sourceTree = "<group>"; };
+		4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedString_DebugExtensions.m; sourceTree = "<group>"; };
 		453E8B7D1453255000C8A559 /* MissingImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MissingImage.png; sourceTree = "<group>"; };
 		453E8B83145334F500C8A559 /* CCoreTextRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextRenderer.h; sourceTree = "<group>"; };
 		453E8B84145334F500C8A559 /* CCoreTextRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextRenderer.m; sourceTree = "<group>"; };
@@ -165,6 +168,8 @@
 				45FF284413CD6920006D9574 /* MainStoryboard.storyboard */,
 				45FF284713CD6920006D9574 /* CoreTextViewController.h */,
 				45FF284813CD6920006D9574 /* CoreTextViewController.m */,
+				4528EA5F145386F500814B3E /* NSAttributedString_DebugExtensions.h */,
+				4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */,
 				45FF283913CD6920006D9574 /* Supporting Files */,
 			);
 			path = CoreText;
@@ -318,6 +323,7 @@
 				45DEC483142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m in Sources */,
 				45DEC484142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m in Sources */,
 				453E8B85145334F500C8A559 /* CCoreTextRenderer.m in Sources */,
+				4528EA61145386F500814B3E /* NSAttributedString_DebugExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

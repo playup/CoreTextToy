@@ -41,24 +41,25 @@ int main (int argc, const char * argv[])
 //        NSLog(@"%@", [@"hello http://world how are you?" stringByMarkingUpString]);
 
         CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
-        theParser.openTagHandler = ^(NSString *text, NSDictionary *attribites, NSArray *tagStack) { if ([text isEqualToString:@"br"]) printf("\n"); };
-//        theParser.closeTagHandler = ^(NSString *text, NSArray *tagStack) { printf("", [text UTF8String]); };
+//        theParser.openTagHandler = ^(NSString *text, NSDictionary *attribites, NSArray *tagStack) { printf("<>"); if ([text isEqualToString:@"br"]) printf("\\n\n"); };
+//        theParser.closeTagHandler = ^(NSString *text, NSArray *tagStack) { printf("</>"); };
         theParser.textHandler = ^(NSString *text, NSArray *tagStack) { printf("[%s]", [text UTF8String]); };
 
         NSError *theError = NULL;
 
-//        NSString *theMarkup = @"\n\n\n\n\n";
+        NSString *theMarkup = @"<b>hello <i>world</i></b><br>\n\
+A lot of entites are supported. &amp; &lt; &gt;<br>\n";
         
-        NSString *theMarkup = @"<b>hello <i>world</i></b><br>\
-A lot of entites are supported. &amp; &lt; &gt;<br>\
-White space mostly follows normal HTML rules. (But a bit buggy?)<br>\
-<purple>Custom tags can be used for simple styling</purple><br>\
-<purple><b>Styles will</b><i>accumulate</i></purple><br>\
-<img href=\"placeholder.png\">image tags might work too<br>\
-Links will work too:<br>\
-<a href=\"http://apple.com\">Apple</a><br>\
-<a href=\"http://google.com\">Google</a><br>\
-";
+//        NSString *theMarkup = @"<b>hello <i>world</i></b><br>\n\
+//A lot of entites are supported. &amp; &lt; &gt;<br>\n\
+//White space mostly follows normal HTML rules. (But a bit buggy?)<br>\n\
+//<purple>Custom tags can be used for simple styling</purple><br>\n\
+//<purple><b>Styles will</b><i>accumulate</i></purple><br>\n\
+//<img href=\"placeholder.png\">image tags might work too<br>\n\
+//Links will work too:<br>\n\
+//<a href=\"http://apple.com\">Apple</a><br>\n\
+//<a href=\"http://google.com\">Google</a><br>\n\
+//";
         
         if ([theParser parseString:theMarkup error:&theError] == NO)
             {

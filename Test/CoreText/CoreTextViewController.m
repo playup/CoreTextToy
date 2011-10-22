@@ -35,6 +35,7 @@
 
 #import "CMarkupValueTransformer.h"
 #import "CCoreTextLabel.h"
+#import "NSAttributedString_DebugExtensions.h"
 
 @interface CoreTextViewController () <UITextViewDelegate>
 @end
@@ -77,7 +78,7 @@
         theText = [[NSAttributedString alloc] initWithString:[theError description]];
         }
 
-    self.attributedView.text = [theText description];
+    self.attributedView.text = [theText betterDescription];
     self.previewView.text = theText;
     }
 

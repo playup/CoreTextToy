@@ -94,6 +94,7 @@
     CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
 
     theParser.openTagHandler = ^(NSString *inTag, NSDictionary *inAttributes, NSArray *tagStack) {
+        printf("<>");
 
         if ([inTag isEqualToString:@"a"] == YES)
             {
@@ -117,13 +118,10 @@
                 [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"." attributes:theImageAttributes]];
                 }
             }
-        else if ([inTag isEqualToString:@"br"] == YES)
-            {
-            [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:theTextAttributes]];
-            }
         };
 
     theParser.closeTagHandler = ^(NSString *inTag, NSArray *tagStack) {
+        printf("</>");
 
         if ([inTag isEqualToString:@"a"] == YES)
             {
@@ -133,6 +131,7 @@
         };
 
     theParser.textHandler = ^(NSString *inString, NSArray *tagStack) {
+        printf("\"%s\"", [inString UTF8String]);
         theTextAttributes = [[self attributesForTagStack:tagStack] mutableCopy];
 
         if (theCurrentLink != NULL)
@@ -143,6 +142,7 @@
         [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:inString attributes:theTextAttributes]];
         };
 
+    NSLog(@"%@", theMarkup);
 
     if ([theParser parseString:theMarkup error:outError] == NO)
         {
