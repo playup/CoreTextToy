@@ -217,7 +217,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
                 };
 
             // ### Optionally stroke the run rect...
-            if (1)
+            if (0)
                 {
                 CGRect theStrokeRect = theRunRect;
                 theStrokeRect.origin.x = floor(theStrokeRect.origin.x) + 0.5;
