@@ -49,6 +49,10 @@ Extension on UIFont to get a CTFont and to get bold/italic, etc versions of the 
 
 Beginning of a UILabel workalike that uses CoreTest to render NSAttributedString objects.
 
+### CCoreTextRenderer
+
+The rendering class that takes NSAttributedStrings and some other parameters and renders them into the current CGContext.
+
 ## FAQ
 
 ### Why does this even exist? Why not just use UIWebView?
@@ -64,6 +68,8 @@ CCoreTextLabel is designed simply to show static text on screen, akin to UILabel
 It uses a minimal subset of HTML. In fact don't think of it as pure HTML - think of it as just a convenient method for creating NSAttributedString
 
 Only a handful of tags are supported right now, but you can define your own quite easily.
+
+Link and image tags are now supported.
 
 ### So how do I get HTML into CCoreTextLabel?
 
@@ -83,18 +89,18 @@ For the long way see "How do I add custom styles?"
     NSString *theMarkup = [NSString stringWithFormat:@"<username>%@</username> %@", theUsername, theBody];
 
     NSError *theError = NULL;
-    
+
     // Create a transformer and give it a default font.
     CMarkupValueTransformer *theTransformer = [[CMarkupValueTransformer alloc] init];
     theTransformer.standardFont = [UIFont systemFontOfSize:13];
-    
+
     // Create custom attributes for our new "username" tag
     NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
         (__bridge id)[theTransformer.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
         NULL];
     [theTransformer addStyleAttributes:theAttributes forTagSet:[NSSet setWithObject:@"username"]];
-    
+
     // Transform the markup into a NSAttributedString
     NSAttributedString *theAttributedString = [theTransformer transformedValue:theMarkup error:&theError];
 
@@ -103,10 +109,11 @@ For the long way see "How do I add custom styles?"
 
 ## TODO
 
-* Add more things to TODO list
+* See github bug list.
 
 ## TODO (DONE)
 
+* Support img tags.
 * Support _basic_ CSS styling (changing colour of text perhaps)
 * Support links
 * Support tags like "p" & <s>"br"</s> that don't style the text but do control flow <ins>(br is now implemented)</ins>
