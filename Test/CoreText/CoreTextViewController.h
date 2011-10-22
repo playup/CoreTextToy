@@ -36,6 +36,7 @@
 @interface CoreTextViewController : UIViewController
 
 @property (readwrite, nonatomic, retain) IBOutlet UITextView *editView;
+@property (readwrite, nonatomic, retain) IBOutlet UITextView *attributedView;
 @property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *previewView;
 
 @end

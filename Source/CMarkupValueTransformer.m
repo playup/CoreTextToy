@@ -100,8 +100,24 @@
             NSString *theURLString = [inAttributes objectForKey:@"href"];
             theCurrentLink = [NSURL URLWithString:theURLString];
             }
-
-        if ([inTag isEqualToString:@"br"])
+        else if ([inTag isEqualToString:@"img"] == YES)
+            {
+            NSString *theImageSource = [inAttributes objectForKey:@"src"];
+            UIImage *theImage = [UIImage imageNamed:theImageSource];
+            if (theImage == NULL)
+                {
+                theImage = [UIImage imageNamed:@"MissingImage.png"];
+                }
+            if (theImage != NULL)
+                {
+                NSDictionary *theImageAttributes = [NSDictionary dictionaryWithObject:theImage forKey:@"image"];
+                // U+FFFC is the "object replacment character" (thanks to Jens Ayton for the pointer) - doesn't work - takes up actual space.
+                // U+2061 is the "FUNCTION APPLICATION" character - doesn't work gets striped.
+                // 200B zero width space
+                [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"." attributes:theImageAttributes]];
+                }
+            }
+        else if ([inTag isEqualToString:@"br"] == YES)
             {
             [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n" attributes:theTextAttributes]];
             }

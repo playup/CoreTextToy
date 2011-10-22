@@ -44,18 +44,20 @@
 @implementation CoreTextViewController
 
 @synthesize editView;
+@synthesize attributedView;
 @synthesize previewView;
 
 - (void)viewDidLoad
     {
-    self.previewView.text = [NSAttributedString attributedStringWithMarkup:self.editView.text error:NULL];
-
     self.previewView.layer.borderWidth = 1.0;
-    self.previewView.layer.borderColor = [UIColor redColor].CGColor;
+    self.previewView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.previewView.insets = (UIEdgeInsets){ };
     self.previewView.URLHandler = ^(NSURL *inURL) {
         UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"URL" message:[NSString stringWithFormat:@"You tapped: %@", [inURL absoluteString]] delegate:NULL cancelButtonTitle:@"What's it to you?" otherButtonTitles:NULL];
         [theAlertView show];
         };
+
+    [self textViewDidChange:NULL];
     }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -72,6 +74,7 @@
         theText = [[NSAttributedString alloc] initWithString:[theError description]];
         }
 
+    self.attributedView.text = [theText description];
     self.previewView.text = theText;
     }
 

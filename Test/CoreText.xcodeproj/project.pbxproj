@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		453E8B7E1453255000C8A559 /* MissingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E8B7D1453255000C8A559 /* MissingImage.png */; };
 		45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */; };
 		45DEC481142BBEDB009FBCC6 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */; };
 		45DEC482142BBEDB009FBCC6 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		453E8B7D1453255000C8A559 /* MissingImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MissingImage.png; sourceTree = "<group>"; };
 		45DEC476142BBEDB009FBCC6 /* CCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel.h; sourceTree = "<group>"; };
 		45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel.m; sourceTree = "<group>"; };
 		45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMarkupValueTransformer.h; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				45DEC47D142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m */,
 				45DEC47E142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.h */,
 				45DEC47F142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m */,
+				453E8B7D1453255000C8A559 /* MissingImage.png */,
 			);
 			name = Source;
 			path = ../Source;
@@ -265,6 +268,7 @@
 			files = (
 				45FF283D13CD6920006D9574 /* InfoPlist.strings in Resources */,
 				45FF284613CD6920006D9574 /* MainStoryboard.storyboard in Resources */,
+				453E8B7E1453255000C8A559 /* MissingImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

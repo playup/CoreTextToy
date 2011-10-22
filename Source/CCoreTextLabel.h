@@ -34,6 +34,7 @@
 @interface CCoreTextLabel : UIView
 
 @property (readwrite, nonatomic, strong) NSAttributedString *text;
+@property (readwrite, nonatomic, assign) UIEdgeInsets insets; // TODO Current not working with vertical flip.
 
 @property (readwrite, nonatomic, copy) void (^URLHandler)(NSURL *);
 
