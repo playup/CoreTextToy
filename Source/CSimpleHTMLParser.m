@@ -201,6 +201,17 @@
             [theString appendString:theRun];
             theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
             }
+        else
+            {
+            if (outError)
+                {
+                NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                    @"Unknown error occured!", NSLocalizedDescriptionKey,
+                    NULL];
+                *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                }
+            return(NO);
+            }
         }
 
     if (theString.length > 0)
