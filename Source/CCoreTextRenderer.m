@@ -119,8 +119,6 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
         CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){ .length = self.normalizedText.length }, NULL, self.size, NULL);
 
         CGRect theFrame = { .size = theSize };
-        theFrame.size.width = floor(theFrame.size.width);
-        theFrame.size.height = floor(theFrame.size.height);
         
         CGContextSaveGState(theContext);
         CGContextSetStrokeColorWithColor(theContext, [UIColor greenColor].CGColor);
@@ -148,15 +146,8 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
         CGContextSetStrokeColorWithColor(theContext, [UIColor redColor].CGColor);
         CGContextSetLineWidth(theContext, 0.5);
         [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CTRunRef inRun, CGRect inRect) {
-
             CGRect theStrokeRect = inRect;
-            theStrokeRect.origin.x = floor(theStrokeRect.origin.x) + 0.5;
-            theStrokeRect.origin.y = floor(theStrokeRect.origin.y) + 0.5;
-            theStrokeRect.size.width = floor(theStrokeRect.size.width) - 1.0;
-            theStrokeRect.size.height = floor(theStrokeRect.size.height) - 1.0;
-            
             CGContextStrokeRect(theContext, theStrokeRect);
-
             }];
         CGContextRestoreGState(theContext);
         }        
