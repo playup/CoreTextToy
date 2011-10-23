@@ -114,10 +114,8 @@ NSString *const kMarkupLinkAttributeName = @"link";
             if (theImage != NULL)
                 {
                 NSDictionary *theImageAttributes = [NSDictionary dictionaryWithObject:theImage forKey:kMarkupImageAttributeName];
-                // U+FFFC is the "object replacment character" (thanks to Jens Ayton for the pointer) - doesn't work - takes up actual space.
-                // U+2061 is the "FUNCTION APPLICATION" character - doesn't work gets striped.
-                // 200B zero width space
-                [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"." attributes:theImageAttributes]];
+                // U+FFFC "Object Replacment Character" (thanks to Jens Ayton for the pointer)
+                [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\uFFFC" attributes:theImageAttributes]];
                 }
             }
         };
