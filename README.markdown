@@ -71,6 +71,16 @@ Only a handful of tags are supported right now, but you can define your own quit
 
 Link and image tags are now supported.
 
+The following tags are supported
+
+* &lt;br&gt;
+* &lt;b&gt;
+* &lt;a&gt;
+* &lt;i&gt;
+* &lt;mark&gt;
+* &lt;strike&gt;
+* &lt;img&gt;
+
 ### So how do I get HTML into CCoreTextLabel?
 
 The quick way:
