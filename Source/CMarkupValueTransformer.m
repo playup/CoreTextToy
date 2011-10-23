@@ -116,9 +116,15 @@ NSString *const kMarkupLinkAttributeName = @"link";
                 }
             if (theImage != NULL)
                 {
-                NSDictionary *theImageAttributes = [NSDictionary dictionaryWithObject:theImage forKey:kMarkupImageAttributeName];
+                NSMutableDictionary *theImageAttributes = [NSMutableDictionary dictionaryWithObject:theImage forKey:kMarkupImageAttributeName];
+                if (theCurrentLink != NULL)
+                    {
+                    [theImageAttributes setObject:theCurrentLink forKey:kMarkupLinkAttributeName];
+                    }
+
                 // U+FFFC "Object Replacment Character" (thanks to Jens Ayton for the pointer)
-                [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\uFFFC" attributes:theImageAttributes]];
+                NSAttributedString *theImageString = [[NSAttributedString alloc] initWithString:@"\uFFFC" attributes:theImageAttributes];
+                [theAttributedString appendAttributedString:theImageString];
                 }
             }
         };
