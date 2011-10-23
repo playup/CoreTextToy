@@ -73,10 +73,9 @@
     {
     NSError *theError = NULL;
 
-
     CMarkupValueTransformer *theTransformer = [[CMarkupValueTransformer alloc] init];
 
-    NSAttributedString *theAttributedString = [theTransformer transformedValue:textView.text error:NULL];
+    NSAttributedString *theAttributedString = [theTransformer transformedValue:textView.text error:&theError];
 
     if (theAttributedString == NULL)
         {
