@@ -76,16 +76,6 @@
 
 - (BOOL)parseString:(NSString *)inString error:(NSError **)outError
     {
-    void (^theErrorBlock)(NSString *reason) = ^(NSString *reason) {
-        if (outError)
-            {
-            NSDictionary *theDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                reason, NSLocalizedDescriptionKey,
-                NULL];
-            *outError = [NSError errorWithDomain:@"TODO" code:-1 userInfo:theDictionary];
-            }
-        };
-
     NSMutableCharacterSet *theCharacterSet = [[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy];
     [theCharacterSet addCharactersInString:@"<&"];
     [theCharacterSet invert];
@@ -110,12 +100,24 @@
             {
             if ([theScanner scanUpToString:@">" intoString:&theTag] == NO)
                 {
-                theErrorBlock(@"</ not followed by >");
+                if (outError)
+                    {
+                    NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                        @"</ not followed by >", NSLocalizedDescriptionKey,
+                        NULL];
+                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                    }
                 return(NO);
                 }
             if ([theScanner scanString:@">" intoString:NULL] == NO)
                 {
-                theErrorBlock(@"</ not followed by >");
+                if (outError)
+                    {
+                    NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                        @"</ not followed by >", NSLocalizedDescriptionKey,
+                        NULL];
+                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                    }
                 return(NO);
                 }
 
@@ -131,7 +133,13 @@
             NSUInteger theIndex = [theTagStack indexOfObjectWithOptions:NSEnumerationReverse passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) { return([obj isEqualToString:theTag]); }];
             if (theIndex == NSNotFound)
                 {
-                theErrorBlock(@"Stack underflow");
+                if (outError)
+                    {
+                    NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                        @"Stack underflow", NSLocalizedDescriptionKey,
+                        NULL];
+                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                    }
                 return(NO);
                 }
 
@@ -165,12 +173,24 @@
             NSString *theEntity = NULL;
             if ([theScanner scanUpToString:@";" intoString:&theEntity] == NO)
                 {
-                theErrorBlock(@"& not followed by ;");
+                if (outError)
+                    {
+                    NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                        @"& not followed by ;", NSLocalizedDescriptionKey,
+                        NULL];
+                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                    }
                 return(NO);
                 }
             if ([theScanner scanString:@";" intoString:NULL] == NO)
                 {
-                theErrorBlock(@"& not followed by ;");
+                if (outError)
+                    {
+                    NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                        @"& not followed by ;", NSLocalizedDescriptionKey,
+                        NULL];
+                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                    }
                 return(NO);
                 }
 
