@@ -139,6 +139,11 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
 - (void)draw
     {
+    if (self.normalizedText.length == 0)
+        {
+        return;
+        }
+    
     // ### Get and set up the context...
     CGContextRef theContext = UIGraphicsGetCurrentContext();
     CGContextSaveGState(theContext);

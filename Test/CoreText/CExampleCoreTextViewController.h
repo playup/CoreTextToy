@@ -13,6 +13,7 @@
 @interface CExampleCoreTextViewController : UIViewController
 
 @property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label1;
+@property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label2;
 
 
 @end

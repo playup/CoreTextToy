@@ -47,25 +47,24 @@ int main (int argc, const char * argv[])
 
         NSError *theError = NULL;
 
-        NSString *theMarkup = @"<b>hello <i>world</i></b><br>\n\
-A lot of entites are supported. &amp; &lt; &gt;<br>\n";
+//        NSString *theMarkup = @"Some text <img src=\"reply-badge.png\"> Some More Text";
         
-//        NSString *theMarkup = @"<b>hello <i>world</i></b><br>\n\
-//A lot of entites are supported. &amp; &lt; &gt;<br>\n\
-//White space mostly follows normal HTML rules. (But a bit buggy?)<br>\n\
-//<purple>Custom tags can be used for simple styling</purple><br>\n\
-//<purple><b>Styles will</b><i>accumulate</i></purple><br>\n\
-//<img href=\"placeholder.png\">image tags might work too<br>\n\
-//Links will work too:<br>\n\
-//<a href=\"http://apple.com\">Apple</a><br>\n\
-//<a href=\"http://google.com\">Google</a><br>\n\
-//";
+        NSString *theMarkup = @"<b>hello <i>world</i></b><br>\n\
+A lot of entites are supported. &amp; &lt; &gt;<br>\n\
+White space mostly follows normal HTML rules. (But a bit buggy?)<br>\n\
+<purple>Custom tags can be used for simple styling</purple><br>\n\
+<purple><b>Styles will</b><i>accumulate</i></purple><br>\n\
+<img href=\"placeholder.png\">image tags might work too<br>\n\
+Links will work too:<br>\n\
+<a href=\"http://apple.com\">Apple</a><br>\n\
+<a href=\"http://google.com\">Google</a><br>\n\
+";
         
         if ([theParser parseString:theMarkup error:&theError] == NO)
             {
             NSLog(@"Error: %@", theError);
             }
-        NSLog(@"DONE");
+        printf("\n");
 
         }
     return 0;

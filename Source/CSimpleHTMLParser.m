@@ -96,31 +96,8 @@
         NSString *theTag = NULL;
         NSDictionary *theAttributes = NULL;
 
-        if ([theScanner scanString:@"</" intoString:NULL] == YES)
+        if ([theScanner scanCloseTag:&theTag] == YES)
             {
-            if ([theScanner scanUpToString:@">" intoString:&theTag] == NO)
-                {
-                if (outError)
-                    {
-                    NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                        @"</ not followed by >", NSLocalizedDescriptionKey,
-                        NULL];
-                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
-                    }
-                return(NO);
-                }
-            if ([theScanner scanString:@">" intoString:NULL] == NO)
-                {
-                if (outError)
-                    {
-                    NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
-                        @"</ not followed by >", NSLocalizedDescriptionKey,
-                        NULL];
-                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
-                    }
-                return(NO);
-                }
-
             if (theString.length > 0)
                 {
                 theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
@@ -144,13 +121,12 @@
                 }
 
             [theTagStack removeObjectsInRange:(NSRange){ .location = theIndex, .length = theTagStack.count - theIndex }];
-
             }
         else if ([theScanner scanOpenTag:&theTag attributes:&theAttributes] == YES)
             {
             if (theString.length > 0)
                 {
-                theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
+                theLastCharacterWasWhitespace = NO;
                 self.textHandler(theString, theTagStack);
                 theString = [NSMutableString string];
                 }

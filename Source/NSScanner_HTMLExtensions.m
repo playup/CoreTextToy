@@ -33,12 +33,6 @@
 
 @implementation NSScanner (HTMLExtensions)
 
-
-// <a href="\""> // Not currently supported.
-// <a href="">
-// <a foo>
-// <a>
-
 - (BOOL)scanOpenTag:(NSString **)outTag attributes:(NSDictionary **)outAttributes
     {
     NSUInteger theSavedScanLocation = self.scanLocation;
@@ -114,6 +108,46 @@
     if (outAttributes && [theAttributes count] > 0)
         {
         *outAttributes = [theAttributes copy];
+        }
+
+    self.charactersToBeSkipped = theSavedCharactersToBeSkipped;
+    return(YES);
+    }
+
+- (BOOL)scanCloseTag:(NSString **)outTag
+    {
+    NSUInteger theSavedScanLocation = self.scanLocation;
+    NSCharacterSet *theSavedCharactersToBeSkipped = self.charactersToBeSkipped;
+
+    NSString *theTag = NULL;
+
+    if ([self scanString:@"</" intoString:NULL] == NO)
+        {
+        self.scanLocation = theSavedScanLocation;
+        self.charactersToBeSkipped = theSavedCharactersToBeSkipped;
+        return(NO);
+        }
+        
+    self.charactersToBeSkipped = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+
+    if ([self scanUpToString:@">" intoString:&theTag] == NO)
+        {
+        self.scanLocation = theSavedScanLocation;
+        self.charactersToBeSkipped = theSavedCharactersToBeSkipped;
+
+        return(NO);
+        }
+
+    if ([self scanString:@">" intoString:NULL] == NO)
+        {
+        self.scanLocation = theSavedScanLocation;
+        self.charactersToBeSkipped = theSavedCharactersToBeSkipped;
+        return(NO);
+        }
+
+    if (outTag)
+        {
+        *outTag = theTag;
         }
 
     self.charactersToBeSkipped = theSavedCharactersToBeSkipped;
