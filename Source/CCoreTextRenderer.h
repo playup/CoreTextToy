@@ -20,7 +20,7 @@
 - (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize;
 
 - (void)addPrerendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
-- (void)addPostrendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
+- (void)addPostRendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
 
 - (CGSize)sizeThatFits:(CGSize)inSize;
 - (void)draw;
