@@ -250,9 +250,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
         CTLineRef theLine = (__bridge CTLineRef)obj;
 
         // ### Get the line rect offseting it by the line origin
-        CGRect theLineRect = CTLineGetImageBounds(theLine, theContext);     
-        theLineRect.origin.x += inLineOrigins[idx].x;
-        theLineRect.origin.y += inLineOrigins[idx].y;
+        const CGPoint theLineOrigin = inLineOrigins[idx];
         
         // ### Iterate each run... Keeping track of our X position...
         CGFloat theXPosition = 0;
@@ -265,7 +263,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
             CGFloat theAscent, theDescent, theLeading;
             CGFloat theWidth = CTRunGetTypographicBounds(theRun, (CFRange){}, &theAscent, &theDescent, &theLeading);
             CGRect theRunRect = {
-                .origin = { theLineRect.origin.x + theXPosition, theLineRect.origin.y },
+                .origin = { theLineOrigin.x + theXPosition, theLineOrigin.y },
                 .size = { theWidth, theAscent + theDescent },
                 };
 
