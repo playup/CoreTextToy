@@ -61,7 +61,7 @@
         [theAlertView show];
         };
 
-    [self textViewDidChange:NULL];
+    [self textViewDidChange:self.editView];
     }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -72,14 +72,19 @@
 - (void)textViewDidChange:(UITextView *)textView;
     {
     NSError *theError = NULL;
-    NSAttributedString *theText = [NSAttributedString attributedStringWithMarkup:self.editView.text error:&theError];
-    if (theText == NULL)
+
+
+    CMarkupValueTransformer *theTransformer = [[CMarkupValueTransformer alloc] init];
+
+    NSAttributedString *theAttributedString = [theTransformer transformedValue:textView.text error:NULL];
+
+    if (theAttributedString == NULL)
         {
-        theText = [[NSAttributedString alloc] initWithString:[theError description]];
+        theAttributedString = [[NSAttributedString alloc] initWithString:[theError description]];
         }
 
-    self.attributedView.text = [theText betterDescription];
-    self.previewView.text = theText;
+    self.attributedView.text = [theAttributedString betterDescription];
+    self.previewView.text = theAttributedString;
     }
 
 @end

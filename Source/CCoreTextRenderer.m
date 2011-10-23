@@ -23,14 +23,18 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
 @interface CCoreTextRenderer ()
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
 @property (readwrite, nonatomic, retain) NSAttributedString *normalizedText;
+@property (readwrite, nonatomic, retain) NSMutableDictionary *prerenderersForAttributes;
+@property (readwrite, nonatomic, retain) NSMutableDictionary *postRenderersForAttributes;
 
-- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins handler:(void (^)(CTRunRef, CGRect))inHandler;
+- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler;
 @end
 
 @implementation CCoreTextRenderer
 
 @synthesize text;
 @synthesize size;
+@synthesize prerenderersForAttributes;
+@synthesize postRenderersForAttributes;
 
 @synthesize framesetter;
 @synthesize normalizedText;
@@ -91,7 +95,10 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
         [theString enumerateAttribute:kMarkupImageAttributeName inRange:(NSRange){ .length = theString.length } options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
             if (value)
                 {
-                CTRunDelegateRef theImageDelegate = CTRunDelegateCreate(&theCallbacks, (__bridge void *)value);
+                UIImage *theImage = value;
+                NSValue *theSizeValue = [NSValue valueWithCGSize:theImage.size];
+                
+                CTRunDelegateRef theImageDelegate = CTRunDelegateCreate(&theCallbacks, (__bridge void *)theSizeValue);
                 CFAttributedStringSetAttribute((__bridge CFMutableAttributedStringRef)theString, (CFRange) { .location = range.location, .length = range.length }, kCTRunDelegateAttributeName, theImageDelegate);
                 CFRelease(theImageDelegate);
                 }
@@ -100,6 +107,26 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
         normalizedText = [theString copy];
         }
     return(normalizedText);
+    }
+
+- (void)addPrerendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
+    {
+    if (self.prerenderersForAttributes == NULL)
+        {
+        self.prerenderersForAttributes = [NSMutableDictionary dictionary];
+        }
+        
+    [self.prerenderersForAttributes setObject:[inBlock copy] forKey:inKey];
+    }
+
+- (void)addPostRendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
+    {
+    if (self.postRenderersForAttributes == NULL)
+        {
+        self.postRenderersForAttributes = [NSMutableDictionary dictionary];
+        }
+        
+    [self.postRenderersForAttributes setObject:[inBlock copy] forKey:inKey];
     }
 
 - (CGSize)sizeThatFits:(CGSize)inSize
@@ -121,7 +148,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
         CGRect theFrame = { .size = theSize };
         
         CGContextSaveGState(theContext);
-        CGContextSetStrokeColorWithColor(theContext, [UIColor greenColor].CGColor);
+        CGContextSetStrokeColorWithColor(theContext, [[UIColor greenColor] colorWithAlphaComponent:0.5].CGColor);
         CGContextSetLineWidth(theContext, 0.5);
         CGContextStrokeRect(theContext, theFrame);
         CGContextRestoreGState(theContext);
@@ -143,15 +170,30 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
     #if CORE_TEXT_SHOW_RUNS == 1
         {
         CGContextSaveGState(theContext);
-        CGContextSetStrokeColorWithColor(theContext, [UIColor redColor].CGColor);
+        CGContextSetStrokeColorWithColor(theContext, [[UIColor redColor] colorWithAlphaComponent:0.5].CGColor);
         CGContextSetLineWidth(theContext, 0.5);
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CTRunRef inRun, CGRect inRect) {
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
             CGRect theStrokeRect = inRect;
             CGContextStrokeRect(theContext, theStrokeRect);
             }];
         CGContextRestoreGState(theContext);
         }        
     #endif /* CORE_TEXT_SHOW_RUNS == 1 */
+
+    // ### If we have any pre-render blocks we enumerate over the runs and fire the blocks if the attributes match...
+    if (self.prerenderersForAttributes.count > 0)
+        {
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+            NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            [self.prerenderersForAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                if ([theAttributes objectForKey:key])
+                    {
+                    void (^theBlock)(CGContextRef, CTRunRef, CGRect) = obj;
+                    theBlock(theContext, inRun, inRect);
+                    }
+                }];
+            }];
+        }
 
     // ### Reset the text position (important!)
     CGContextSetTextPosition(theContext, 0, 0);
@@ -162,8 +204,23 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
     // ### Reset the text position (important!)
     CGContextSetTextPosition(theContext, 0, 0);
 
+    // ### If we have any pre-render blocks we enumerate over the runs and fire the blocks if the attributes match...
+    if (self.postRenderersForAttributes.count > 0)
+        {
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+            NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            [self.postRenderersForAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                if ([theAttributes objectForKey:key])
+                    {
+                    void (^theBlock)(CGContextRef, CTRunRef, CGRect) = obj;
+                    theBlock(theContext, inRun, inRect);
+                    }
+                }];
+            }];
+        }
+
     // ### Iterate through each line...
-    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CTRunRef inRun, CGRect inRect) {
+    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
         NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
         // ### If we have an image we draw it...
         UIImage *theImage = [theAttributes objectForKey:kMarkupImageAttributeName];
@@ -181,7 +238,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
     CGContextRestoreGState(theContext);
     }
 
-- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins handler:(void (^)(CTRunRef, CGRect))inHandler
+- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler
     {
     CGContextRef theContext = UIGraphicsGetCurrentContext();
 
@@ -214,7 +271,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
 
             if (inHandler)
                 {
-                inHandler(theRun, theRunRect);
+                inHandler(theContext, theRun, theRunRect);
                 }
 
             theXPosition += theWidth;
@@ -264,8 +321,9 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
 
 static CGFloat MyCTRunDelegateGetAscentCallback(void *refCon)
     {
-    UIImage *theImage = (__bridge UIImage *)refCon;
-    return(theImage.size.height);
+    NSValue *theValue = (__bridge NSValue *)refCon;
+    CGSize theSize = [theValue CGSizeValue];
+    return(theSize.height);
     }
 
 static CGFloat MyCTRunDelegateGetDescentCallback(void *refCon)
@@ -275,7 +333,8 @@ static CGFloat MyCTRunDelegateGetDescentCallback(void *refCon)
 
 static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon)
     {
-    UIImage *theImage = (__bridge UIImage *)refCon;
-    return(theImage.size.width);
+    NSValue *theValue = (__bridge NSValue *)refCon;
+    CGSize theSize = [theValue CGSizeValue];
+    return(theSize.width);
     }
 

@@ -83,6 +83,24 @@
 - (void)setText:(NSAttributedString *)inText
     {
     self.renderer = [[CCoreTextRenderer alloc] initWithText:inText size:self.bounds.size];
+
+    #warning TODO make constants for backgroundColor and strikeColor
+    [self.renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+        NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+        CGColorRef theColor = (__bridge CGColorRef)[theAttributes objectForKey:@"backgroundColor"];
+        CGContextSetFillColorWithColor(inContext, theColor);
+        CGContextFillRect(inContext, inRect);
+        } forAttributeKey:@"backgroundColor"];
+
+    [self.renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+        NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+        CGColorRef theColor = (__bridge CGColorRef)[theAttributes objectForKey:@"strikeColor"];
+        CGContextSetStrokeColorWithColor(inContext, theColor);
+        CGContextMoveToPoint(inContext, CGRectGetMinX(inRect), CGRectGetMidY(inRect));
+        CGContextAddLineToPoint(inContext, CGRectGetMaxX(inRect), CGRectGetMidY(inRect));
+        CGContextStrokePath(inContext);
+        } forAttributeKey:@"strikeColor"];
+
     [self setNeedsDisplay];
     }
     

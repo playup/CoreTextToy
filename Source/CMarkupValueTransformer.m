@@ -213,6 +213,28 @@ NSString *const kMarkupLinkAttributeName = @"link";
             [NSSet setWithObjects:@"a", NULL], @"tags",
             NULL]
         ];
+
+    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+        (__bridge id)[UIColor yellowColor].CGColor, @"backgroundColor",
+        NULL];
+    [attributesForTagSets addObject:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            theAttributes, @"attributes",
+            [NSSet setWithObjects:@"mark", NULL], @"tags",
+            NULL]
+        ];
+
+    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+        (__bridge id)[UIColor blackColor].CGColor, @"strikeColor",
+        NULL];
+    [attributesForTagSets addObject:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            theAttributes, @"attributes",
+            [NSSet setWithObjects:@"strike", NULL], @"tags",
+            NULL]
+        ];
+
+
     }
 
 - (void)addStyleAttributes:(NSDictionary *)inAttributes forTagSet:(NSSet *)inTagSet

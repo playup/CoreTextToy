@@ -22,16 +22,17 @@
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="180"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <string key="text">&lt;b>hello &lt;i>world&lt;/i>&lt;/b>&lt;br>
+                                <mutableString key="text">&lt;b>hello &lt;i>world&lt;/i>&lt;/b>&lt;br>
 A lot of entites are supported. &amp;amp; &amp;lt; &amp;gt;&lt;br>
 White space mostly follows normal HTML rules. (But a bit buggy?)&lt;br>
 &lt;purple>Custom tags can be used for simple styling&lt;/purple>&lt;br>
 &lt;purple>&lt;b>Styles will&lt;/b>&lt;i>accumulate&lt;/i>&lt;/purple>&lt;br>
+&lt;mark>Hey look highlighting?&lt;/mark> &lt;strike>and strikethrough&lt;/strike>&lt;br>
 &lt;img href="placeholder.png">image tags might work too&lt;br>
 Links will work too:&lt;br>
 &lt;a href="http://apple.com">Apple&lt;/a>&lt;br>
 &lt;a href="http://google.com">Google&lt;/a>&lt;br>
-</string>
+</mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>

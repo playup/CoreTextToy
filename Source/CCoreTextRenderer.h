@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <CoreText/CoreText.h>
+
 @interface CCoreTextRenderer : NSObject
 
 @property (readonly, nonatomic, strong) NSAttributedString *text;
@@ -16,6 +18,9 @@
 + (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size;
 
 - (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize;
+
+- (void)addPrerendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
+- (void)addPostrendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
 
 - (CGSize)sizeThatFits:(CGSize)inSize;
 - (void)draw;
