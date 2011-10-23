@@ -19,6 +19,7 @@
 static CGFloat MyCTRunDelegateGetAscentCallback(void *refCon);
 static CGFloat MyCTRunDelegateGetDescentCallback(void *refCon);
 static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
+static void MyCTRunDelegateDeallocCallback(void *refCon);
 
 @interface CCoreTextRenderer ()
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
@@ -90,6 +91,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
             .getAscent = MyCTRunDelegateGetAscentCallback,
             .getDescent = MyCTRunDelegateGetDescentCallback,
             .getWidth = MyCTRunDelegateGetWidthCallback,
+            .dealloc = MyCTRunDelegateDeallocCallback,
             };
         
         [theString enumerateAttribute:kMarkupImageAttributeName inRange:(NSRange){ .length = theString.length } options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
@@ -98,7 +100,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
                 UIImage *theImage = value;
                 NSValue *theSizeValue = [NSValue valueWithCGSize:theImage.size];
                 
-                CTRunDelegateRef theImageDelegate = CTRunDelegateCreate(&theCallbacks, (__bridge void *)theSizeValue);
+                CTRunDelegateRef theImageDelegate = CTRunDelegateCreate(&theCallbacks, (void *)(__bridge_retained CFTypeRef)theSizeValue);
                 CFAttributedStringSetAttribute((__bridge CFMutableAttributedStringRef)theString, (CFRange) { .location = range.location, .length = range.length }, kCTRunDelegateAttributeName, theImageDelegate);
                 CFRelease(theImageDelegate);
                 }
@@ -334,5 +336,11 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon)
     NSValue *theValue = (__bridge NSValue *)refCon;
     CGSize theSize = [theValue CGSizeValue];
     return(theSize.width);
+    }
+
+static void MyCTRunDelegateDeallocCallback(void *refCon)
+    {
+    CFRelease(refCon);
+
     }
 
