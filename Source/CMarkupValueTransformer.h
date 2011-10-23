@@ -31,6 +31,9 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const kMarkupImageAttributeName;
+extern NSString *const kMarkupLinkAttributeName;
+
 @interface CMarkupValueTransformer : NSValueTransformer
 
 @property (readwrite, nonatomic, strong) UIFont *standardFont;

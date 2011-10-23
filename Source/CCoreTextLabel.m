@@ -34,6 +34,7 @@
 #import <CoreText/CoreText.h>
 #import <QuartzCore/QuartzCore.h>
 
+#import "CMarkupValueTransformer.h"
 #import "CCoreTextRenderer.h"
 
 @interface CCoreTextLabel ()
@@ -113,7 +114,7 @@
     theLocation.y -= self.insets.top;
 
     NSDictionary *theAttributes = [self.renderer attributesAtPoint:theLocation];
-    NSURL *theLink = [theAttributes objectForKey:@"link"];
+    NSURL *theLink = [theAttributes objectForKey:kMarkupLinkAttributeName];
     if (theLink != NULL)
         {
         if (self.URLHandler != NULL)

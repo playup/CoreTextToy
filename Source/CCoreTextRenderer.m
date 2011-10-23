@@ -88,7 +88,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
             .getWidth = MyCTRunDelegateGetWidthCallback,
             };
         
-        [theString enumerateAttribute:@"image" inRange:(NSRange){ .length = theString.length } options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
+        [theString enumerateAttribute:kMarkupImageAttributeName inRange:(NSRange){ .length = theString.length } options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
             if (value)
                 {
                 CTRunDelegateRef theImageDelegate = CTRunDelegateCreate(&theCallbacks, (__bridge void *)value);
@@ -166,7 +166,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
     [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CTRunRef inRun, CGRect inRect) {
         NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
         // ### If we have an image we draw it...
-        UIImage *theImage = [theAttributes objectForKey:@"image"];
+        UIImage *theImage = [theAttributes objectForKey:kMarkupImageAttributeName];
         if (theImage != NULL)
             {
             // We use CGContextDrawImage because it understands the CTM

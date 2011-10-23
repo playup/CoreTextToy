@@ -37,6 +37,8 @@
 #import "CMarkupValueTransformer.h"
 #import "CSimpleHTMLParser.h"
 
+NSString *const kMarkupImageAttributeName = @"image";
+NSString *const kMarkupLinkAttributeName = @"link";
 
 
 @interface CMarkupValueTransformer ()
@@ -111,7 +113,7 @@
                 }
             if (theImage != NULL)
                 {
-                NSDictionary *theImageAttributes = [NSDictionary dictionaryWithObject:theImage forKey:@"image"];
+                NSDictionary *theImageAttributes = [NSDictionary dictionaryWithObject:theImage forKey:kMarkupImageAttributeName];
                 // U+FFFC is the "object replacment character" (thanks to Jens Ayton for the pointer) - doesn't work - takes up actual space.
                 // U+2061 is the "FUNCTION APPLICATION" character - doesn't work gets striped.
                 // 200B zero width space
@@ -136,7 +138,7 @@
 
         if (theCurrentLink != NULL)
             {
-            [theTextAttributes setObject:theCurrentLink forKey:@"link"];
+            [theTextAttributes setObject:theCurrentLink forKey:kMarkupLinkAttributeName];
             }
 
         [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:inString attributes:theTextAttributes]];
