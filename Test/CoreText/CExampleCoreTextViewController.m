@@ -27,8 +27,6 @@
     NSError *theError = NULL;
     CMarkupValueTransformer *theTransformer = [[CMarkupValueTransformer alloc] init];
 
-
-
     NSDictionary *theUsernameAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor colorWithRed:0.761 green:0.486 blue:0.165 alpha:1.000].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
         (__bridge id)[theTransformer.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
@@ -39,10 +37,7 @@
     
     NSAttributedString *theAttributedString = [theTransformer transformedValue:theMarkup error:&theError];
 
-
     self.label1.text = theAttributedString;
-
-
     }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

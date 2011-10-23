@@ -113,9 +113,8 @@
 - (void)setFrame:(CGRect)inFrame
     {
     [super setFrame:inFrame];
-    
-    NSLog(@"SET FRAME");
-    
+
+    #warning TODO shouldn't do this. Should just set renderer to NULL.
     self.text = self.renderer.text;
     }
 
