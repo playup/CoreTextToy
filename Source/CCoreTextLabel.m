@@ -82,6 +82,7 @@
 
 - (void)setText:(NSAttributedString *)inText
     {
+    #warning TODO this and setBounds: are really hacky... Should store text in property and have a lazy/caching renderer
     self.renderer = [[CCoreTextRenderer alloc] initWithText:inText size:self.bounds.size];
 
     #warning TODO make constants for backgroundColor and strikeColor
@@ -107,6 +108,15 @@
 - (CGSize)sizeThatFits:(CGSize)size
     {
     return([self.renderer sizeThatFits:size]);
+    }
+    
+- (void)setFrame:(CGRect)inFrame
+    {
+    [super setFrame:inFrame];
+    
+    NSLog(@"SET FRAME");
+    
+    self.text = self.renderer.text;
     }
 
 - (void)drawRect:(CGRect)rect

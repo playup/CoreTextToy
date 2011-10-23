@@ -12,5 +12,5 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     
-    #define CORE_TEXT_SHOW_RUNS 1
+    #define CORE_TEXT_SHOW_RUNS 0
 #endif

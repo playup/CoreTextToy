@@ -29,7 +29,7 @@
 //  authors and should not be interpreted as representing official policies, either expressed
 //  or implied, of toxicsoftware.com.
 
-#import "CoreTextViewController.h"
+#import "CFreeformCoreTextViewController.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -37,12 +37,12 @@
 #import "CCoreTextLabel.h"
 #import "NSAttributedString_DebugExtensions.h"
 
-@interface CoreTextViewController () <UITextViewDelegate>
+@interface CFreeformCoreTextViewController () <UITextViewDelegate>
 @end
 
 #pragma mark -
 
-@implementation CoreTextViewController
+@implementation CFreeformCoreTextViewController
 
 @synthesize editView;
 @synthesize attributedView;

@@ -8,8 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		4528EA61145386F500814B3E /* NSAttributedString_DebugExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */; };
+		4528EAB91454816F00814B3E /* CExampleCoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4528EAB81454816F00814B3E /* CExampleCoreTextViewController.m */; };
 		453E8B7E1453255000C8A559 /* MissingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E8B7D1453255000C8A559 /* MissingImage.png */; };
 		453E8B85145334F500C8A559 /* CCoreTextRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453E8B84145334F500C8A559 /* CCoreTextRenderer.m */; };
+		455C9FCE14548BDC0098B70F /* reply-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 455C9FCD14548BDC0098B70F /* reply-badge.png */; };
+		455C9FD214548E8E0098B70F /* Craig.png in Resources */ = {isa = PBXBuildFile; fileRef = 455C9FD114548E8E0098B70F /* Craig.png */; };
+		455C9FD514548EA50098B70F /* CResizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 455C9FD414548EA50098B70F /* CResizableView.m */; };
 		45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */; };
 		45DEC481142BBEDB009FBCC6 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */; };
 		45DEC482142BBEDB009FBCC6 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */; };
@@ -22,7 +26,7 @@
 		45FF283F13CD6920006D9574 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FF283E13CD6920006D9574 /* main.m */; };
 		45FF284313CD6920006D9574 /* CoreTextAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FF284213CD6920006D9574 /* CoreTextAppDelegate.m */; };
 		45FF284613CD6920006D9574 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45FF284413CD6920006D9574 /* MainStoryboard.storyboard */; };
-		45FF284913CD6920006D9574 /* CoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FF284813CD6920006D9574 /* CoreTextViewController.m */; };
+		45FF284913CD6920006D9574 /* CFreeformCoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FF284813CD6920006D9574 /* CFreeformCoreTextViewController.m */; };
 		45FF285113CD6920006D9574 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF285013CD6920006D9574 /* SenTestingKit.framework */; };
 		45FF285213CD6920006D9574 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283213CD6920006D9574 /* UIKit.framework */; };
 		45FF285313CD6920006D9574 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283413CD6920006D9574 /* Foundation.framework */; };
@@ -44,11 +48,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4528EA5F145386F500814B3E /* NSAttributedString_DebugExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NSAttributedString_DebugExtensions.h; sourceTree = "<group>"; };
+		4528EA5F145386F500814B3E /* NSAttributedString_DebugExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAttributedString_DebugExtensions.h; sourceTree = "<group>"; };
 		4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedString_DebugExtensions.m; sourceTree = "<group>"; };
+		4528EAB71454816F00814B3E /* CExampleCoreTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CExampleCoreTextViewController.h; sourceTree = "<group>"; };
+		4528EAB81454816F00814B3E /* CExampleCoreTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CExampleCoreTextViewController.m; sourceTree = "<group>"; };
 		453E8B7D1453255000C8A559 /* MissingImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MissingImage.png; sourceTree = "<group>"; };
 		453E8B83145334F500C8A559 /* CCoreTextRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextRenderer.h; sourceTree = "<group>"; };
 		453E8B84145334F500C8A559 /* CCoreTextRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextRenderer.m; sourceTree = "<group>"; };
+		455C9FCD14548BDC0098B70F /* reply-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply-badge.png"; sourceTree = "<group>"; };
+		455C9FD114548E8E0098B70F /* Craig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Craig.png; sourceTree = "<group>"; };
+		455C9FD314548EA50098B70F /* CResizableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CResizableView.h; sourceTree = "<group>"; };
+		455C9FD414548EA50098B70F /* CResizableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CResizableView.m; sourceTree = "<group>"; };
 		45DEC476142BBEDB009FBCC6 /* CCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel.h; sourceTree = "<group>"; };
 		45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel.m; sourceTree = "<group>"; };
 		45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMarkupValueTransformer.h; sourceTree = "<group>"; };
@@ -70,8 +80,8 @@
 		45FF284113CD6920006D9574 /* CoreTextAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreTextAppDelegate.h; sourceTree = "<group>"; };
 		45FF284213CD6920006D9574 /* CoreTextAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreTextAppDelegate.m; sourceTree = "<group>"; };
 		45FF284513CD6920006D9574 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		45FF284713CD6920006D9574 /* CoreTextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreTextViewController.h; sourceTree = "<group>"; };
-		45FF284813CD6920006D9574 /* CoreTextViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreTextViewController.m; sourceTree = "<group>"; };
+		45FF284713CD6920006D9574 /* CFreeformCoreTextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CFreeformCoreTextViewController.h; sourceTree = "<group>"; };
+		45FF284813CD6920006D9574 /* CFreeformCoreTextViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CFreeformCoreTextViewController.m; sourceTree = "<group>"; };
 		45FF284F13CD6920006D9574 /* CoreTextTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreTextTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45FF285013CD6920006D9574 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		45FF285913CD6920006D9574 /* CoreTextTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreTextTests-Info.plist"; sourceTree = "<group>"; };
@@ -166,10 +176,16 @@
 				45FF284113CD6920006D9574 /* CoreTextAppDelegate.h */,
 				45FF284213CD6920006D9574 /* CoreTextAppDelegate.m */,
 				45FF284413CD6920006D9574 /* MainStoryboard.storyboard */,
-				45FF284713CD6920006D9574 /* CoreTextViewController.h */,
-				45FF284813CD6920006D9574 /* CoreTextViewController.m */,
+				45FF284713CD6920006D9574 /* CFreeformCoreTextViewController.h */,
+				45FF284813CD6920006D9574 /* CFreeformCoreTextViewController.m */,
+				4528EAB71454816F00814B3E /* CExampleCoreTextViewController.h */,
+				4528EAB81454816F00814B3E /* CExampleCoreTextViewController.m */,
 				4528EA5F145386F500814B3E /* NSAttributedString_DebugExtensions.h */,
 				4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */,
+				455C9FD314548EA50098B70F /* CResizableView.h */,
+				455C9FD414548EA50098B70F /* CResizableView.m */,
+				455C9FCD14548BDC0098B70F /* reply-badge.png */,
+				455C9FD114548E8E0098B70F /* Craig.png */,
 				45FF283913CD6920006D9574 /* Supporting Files */,
 			);
 			path = CoreText;
@@ -279,6 +295,8 @@
 				45FF283D13CD6920006D9574 /* InfoPlist.strings in Resources */,
 				45FF284613CD6920006D9574 /* MainStoryboard.storyboard in Resources */,
 				453E8B7E1453255000C8A559 /* MissingImage.png in Resources */,
+				455C9FCE14548BDC0098B70F /* reply-badge.png in Resources */,
+				455C9FD214548E8E0098B70F /* Craig.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,7 +334,7 @@
 			files = (
 				45FF283F13CD6920006D9574 /* main.m in Sources */,
 				45FF284313CD6920006D9574 /* CoreTextAppDelegate.m in Sources */,
-				45FF284913CD6920006D9574 /* CoreTextViewController.m in Sources */,
+				45FF284913CD6920006D9574 /* CFreeformCoreTextViewController.m in Sources */,
 				45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */,
 				45DEC481142BBEDB009FBCC6 /* CMarkupValueTransformer.m in Sources */,
 				45DEC482142BBEDB009FBCC6 /* CSimpleHTMLParser.m in Sources */,
@@ -324,6 +342,8 @@
 				45DEC484142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m in Sources */,
 				453E8B85145334F500C8A559 /* CCoreTextRenderer.m in Sources */,
 				4528EA61145386F500814B3E /* NSAttributedString_DebugExtensions.m in Sources */,
+				4528EAB91454816F00814B3E /* CExampleCoreTextViewController.m in Sources */,
+				455C9FD514548EA50098B70F /* CResizableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

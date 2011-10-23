@@ -33,7 +33,7 @@
 
 @class CCoreTextLabel;
 
-@interface CoreTextViewController : UIViewController
+@interface CFreeformCoreTextViewController : UIViewController
 
 @property (readwrite, nonatomic, retain) IBOutlet UITextView *editView;
 @property (readwrite, nonatomic, retain) IBOutlet UITextView *attributedView;

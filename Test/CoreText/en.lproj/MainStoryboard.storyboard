@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1934" systemVersion="11C73" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1934" systemVersion="11C73" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="93x-WQ-fvS">
     <dependencies>
         <development defaultVersion="4200" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="931"/>
@@ -8,9 +8,9 @@
         <scene sceneID="4">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3" sceneMemberID="firstResponder"/>
-                <viewController id="2" customClass="CoreTextViewController" sceneMemberID="viewController">
+                <viewController id="2" customClass="CFreeformCoreTextViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5">
-                        <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="911"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="6" customClass="CCoreTextLabel">
@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="180"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <mutableString key="text">&lt;b>hello &lt;i>world&lt;/i>&lt;/b>&lt;br>
+                                <string key="text">&lt;b>hello &lt;i>world&lt;/i>&lt;/b>&lt;br>
 A lot of entites are supported. &amp;amp; &amp;lt; &amp;gt;&lt;br>
 White space mostly follows normal HTML rules. (But a bit buggy?)&lt;br>
 &lt;purple>Custom tags can be used for simple styling&lt;/purple>&lt;br>
@@ -32,7 +32,7 @@ White space mostly follows normal HTML rules. (But a bit buggy?)&lt;br>
 Links will work too:&lt;br>
 &lt;a href="http://apple.com">Apple&lt;/a>&lt;br>
 &lt;a href="http://google.com">Google&lt;/a>&lt;br>
-</mutableString>
+</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
@@ -49,6 +49,7 @@ Links will work too:&lt;br>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Freeform" id="OsL-xV-lIA"/>
                     <connections>
                         <outlet property="attributedView" destination="fH4-cd-KeY" id="tAc-St-tCZ"/>
                         <outlet property="editView" destination="7" id="9"/>
@@ -56,19 +57,117 @@ Links will work too:&lt;br>
                     </connections>
                 </viewController>
             </objects>
+            <point key="canvasLocation" x="-2758" y="-2140"/>
+        </scene>
+        <scene sceneID="JSW-7g-sGO">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QWO-vw-DPg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="dcq-s2-iTd" customClass="CExampleCoreTextViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tdV-w0-UKv">
+                        <rect key="frame" x="0.0" y="64" width="768" height="911"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="QZU-o6-6vw" customClass="CResizableView">
+                                <rect key="frame" x="136" y="203" width="437" height="104"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="ZCd-jT-zLQ" customClass="CCoreTextLabel">
+                                        <rect key="frame" x="97" y="20" width="320" height="64"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" red="0.3803921938" green="0.1960784495" blue="0.078431375319999996" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Craig.png" id="w9K-BD-TXk">
+                                        <rect key="frame" x="20" y="20" width="64" height="64"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.38039219379425049" green="0.19607844948768616" blue="0.078431375324726105" alpha="1" colorSpace="deviceRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Examples" id="5sF-az-a9T"/>
+                    <connections>
+                        <outlet property="label1" destination="ZCd-jT-zLQ" id="9bs-wm-iIY"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="-2916" y="-450"/>
+        </scene>
+        <scene sceneID="wJg-MB-Ot2">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jpN-qG-X8t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="2Gd-DV-JE4" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="jte-mo-Sbg"/>
+                    <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="cmN-SQ-ho1">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="dcq-s2-iTd" kind="relationship" relationship="rootViewController" id="PE9-zX-9Ii"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="-3892" y="-450"/>
+        </scene>
+        <scene sceneID="1Pt-wG-E0r">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O70-UZ-Igw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tabBarController id="93x-WQ-fvS" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="uMb-XZ-xVh">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="Ofj-Wn-ofh" kind="relationship" relationship="viewControllers" id="qgE-X3-Hpj"/>
+                        <segue destination="2Gd-DV-JE4" kind="relationship" relationship="viewControllers" id="kuL-yG-Sa5"/>
+                    </connections>
+                </tabBarController>
+            </objects>
+            <point key="canvasLocation" x="-5698" y="-1228"/>
+        </scene>
+        <scene sceneID="Rqd-2K-gkp">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jrc-1R-kAP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="Ofj-Wn-ofh" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="2Jo-eJ-XnP"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="oz2-QR-3jE">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2" kind="relationship" relationship="rootViewController" id="qGP-db-oNk"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="-3972" y="-2076"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Craig.png" width="64" height="64"/>
+    </resources>
     <classes>
         <class className="CCoreTextLabel" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CCoreTextLabel.h"/>
         </class>
-        <class className="CoreTextViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CoreTextViewController.h"/>
+        <class className="CExampleCoreTextViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CExampleCoreTextViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="label1" candidateClass="CCoreTextLabel"/>
+            </relationships>
+        </class>
+        <class className="CFreeformCoreTextViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CFreeformCoreTextViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="attributedView" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="editView" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="previewView" candidateClass="CCoreTextLabel"/>
             </relationships>
+        </class>
+        <class className="CResizableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CResizableView.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
