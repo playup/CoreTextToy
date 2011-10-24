@@ -37,7 +37,6 @@ extern NSString *const kMarkupLinkAttributeName;
 @interface CMarkupValueTransformer : NSValueTransformer
 
 @property (readwrite, nonatomic, strong) UIFont *standardFont;
-@property (readwrite, nonatomic, strong) UIColor *defaultTextColor;
 
 - (id)transformedValue:(id)value error:(NSError **)outError;
 

@@ -14,13 +14,11 @@
 
 @property (readonly, nonatomic, strong) NSAttributedString *text;
 @property (readonly, nonatomic, assign) CGSize size;
-@property (readonly, nonatomic, assign) UITextAlignment textAlignment; // default is UITextAlignmentLeft
-@property (readonly, nonatomic, assign) UILineBreakMode lineBreakMode; // default is UILineBreakModeTailTruncation. used for single and multiple lines of text
 
 
 + (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size;
 
-- (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize textAlignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
+- (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize;
 
 - (void)addPrerendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
 - (void)addPostRendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;

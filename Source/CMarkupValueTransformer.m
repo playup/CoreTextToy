@@ -52,7 +52,6 @@ NSString *const kMarkupLinkAttributeName = @"link";
 @implementation CMarkupValueTransformer
 
 @synthesize standardFont;
-@synthesize defaultTextColor;
 @synthesize attributesForTagSets;
 
 + (Class)transformedValueClass
@@ -163,18 +162,6 @@ NSString *const kMarkupLinkAttributeName = @"link";
 - (void)resetStyles
     {
     self.attributesForTagSets = [NSMutableArray array];
-
-    NSDictionary *theAttributes = NULL;
-
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)self.standardFont.CTFont, (__bridge NSString *)kCTFontAttributeName,
-        NULL];
-    [attributesForTagSets addObject:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            theAttributes, @"attributes",
-            [NSSet set], @"tags",
-            NULL]
-        ];
     }
 
 - (void)addStandardStyles
@@ -261,11 +248,6 @@ NSString *const kMarkupLinkAttributeName = @"link";
     {
     NSSet *theTagSet = [NSSet setWithArray:inTagStack];
     NSMutableDictionary *theAttributes = [NSMutableDictionary dictionary];
-    
-    if (self.defaultTextColor)
-        {
-        [theAttributes setObject:(__bridge id)self.defaultTextColor.CGColor forKey:(__bridge NSString *)kCTForegroundColorAttributeName];
-        }
     
     for (NSDictionary *theDictionary in self.attributesForTagSets)
         {

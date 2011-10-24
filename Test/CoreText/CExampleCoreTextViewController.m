@@ -23,7 +23,6 @@
 - (void)viewDidLoad
     {
     [super viewDidLoad];
-    
 
     NSError *theError = NULL;
     CMarkupValueTransformer *theTransformer = [[CMarkupValueTransformer alloc] init];
@@ -34,7 +33,6 @@
         (__bridge id)[theTransformer.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
         NULL];
     [theTransformer addStyleAttributes:theAttributes forTagSet:[NSSet setWithObject:@"username"]];
-    theTransformer.defaultTextColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
     
     NSString *theMarkup = NULL;
     id theAttributedString = NULL;
@@ -46,6 +44,7 @@
 
     self.label1.lineBreakMode = UILineBreakModeTailTruncation;
     self.label1.text = theAttributedString;
+    self.label1.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
 
     // ### 2nd line...
 
@@ -54,15 +53,7 @@
 
     self.label2.lineBreakMode = UILineBreakModeWordWrap;
     self.label2.text = theAttributedString;
-
-
-
-
-
-
-
-
-
+    self.label2.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
     }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
