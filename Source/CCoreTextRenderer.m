@@ -27,7 +27,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 @property (readwrite, nonatomic, retain) NSMutableDictionary *prerenderersForAttributes;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *postRenderersForAttributes;
 
-- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler;
+- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler;
 @end
 
 @implementation CCoreTextRenderer
@@ -170,7 +170,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     return(theSize);
     }
 
-- (void)draw
+- (void)drawInContext:(CGContextRef)inContext
     {
     if (self.normalizedText.length == 0)
         {
@@ -178,8 +178,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
         }
     
     // ### Get and set up the context...
-    CGContextRef theContext = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(theContext);
+    CGContextSaveGState(inContext);
 
     #if CORE_TEXT_SHOW_RUNS == 1
         {
@@ -187,16 +186,16 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
         CGRect theFrame = { .size = theSize };
         
-        CGContextSaveGState(theContext);
-        CGContextSetStrokeColorWithColor(theContext, [[UIColor greenColor] colorWithAlphaComponent:0.5].CGColor);
-        CGContextSetLineWidth(theContext, 0.5);
-        CGContextStrokeRect(theContext, theFrame);
-        CGContextRestoreGState(theContext);
+        CGContextSaveGState(inContext);
+        CGContextSetStrokeColorWithColor(inContext, [[UIColor greenColor] colorWithAlphaComponent:0.5].CGColor);
+        CGContextSetLineWidth(inContext, 0.5);
+        CGContextStrokeRect(inContext, theFrame);
+        CGContextRestoreGState(inContext);
         }
     #endif /* CORE_TEXT_SHOW_RUNS == 1 */
 
-    CGContextScaleCTM(theContext, 1.0, -1.0);
-    CGContextTranslateCTM(theContext, 0, -self.size.height);
+    CGContextScaleCTM(inContext, 1.0, -1.0);
+    CGContextTranslateCTM(inContext, 0, -self.size.height);
 
     // ### Create a frame...
     UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
@@ -209,65 +208,65 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
     #if CORE_TEXT_SHOW_RUNS == 1
         {
-        CGContextSaveGState(theContext);
-        CGContextSetStrokeColorWithColor(theContext, [[UIColor redColor] colorWithAlphaComponent:0.5].CGColor);
-        CGContextSetLineWidth(theContext, 0.5);
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+        CGContextSaveGState(inContext);
+        CGContextSetStrokeColorWithColor(inContext, [[UIColor redColor] colorWithAlphaComponent:0.5].CGColor);
+        CGContextSetLineWidth(inContext, 0.5);
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
             CGRect theStrokeRect = inRect;
-            CGContextStrokeRect(theContext, theStrokeRect);
+            CGContextStrokeRect(inContext, theStrokeRect);
             }];
-        CGContextRestoreGState(theContext);
+        CGContextRestoreGState(inContext);
         }        
     #endif /* CORE_TEXT_SHOW_RUNS == 1 */
 
     // ### If we have any pre-render blocks we enumerate over the runs and fire the blocks if the attributes match...
     if (self.prerenderersForAttributes.count > 0)
         {
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
             [self.prerenderersForAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 if ([theAttributes objectForKey:key])
                     {
                     void (^theBlock)(CGContextRef, CTRunRef, CGRect) = obj;
-                    theBlock(theContext, inRun, inRect);
+                    theBlock(inContext, inRun, inRect);
                     }
                 }];
             }];
         }
 
     // ### Reset the text position (important!)
-    CGContextSetTextPosition(theContext, 0, 0);
+    CGContextSetTextPosition(inContext, 0, 0);
 
     // ### Render the text...
-    CTFrameDraw(theFrame, theContext);
+    CTFrameDraw(theFrame, inContext);
 
     // ### Reset the text position (important!)
-    CGContextSetTextPosition(theContext, 0, 0);
+    CGContextSetTextPosition(inContext, 0, 0);
 
     // ### If we have any pre-render blocks we enumerate over the runs and fire the blocks if the attributes match...
     if (self.postRenderersForAttributes.count > 0)
         {
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
             [self.postRenderersForAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 if ([theAttributes objectForKey:key])
                     {
                     void (^theBlock)(CGContextRef, CTRunRef, CGRect) = obj;
-                    theBlock(theContext, inRun, inRect);
+                    theBlock(inContext, inRun, inRect);
                     }
                 }];
             }];
         }
 
     // ### Iterate through each line...
-    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
         NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
         // ### If we have an image we draw it...
         UIImage *theImage = [theAttributes objectForKey:kMarkupImageAttributeName];
         if (theImage != NULL)
             {
             // We use CGContextDrawImage because it understands the CTM
-            CGContextDrawImage(theContext, inRect, theImage.CGImage);
+            CGContextDrawImage(inContext, inRect, theImage.CGImage);
             }
         }];
 
@@ -275,14 +274,11 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
     CFRelease(theFrame);
 
-    CGContextRestoreGState(theContext);
+    CGContextRestoreGState(inContext);
     }
 
-- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler
+- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler
     {
-    CGContextRef theContext = UIGraphicsGetCurrentContext();
-
-
     // ### Iterate through each line...
     NSUInteger idx = 0;
     for (id obj in (__bridge NSArray *)inLines)
@@ -309,7 +305,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
             if (inHandler)
                 {
-                inHandler(theContext, theRun, theRunRect);
+                inHandler(inContext, theRun, theRunRect);
                 }
 
             theXPosition += theWidth;

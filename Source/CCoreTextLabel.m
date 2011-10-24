@@ -173,7 +173,7 @@
     CGContextSaveGState(theContext);
     CGContextTranslateCTM(theContext, theBounds.origin.x, theBounds.origin.y);
     
-    [self.renderer draw];
+    [self.renderer drawInContext:theContext];
 
     CGContextRestoreGState(theContext);    
     }

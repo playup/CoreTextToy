@@ -26,7 +26,8 @@
 - (void)addPostRendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
 
 - (CGSize)sizeThatFits:(CGSize)inSize;
-- (void)draw;
+- (void)drawInContext:(CGContextRef)inContext;
+
 - (NSDictionary *)attributesAtPoint:(CGPoint)inPoint;
 
 @end
