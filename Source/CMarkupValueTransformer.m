@@ -102,7 +102,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
         if ([inTag isEqualToString:@"a"] == YES)
             {
             NSString *theURLString = [inAttributes objectForKey:@"href"];
-            if (theURLString.length > 0)
+            if ((id)theURLString != [NSNull null] && theURLString.length > 0)
                 {
                 theCurrentLink = [NSURL URLWithString:theURLString];
                 }
