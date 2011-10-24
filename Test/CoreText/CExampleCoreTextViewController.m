@@ -43,28 +43,16 @@
 
     theMarkup = @"<b>Craig Hockenberry</b> <img src=\"reply-badge.png\"> <small>to you</small>";
     theAttributedString = [theTransformer transformedValue:theMarkup error:&theError];
-    NSLog(@"%@", [theAttributedString betterDescription]);
 
-    // We make a copy of the string, and tell it to use truncating tail line break mode...
-    theAttributedString = [theAttributedString mutableCopy];
-    CTLineBreakMode theLineBreakMode = kCTLineBreakByTruncatingTail;
-    CTParagraphStyleSetting theSetting = { 
-        .spec = kCTParagraphStyleSpecifierLineBreakMode,
-        .valueSize = sizeof(theLineBreakMode),
-        .value = &theLineBreakMode,
-        };
-    CTParagraphStyleRef theParagraphStyle = CTParagraphStyleCreate( &theSetting, 1 );
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
-        NULL];
-    [theAttributedString addAttributes:theAttributes range:(NSRange){ .length = [theAttributedString length] }];
-
+    self.label1.lineBreakMode = UILineBreakModeTailTruncation;
     self.label1.text = theAttributedString;
 
     // ### 2nd line...
 
     theMarkup = @"<username>@schwa</username> RUBBERS";
     theAttributedString = [theTransformer transformedValue:theMarkup error:&theError];
+
+    self.label2.lineBreakMode = UILineBreakModeWordWrap;
     self.label2.text = theAttributedString;
 
 

@@ -36,6 +36,9 @@
 @property (readwrite, nonatomic, strong) NSAttributedString *text;
 @property (readwrite, nonatomic, assign) UIEdgeInsets insets; // TODO Current not working with vertical flip.
 
+@property (readwrite, nonatomic, assign) UITextAlignment textAlignment; // default is UITextAlignmentLeft
+@property (readwrite, nonatomic, assign) UILineBreakMode lineBreakMode; // default is UILineBreakModeTailTruncation. used for single and multiple lines of text
+
 @property (readwrite, nonatomic, copy) void (^URLHandler)(NSURL *);
 
 + (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size;

@@ -34,6 +34,8 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
 @synthesize text;
 @synthesize size;
+@synthesize textAlignment;
+@synthesize lineBreakMode;
 @synthesize prerenderersForAttributes;
 @synthesize postRenderersForAttributes;
 
@@ -49,12 +51,14 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     return(theSize);
     }
 
-- (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize
+- (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize textAlignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
     {
     if ((self = [super init]) != NULL)
         {
         text = inText;
         size = inSize;
+        textAlignment = inTextAlignment;
+        lineBreakMode = inLineBreakMode;
         }
     return self;
     }
@@ -105,6 +109,35 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
                 CFRelease(theImageDelegate);
                 }
             }];
+        
+        // We make a copy of the string, and tell it to use truncating tail line break mode...
+
+        CTTextAlignment theTextAlignment;
+        switch (self.textAlignment)
+            {
+            case UITextAlignmentLeft:
+                theTextAlignment = kCTLeftTextAlignment;
+                break;
+            case UITextAlignmentCenter:
+                theTextAlignment = kCTCenterTextAlignment;
+                break;
+            case UITextAlignmentRight:
+                theTextAlignment = kCTRightTextAlignment;
+                break;
+            }
+        
+        // UILineBreakMode maps 1:1 to CTLineBreakMode
+        CTLineBreakMode theLineBreakMode = self.lineBreakMode;
+
+        CTParagraphStyleSetting theSettings[] = {
+            { .spec = kCTParagraphStyleSpecifierAlignment, .valueSize = sizeof(theTextAlignment), .value = &theTextAlignment, },
+            { .spec = kCTParagraphStyleSpecifierLineBreakMode, .valueSize = sizeof(theLineBreakMode), .value = &theLineBreakMode, },
+            };
+        CTParagraphStyleRef theParagraphStyle = CTParagraphStyleCreate( theSettings, 2 );
+        NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+            (__bridge id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
+            NULL];
+        [theString addAttributes:theAttributes range:(NSRange){ .length = [theString length] }];
         
         normalizedText = [theString copy];
         }

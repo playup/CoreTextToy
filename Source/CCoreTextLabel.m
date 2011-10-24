@@ -45,8 +45,11 @@
 
 @implementation CCoreTextLabel
 
+@synthesize text;
 @synthesize insets;
 @synthesize URLHandler;
+@synthesize textAlignment;
+@synthesize lineBreakMode;
 
 @synthesize renderer;
 
@@ -61,6 +64,9 @@
         {
         self.contentMode = UIViewContentModeRedraw;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
+
+        textAlignment = UITextAlignmentLeft;
+        lineBreakMode = UILineBreakModeTailTruncation;
         }
     return(self);
     }
@@ -71,51 +77,89 @@
         {
         self.contentMode = UIViewContentModeRedraw;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
+
+        textAlignment = UITextAlignmentLeft;
+        lineBreakMode = UILineBreakModeTailTruncation;
         }
     return(self);
     }
 
-- (NSAttributedString *)text
-    {
-    return(self.renderer.text);
-    }
+#pragma mark -
 
-- (void)setText:(NSAttributedString *)inText
-    {
-    #warning TODO this and setBounds: are really hacky... Should store text in property and have a lazy/caching renderer
-    self.renderer = [[CCoreTextRenderer alloc] initWithText:inText size:self.bounds.size];
-
-    #warning TODO make constants for backgroundColor and strikeColor
-    [self.renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
-        NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-        CGColorRef theColor = (__bridge CGColorRef)[theAttributes objectForKey:@"backgroundColor"];
-        CGContextSetFillColorWithColor(inContext, theColor);
-        CGContextFillRect(inContext, inRect);
-        } forAttributeKey:@"backgroundColor"];
-
-    [self.renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
-        NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-        CGColorRef theColor = (__bridge CGColorRef)[theAttributes objectForKey:@"strikeColor"];
-        CGContextSetStrokeColorWithColor(inContext, theColor);
-        CGContextMoveToPoint(inContext, CGRectGetMinX(inRect), CGRectGetMidY(inRect));
-        CGContextAddLineToPoint(inContext, CGRectGetMaxX(inRect), CGRectGetMidY(inRect));
-        CGContextStrokePath(inContext);
-        } forAttributeKey:@"strikeColor"];
-
-    [self setNeedsDisplay];
-    }
-    
-- (CGSize)sizeThatFits:(CGSize)size
-    {
-    return([self.renderer sizeThatFits:size]);
-    }
-    
 - (void)setFrame:(CGRect)inFrame
     {
     [super setFrame:inFrame];
 
-    #warning TODO shouldn't do this. Should just set renderer to NULL.
-    self.text = self.renderer.text;
+    self.renderer = NULL;
+    [self setNeedsDisplay];
+    }
+
+#pragma mark -
+
+- (void)setTextAlignment:(UITextAlignment)inTextAlignment
+    {
+    if (textAlignment != inTextAlignment)
+        {
+        textAlignment = inTextAlignment;
+        
+        self.renderer = NULL;
+        [self setNeedsDisplay];
+        }
+    }
+    
+- (void)setLineBreakMode:(UILineBreakMode)inLineBreakMode
+    {
+    if (lineBreakMode != inLineBreakMode)
+        {
+        lineBreakMode = inLineBreakMode;
+        
+        self.renderer = NULL;
+        [self setNeedsDisplay];
+        }
+    }
+
+- (void)setText:(NSAttributedString *)inText
+    {
+    if (text != inText)
+        {
+        text = inText;
+        
+        self.renderer = NULL;
+        [self setNeedsDisplay];
+        }
+    }
+
+- (CCoreTextRenderer *)renderer
+    {
+    if (renderer == NULL)
+        {
+        renderer = [[CCoreTextRenderer alloc] initWithText:self.text size:self.bounds.size textAlignment:self.textAlignment lineBreakMode:self.lineBreakMode];
+
+        #warning TODO make constants for backgroundColor and strikeColor
+        [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+            NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            CGColorRef theColor = (__bridge CGColorRef)[theAttributes objectForKey:@"backgroundColor"];
+            CGContextSetFillColorWithColor(inContext, theColor);
+            CGContextFillRect(inContext, inRect);
+            } forAttributeKey:@"backgroundColor"];
+
+        [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+            NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            CGColorRef theColor = (__bridge CGColorRef)[theAttributes objectForKey:@"strikeColor"];
+            CGContextSetStrokeColorWithColor(inContext, theColor);
+            CGContextMoveToPoint(inContext, CGRectGetMinX(inRect), CGRectGetMidY(inRect));
+            CGContextAddLineToPoint(inContext, CGRectGetMaxX(inRect), CGRectGetMidY(inRect));
+            CGContextStrokePath(inContext);
+            } forAttributeKey:@"strikeColor"];
+        }
+    return(renderer);
+    }
+
+#pragma mark -
+
+- (CGSize)sizeThatFits:(CGSize)size
+    {
+    return([self.renderer sizeThatFits:size]);
     }
 
 - (void)drawRect:(CGRect)rect
