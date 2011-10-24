@@ -96,8 +96,6 @@ NSString *const kMarkupLinkAttributeName = @"link";
     CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
 
     theParser.openTagHandler = ^(NSString *inTag, NSDictionary *inAttributes, NSArray *tagStack) {
-//        printf("<>");
-
         if ([inTag isEqualToString:@"a"] == YES)
             {
             NSString *theURLString = [inAttributes objectForKey:@"href"];
@@ -130,17 +128,13 @@ NSString *const kMarkupLinkAttributeName = @"link";
         };
 
     theParser.closeTagHandler = ^(NSString *inTag, NSArray *tagStack) {
-//        printf("</>");
-
         if ([inTag isEqualToString:@"a"] == YES)
             {
             theCurrentLink = NULL;
             }
-
         };
 
     theParser.textHandler = ^(NSString *inString, NSArray *tagStack) {
-//        printf("\"%s\"", [inString UTF8String]);
         theTextAttributes = [[self attributesForTagStack:tagStack] mutableCopy];
 
         if (theCurrentLink != NULL)
@@ -228,8 +222,6 @@ NSString *const kMarkupLinkAttributeName = @"link";
             [NSSet setWithObjects:@"strike", NULL], @"tags",
             NULL]
         ];
-
-
     }
 
 - (void)addStyleAttributes:(NSDictionary *)inAttributes forTagSet:(NSSet *)inTagSet
