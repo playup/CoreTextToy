@@ -176,6 +176,16 @@
     [self.renderer drawInContext:theContext];
 
     CGContextRestoreGState(theContext);    
+
+// If you wanted to dump the rendered images to disk so you can make sure it is rendering correctly here's how you could do it...
+//    #if 1
+//    UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0.0);
+//    theContext = UIGraphicsGetCurrentContext();
+//    [self.renderer drawInContext:theContext];
+//    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    [UIImagePNGRepresentation(theImage) writeToFile:[NSString stringWithFormat:@"/Users/schwa/Desktop/%d.png", [theImage hash]] atomically:NO];
+//    #endif
     }
 
 - (void)tap:(UITapGestureRecognizer *)inGestureRecognizer
