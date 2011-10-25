@@ -45,6 +45,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTagSets;
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack;
+- (NSDictionary *)normalizeAttributes:(NSDictionary *)inAttributes;
 @end
 
 #pragma mark -
@@ -135,7 +136,9 @@ NSString *const kMarkupLinkAttributeName = @"link";
         };
 
     theParser.textHandler = ^(NSString *inString, NSArray *tagStack) {
-        theTextAttributes = [[self attributesForTagStack:tagStack] mutableCopy];
+        NSDictionary *theAttributes = [self attributesForTagStack:tagStack];
+        theAttributes = [self normalizeAttributes:theAttributes];
+        theTextAttributes = [theAttributes mutableCopy];
 
         if (theCurrentLink != NULL)
             {
@@ -163,7 +166,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
     NSDictionary *theAttributes = NULL;
 
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)[self.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+        [NSNumber numberWithBool:YES], @"BOLD",
         NULL];
     [attributesForTagSets addObject:
         [NSDictionary dictionaryWithObjectsAndKeys:
@@ -173,22 +176,12 @@ NSString *const kMarkupLinkAttributeName = @"link";
         ];
 
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)[self.standardFont italicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+        [NSNumber numberWithBool:YES], @"ITALIC",
         NULL];
     [attributesForTagSets addObject:
         [NSDictionary dictionaryWithObjectsAndKeys:
             theAttributes, @"attributes",
             [NSSet setWithObjects:@"i", NULL], @"tags",
-            NULL]
-        ];
-
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)[self.standardFont boldItalicFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
-        NULL];
-    [attributesForTagSets addObject:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            theAttributes, @"attributes",
-            [NSSet setWithObjects:@"b", @"i", NULL], @"tags",
             NULL]
         ];
 
@@ -251,6 +244,39 @@ NSString *const kMarkupLinkAttributeName = @"link";
             }
         }
 
+    return(theAttributes);
+    }
+
+- (NSDictionary *)normalizeAttributes:(NSDictionary *)inAttributes
+    {
+    NSMutableDictionary *theAttributes = [inAttributes mutableCopy];
+    
+    // NORMALIZE ATTRIBUTES
+    BOOL theBoldFlag = [[theAttributes objectForKey:@"BOLD"] boolValue];
+    if ([theAttributes objectForKey:@"BOLD"] != NULL)
+        {
+        [theAttributes removeObjectForKey:@"BOLD"];
+        }
+
+    BOOL theItalicFlag = [[theAttributes objectForKey:@"ITALIC"] boolValue];
+    if ([theAttributes objectForKey:@"ITALIC"] != NULL)
+        {
+        [theAttributes removeObjectForKey:@"ITALIC"];
+        }
+    
+    if (theBoldFlag == YES && theItalicFlag == YES)
+        {
+        [theAttributes setObject:(__bridge id)self.standardFont.boldItalicFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+        }
+    else if (theBoldFlag == YES)
+        {
+        [theAttributes setObject:(__bridge id)self.standardFont.boldFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+        }
+    else if (theItalicFlag == YES)
+        {
+        [theAttributes setObject:(__bridge id)self.standardFont.italicFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+        }
+        
     return(theAttributes);
     }
 
