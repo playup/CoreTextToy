@@ -189,13 +189,13 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     // ### If we have any pre-render blocks we enumerate over the runs and fire the blocks if the attributes match...
     if (self.prerenderersForAttributes.count > 0)
         {
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
             [self.prerenderersForAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 if ([theAttributes objectForKey:key])
                     {
                     void (^theBlock)(CGContextRef, CTRunRef, CGRect) = obj;
-                    theBlock(inContext, inRun, inRect);
+                    theBlock(inContext2, inRun, inRect);
                     }
                 }];
             }];
@@ -213,27 +213,27 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     // ### If we have any pre-render blocks we enumerate over the runs and fire the blocks if the attributes match...
     if (self.postRenderersForAttributes.count > 0)
         {
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
             [self.postRenderersForAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 if ([theAttributes objectForKey:key])
                     {
                     void (^theBlock)(CGContextRef, CTRunRef, CGRect) = obj;
-                    theBlock(inContext, inRun, inRect);
+                    theBlock(inContext2, inRun, inRect);
                     }
                 }];
             }];
         }
 
     // ### Iterate through each line...
-    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
         NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
         // ### If we have an image we draw it...
         UIImage *theImage = [theAttributes objectForKey:kMarkupImageAttributeName];
         if (theImage != NULL)
             {
             // We use CGContextDrawImage because it understands the CTM
-            CGContextDrawImage(inContext, inRect, theImage.CGImage);
+            CGContextDrawImage(inContext2, inRect, theImage.CGImage);
             }
         }];
 
@@ -264,10 +264,10 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
             
             // ### Get the ascent, descent, leading, width and produce a rect for the run...
             CGFloat theAscent, theDescent, theLeading;
-            CGFloat theWidth = CTRunGetTypographicBounds(theRun, (CFRange){}, &theAscent, &theDescent, &theLeading);
+            double theWidth = CTRunGetTypographicBounds(theRun, (CFRange){}, &theAscent, &theDescent, &theLeading);
             CGRect theRunRect = {
                 .origin = { theLineOrigin.x + theXPosition, theLineOrigin.y },
-                .size = { theWidth, theAscent + theDescent },
+                .size = { (CGFloat)theWidth, theAscent + theDescent },
                 };
 
             if (inHandler)

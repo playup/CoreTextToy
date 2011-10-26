@@ -184,16 +184,16 @@
 
         #warning TODO make constants for backgroundColor and strikeColor
         [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
-            NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-            CGColorRef theColor = (__bridge CGColorRef)[theAttributes objectForKey:@"backgroundColor"];
-            CGContextSetFillColorWithColor(inContext, theColor);
+            NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:@"backgroundColor"];
+            CGContextSetFillColorWithColor(inContext, theColor2);
             CGContextFillRect(inContext, inRect);
             } forAttributeKey:@"backgroundColor"];
 
         [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
-            NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-            CGColorRef theColor = (__bridge CGColorRef)[theAttributes objectForKey:@"strikeColor"];
-            CGContextSetStrokeColorWithColor(inContext, theColor);
+            NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:@"strikeColor"];
+            CGContextSetStrokeColorWithColor(inContext, theColor2);
             CGContextMoveToPoint(inContext, CGRectGetMinX(inRect), CGRectGetMidY(inRect));
             CGContextAddLineToPoint(inContext, CGRectGetMaxX(inRect), CGRectGetMidY(inRect));
             CGContextStrokePath(inContext);
