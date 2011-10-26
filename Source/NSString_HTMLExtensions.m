@@ -71,10 +71,9 @@
     NSString *theString = [self stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
     theString = [theString stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
     theString = [theString stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
-    theString = [self stringByLinkifyingString];
+    theString = [theString stringByLinkifyingString];
     theString = [theString stringByReplacingOccurrencesOfString:@"\n" withString:@"<br>"];
     return(theString);
     }
-
 
 @end
