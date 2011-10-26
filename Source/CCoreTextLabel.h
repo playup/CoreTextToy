@@ -34,7 +34,7 @@
 @interface CCoreTextLabel : UIView
 
 @property (readwrite, nonatomic, strong) NSAttributedString *text;
-@property (readwrite, nonatomic, assign) UIEdgeInsets insets; // TODO Current not working with vertical flip.
+@property (readwrite, nonatomic, assign) UIEdgeInsets insets;
 
 @property (readwrite, nonatomic, retain) UIFont *font;            // default is nil (system font 17 plain)
 @property (readwrite, nonatomic, retain) UIColor *textColor;       // default is nil (text draws black)
