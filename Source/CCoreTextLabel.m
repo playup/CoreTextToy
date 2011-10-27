@@ -132,6 +132,15 @@
         }
     }
 
+- (void)setInsets:(UIEdgeInsets)inInsets
+    {
+    
+    insets = inInsets;
+
+        self.renderer = NULL;
+        [self setNeedsDisplay];
+    }
+
 - (CCoreTextRenderer *)renderer
     {
     if (renderer == NULL)
@@ -179,8 +188,12 @@
             (__bridge id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
             NULL];
         [theText addAttributes:theAttributes range:(NSRange){ .length = [theText length] }];
+
+            CGRect theBounds = self.bounds;
+            theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
+
         
-        renderer = [[CCoreTextRenderer alloc] initWithText:theText size:self.bounds.size];
+        renderer = [[CCoreTextRenderer alloc] initWithText:theText size:theBounds.size];
 
         #warning TODO make constants for backgroundColor and strikeColor
         [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
