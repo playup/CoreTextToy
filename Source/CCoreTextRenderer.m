@@ -133,7 +133,12 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
 - (CGSize)sizeThatFits:(CGSize)inSize
     {
-    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){ .length = self.normalizedText.length }, NULL, inSize, NULL);
+    CFRange theFitRange;
+    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){ }, NULL, inSize, &theFitRange);
+
+    theSize.width = MIN(theSize.width, inSize.width);
+    theSize.height = MIN(theSize.height, inSize.height);
+
     return(theSize);
     }
 
