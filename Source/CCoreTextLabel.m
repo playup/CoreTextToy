@@ -68,6 +68,8 @@
         self.contentMode = UIViewContentModeRedraw;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
 
+        font = [UIFont systemFontOfSize:17];
+        textColor = [UIColor blackColor];
         textAlignment = UITextAlignmentLeft;
         lineBreakMode = UILineBreakModeTailTruncation;
         }
@@ -81,6 +83,8 @@
         self.contentMode = UIViewContentModeRedraw;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
 
+        font = [UIFont systemFontOfSize:17];
+        textColor = [UIColor blackColor];
         textAlignment = UITextAlignmentLeft;
         lineBreakMode = UILineBreakModeTailTruncation;
         }
