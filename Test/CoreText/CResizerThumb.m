@@ -12,10 +12,8 @@
 
 @interface CResizerThumb()
 @property (readwrite, nonatomic, assign) CGSize thumbSize;
-@property (readwrite, nonatomic, assign) CGSize minimumSize;
 @property (readwrite, nonatomic, assign) CGSize originalSize;
 @property (readwrite, nonatomic, assign) CGPoint touchBeganLocation;
-
 @end
 
 #pragma mark -

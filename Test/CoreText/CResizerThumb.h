@@ -10,4 +10,6 @@
 
 @interface CResizerThumb : UIView
 
+@property (readwrite, nonatomic, assign) CGSize minimumSize;
+
 @end
