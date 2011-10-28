@@ -39,7 +39,7 @@
     
     // ### 1st line...
 
-    theMarkup = @"<b>Craig Hockenberry</b> <img src=\"reply-badge.png\"> <small>to you</small>";
+    theMarkup = @"<b>Craig Hockenberry</b> <img src=\"reply-badge.png\" baseline=\"-2\"> <small>to you</small>";
     theAttributedString = [theTransformer transformedValue:theMarkup error:&theError];
 
     self.label1.lineBreakMode = UILineBreakModeTailTruncation;
