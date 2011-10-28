@@ -63,6 +63,12 @@
     return(theFeatures);
     }
 
++ (UIFont *)fontWithCTFont:(CTFontRef)inCTFont
+    {
+    NSString *theFontName = (__bridge_transfer NSString *)CTFontCopyName(inCTFont, kCTFontFullNameKey);
+    UIFont *theFont = [UIFont fontWithName:theFontName size:CTFontGetSize(inCTFont)];
+    return(theFont);
+    }
 
 static void *kCTFontKey;
 

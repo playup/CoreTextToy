@@ -35,6 +35,8 @@
 
 @interface UIFont (UIFont_CoreTextExtensions)
 
++ (UIFont *)fontWithCTFont:(CTFontRef)inCTFont;
+
 - (CTFontRef)CTFont;
 
 - (UIFont *)boldFont;
