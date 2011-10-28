@@ -44,7 +44,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     {
     #warning TODO -- this doesn't support images or insets yet...
     CTFramesetterRef theFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)inString);
-    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){ .length = inString.length }, NULL, size, NULL);
+    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){}, NULL, size, NULL);
     CFRelease(theFramesetter);
     return(theSize);
     }
@@ -101,7 +101,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
                 NSValue *theSizeValue = [NSValue valueWithCGSize:theImage.size];
                 
                 CTRunDelegateRef theImageDelegate = CTRunDelegateCreate(&theCallbacks, (void *)(__bridge_retained CFTypeRef)theSizeValue);
-                CFAttributedStringSetAttribute((__bridge CFMutableAttributedStringRef)theMutableText, (CFRange) { .location = range.location, .length = range.length }, kCTRunDelegateAttributeName, theImageDelegate);
+                CFAttributedStringSetAttribute((__bridge CFMutableAttributedStringRef)theMutableText, (CFRange){ .location = range.location, .length = range.length }, kCTRunDelegateAttributeName, theImageDelegate);
                 CFRelease(theImageDelegate);
                 }
             }];
@@ -134,7 +134,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 - (CGSize)sizeThatFits:(CGSize)inSize
     {
     CFRange theFitRange;
-    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){ }, NULL, inSize, &theFitRange);
+    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){}, NULL, inSize, &theFitRange);
 
     theSize.width = MIN(theSize.width, inSize.width);
     theSize.height = MIN(theSize.height, inSize.height);
@@ -154,7 +154,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
     #if CORE_TEXT_SHOW_RUNS == 1
         {
-        CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){ .length = self.normalizedText.length }, NULL, self.size, NULL);
+        CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){}, NULL, self.size, NULL);
 
         CGRect theFrame = { .size = theSize };
         
@@ -171,7 +171,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
     // ### Create a frame...
     UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
-    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){ .length = [self.normalizedText length] }, thePath.CGPath, NULL);
+    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
 
     // ### Get the lines and the line origin points...
     NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
@@ -294,7 +294,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
     UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
 
-    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){ .length = [self.normalizedText length] }, thePath.CGPath, NULL);
+    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
 
     NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
 
