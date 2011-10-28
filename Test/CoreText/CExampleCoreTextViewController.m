@@ -35,7 +35,7 @@
         (__bridge id)[UIColor colorWithRed:0.761 green:0.486 blue:0.165 alpha:1.000].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
         [NSNumber numberWithInt:1], @"BOLD",
         NULL];
-    [theTransformer addStyleAttributes:theAttributes forTagSet:[NSSet setWithObject:@"username"]];
+    [theTransformer addStyleAttributes:theAttributes forTag:@"username"];
     
     NSString *theMarkup = NULL;
     id theAttributedString = NULL;

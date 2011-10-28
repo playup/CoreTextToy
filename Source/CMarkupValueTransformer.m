@@ -44,7 +44,7 @@ NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
 NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustment";
 
 @interface CMarkupValueTransformer ()
-@property (readwrite, nonatomic, strong) NSMutableArray *attributesForTagSets;
+@property (readwrite, nonatomic, strong) NSMutableArray *attributesForTags;
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack;
 + (NSDictionary *)normalizeAttributes:(NSDictionary *)inAttributes baseFont:(UIFont *)inBaseFont;
@@ -54,7 +54,7 @@ NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustm
 
 @implementation CMarkupValueTransformer
 
-@synthesize attributesForTagSets;
+@synthesize attributesForTags;
 
 + (Class)transformedValueClass
     {
@@ -70,7 +70,7 @@ NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustm
 	{
 	if ((self = [super init]) != NULL)
 		{
-        attributesForTagSets = [NSMutableArray array];
+        attributesForTags = [NSMutableArray array];
 
         [self resetStyles];
 
@@ -156,7 +156,7 @@ NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustm
 
 - (void)resetStyles
     {
-    self.attributesForTagSets = [NSMutableArray array];
+    self.attributesForTags = [NSMutableArray array];
     }
 
 - (void)addStandardStyles
@@ -167,46 +167,46 @@ NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustm
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithBool:YES], kMarkupBoldAttributeName,
         NULL];
-    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"b", NULL]];
+    [self addStyleAttributes:theAttributes forTag:@"b"];
 
     // ### i
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithBool:YES], kMarkupItalicAttributeName,
         NULL];
-    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"i", NULL]];
+    [self addStyleAttributes:theAttributes forTag:@"i"];
 
     // ### a
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
         [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
         NULL];
-    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"a", NULL]];
+    [self addStyleAttributes:theAttributes forTag:@"a"];
 
     // ### mark
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor yellowColor].CGColor, @"backgroundColor",
         NULL];
-    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"mark", NULL]];
+    [self addStyleAttributes:theAttributes forTag:@"mark"];
 
     // ### strike
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor blackColor].CGColor, @"strikeColor",
         NULL];
-    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"strike", NULL]];
+    [self addStyleAttributes:theAttributes forTag:@"strike"];
 
     // ### small
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithFloat:-4], kMarkupSizeAdjustmentAttributeName,
         NULL];
-    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"small", NULL]];
+    [self addStyleAttributes:theAttributes forTag:@"small"];
     }
 
-- (void)addStyleAttributes:(NSDictionary *)inAttributes forTagSet:(NSSet *)inTagSet
+- (void)addStyleAttributes:(NSDictionary *)inAttributes forTag:(NSString *)inTag
     {
-    [self.attributesForTagSets addObject:
+    [self.attributesForTags addObject:
         [NSDictionary dictionaryWithObjectsAndKeys:
             inAttributes, @"attributes",
-            inTagSet, @"tags",
+            inTag, @"tag",
             NULL]
         ];
     }
@@ -223,11 +223,11 @@ NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustm
     NSSet *theTagSet = [NSSet setWithArray:inTagStack];
     NSMutableDictionary *theAttributes = [NSMutableDictionary dictionary];
     
-    for (NSDictionary *theDictionary in self.attributesForTagSets)
+    for (NSDictionary *theDictionary in self.attributesForTags)
         {
-        NSSet *theTags = [theDictionary objectForKey:@"tags"];
+        NSString *theTag = [theDictionary objectForKey:@"tag"];
 
-        if (theTags.count == 0 || [theTags isSubsetOfSet:theTagSet])
+        if ([theTagSet containsObject:theTag])
             {
             [theAttributes addEntriesFromDictionary:[theDictionary objectForKey:@"attributes"]];
             }

@@ -44,8 +44,8 @@ extern NSString *const kMarkupSizeAdjustmentAttributeName;
 - (void)resetStyles;
 - (void)addStandardStyles;
 
-- (void)addStyleAttributes:(NSDictionary *)inAttributes forTagSet:(NSSet *)inTagSet;
-- (void)removeStyleAttributesForTagSet:(NSSet *)inTagSet;
+- (void)addStyleAttributes:(NSDictionary *)inAttributes forTag:(NSString *)inTag;
+- (void)removeStyleAttributesForTag:(NSString *)inTag;
 
 + (NSAttributedString *)normalizedAttributedStringForAttributedString:(NSAttributedString *)inAttributedString baseFont:(UIFont *)inBaseFont;
 
