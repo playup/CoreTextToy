@@ -237,7 +237,15 @@
 
 - (CGSize)sizeThatFits:(CGSize)size
     {
-    return([self.renderer sizeThatFits:size]);
+    CGSize theSize = size;
+    theSize.width -= self.insets.left + self.insets.right;
+    theSize.height -= self.insets.top + self.insets.bottom;
+    
+    theSize = [self.renderer sizeThatFits:theSize];
+    theSize.width += self.insets.left + self.insets.right;
+    theSize.height += self.insets.top + self.insets.bottom;
+    
+    return(theSize);
     }
 
 - (void)drawRect:(CGRect)rect
