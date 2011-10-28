@@ -160,6 +160,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
     {
     NSDictionary *theAttributes = NULL;
 
+    // ### b
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithBool:YES], @"BOLD",
         NULL];
@@ -170,6 +171,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
             NULL]
         ];
 
+    // ### i
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithBool:YES], @"ITALIC",
         NULL];
@@ -180,6 +182,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
             NULL]
         ];
 
+    // ### a
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
         [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
@@ -191,6 +194,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
             NULL]
         ];
 
+    // ### mark
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor yellowColor].CGColor, @"backgroundColor",
         NULL];
@@ -201,6 +205,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
             NULL]
         ];
 
+    // ### strike
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor blackColor].CGColor, @"strikeColor",
         NULL];
@@ -208,6 +213,17 @@ NSString *const kMarkupLinkAttributeName = @"link";
         [NSDictionary dictionaryWithObjectsAndKeys:
             theAttributes, @"attributes",
             [NSSet setWithObjects:@"strike", NULL], @"tags",
+            NULL]
+        ];
+
+    // ### small
+    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+        [NSNumber numberWithFloat:-4], @"SIZE",
+        NULL];
+    [attributesForTagSets addObject:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            theAttributes, @"attributes",
+            [NSSet setWithObjects:@"small", NULL], @"tags",
             NULL]
         ];
     }
@@ -246,6 +262,8 @@ NSString *const kMarkupLinkAttributeName = @"link";
     {
     NSMutableDictionary *theAttributes = [inAttributes mutableCopy];
     
+    UIFont *theFont = inBaseFont;
+    
     // NORMALIZE ATTRIBUTES
     BOOL theBoldFlag = [[theAttributes objectForKey:@"BOLD"] boolValue];
     if ([theAttributes objectForKey:@"BOLD"] != NULL)
@@ -261,27 +279,30 @@ NSString *const kMarkupLinkAttributeName = @"link";
     
     if (theBoldFlag == YES && theItalicFlag == YES)
         {
-        UIFont *theFont = inBaseFont.boldItalicFont;
-        if (theFont != NULL)
-            {
-            [theAttributes setObject:(__bridge id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
-            }
+        theFont = inBaseFont.boldItalicFont;
         }
     else if (theBoldFlag == YES)
         {
-        UIFont *theFont = inBaseFont.boldFont;
-        if (theFont != NULL)
-            {
-            [theAttributes setObject:(__bridge id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
-            }
+        theFont = inBaseFont.boldFont;
         }
     else if (theItalicFlag == YES)
         {
-        UIFont *theFont = inBaseFont.italicFont;
-        if (theFont != NULL)
-            {
-            [theAttributes setObject:(__bridge id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
-            }
+        theFont = inBaseFont.italicFont;
+        }
+        
+        
+    NSNumber *theSizeValue = [theAttributes objectForKey:@"SIZE"];
+    if (theSizeValue != NULL)
+        {
+        CGFloat theSize = [theSizeValue floatValue];
+        theFont = [theFont fontWithSize:theFont.pointSize + theSize];
+        
+        [theAttributes removeObjectForKey:@"SIZE"];
+        }
+
+    if (theFont != NULL)
+        {
+        [theAttributes setObject:(__bridge id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
         }
         
     return(theAttributes);
