@@ -345,7 +345,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:NULL handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
     
         CFRange theRunRange = CTRunGetStringRange(inRun);
-        if (theRunRange.location >= inRange.location && theRunRange.location <= inRange.location + inRange.length)
+        if (theRunRange.location >= (CFIndex)inRange.location && theRunRange.location <= (CFIndex)inRange.location + (CFIndex)inRange.length)
             {
             inRect.origin.y *= -1;
             inRect.origin.y += self.size.height -  inRect.size.height;
