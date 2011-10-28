@@ -25,7 +25,6 @@ static void *kMarkupValueTransformerKey;
         objc_setAssociatedObject(self, &kMarkupValueTransformerKey, theMarkupValueTransformer, OBJC_ASSOCIATION_RETAIN);
         }
     return(theMarkupValueTransformer);
-    
     }
     
 - (void)setMarkupValueTransformer:(CMarkupValueTransformer *)inMarkupValueTransformer
@@ -43,7 +42,6 @@ static void *kMarkupValueTransformerKey;
     {
     NSError *theError = NULL;
     NSAttributedString *theAttributedString = [self.markupValueTransformer transformedValue:inMarkup error:&theError];
-    NSLog(@"%@", theAttributedString);
     NSAssert1(theAttributedString != NULL, @"Could not transform HTML into attributed string: %@", theError);
     self.text = theAttributedString;
     }
