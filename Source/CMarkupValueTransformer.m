@@ -167,68 +167,38 @@ NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustm
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithBool:YES], kMarkupBoldAttributeName,
         NULL];
-    [attributesForTagSets addObject:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            theAttributes, @"attributes",
-            [NSSet setWithObjects:@"b", NULL], @"tags",
-            NULL]
-        ];
+    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"b", NULL]];
 
     // ### i
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithBool:YES], kMarkupItalicAttributeName,
         NULL];
-    [attributesForTagSets addObject:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            theAttributes, @"attributes",
-            [NSSet setWithObjects:@"i", NULL], @"tags",
-            NULL]
-        ];
+    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"i", NULL]];
 
     // ### a
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
         [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
         NULL];
-    [attributesForTagSets addObject:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            theAttributes, @"attributes",
-            [NSSet setWithObjects:@"a", NULL], @"tags",
-            NULL]
-        ];
+    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"a", NULL]];
 
     // ### mark
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor yellowColor].CGColor, @"backgroundColor",
         NULL];
-    [attributesForTagSets addObject:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            theAttributes, @"attributes",
-            [NSSet setWithObjects:@"mark", NULL], @"tags",
-            NULL]
-        ];
+    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"mark", NULL]];
 
     // ### strike
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor blackColor].CGColor, @"strikeColor",
         NULL];
-    [attributesForTagSets addObject:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            theAttributes, @"attributes",
-            [NSSet setWithObjects:@"strike", NULL], @"tags",
-            NULL]
-        ];
+    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"strike", NULL]];
 
     // ### small
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithFloat:-4], kMarkupSizeAdjustmentAttributeName,
         NULL];
-    [attributesForTagSets addObject:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            theAttributes, @"attributes",
-            [NSSet setWithObjects:@"small", NULL], @"tags",
-            NULL]
-        ];
+    [self addStyleAttributes:theAttributes forTagSet:[NSSet setWithObjects:@"small", NULL]];
     }
 
 - (void)addStyleAttributes:(NSDictionary *)inAttributes forTagSet:(NSSet *)inTagSet
@@ -239,6 +209,11 @@ NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustm
             inTagSet, @"tags",
             NULL]
         ];
+    }
+
+- (void)removeStyleAttributesForTagSet:(NSSet *)inTagSet;
+    {
+    NSAssert(NO, @"Not implemented");
     }
 
 #pragma mark -
