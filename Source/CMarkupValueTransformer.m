@@ -37,8 +37,11 @@
 #import "CMarkupValueTransformer.h"
 #import "CSimpleHTMLParser.h"
 
-NSString *const kMarkupImageAttributeName = @"image";
-NSString *const kMarkupLinkAttributeName = @"link";
+NSString *const kMarkupImageAttributeName = @"com.touchcode.image";
+NSString *const kMarkupLinkAttributeName = @"com.touchcode.link";
+NSString *const kMarkupBoldAttributeName = @"com.touchcode.bold";
+NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
+NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustment";
 
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTagSets;
@@ -162,7 +165,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
 
     // ### b
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithBool:YES], @"BOLD",
+        [NSNumber numberWithBool:YES], kMarkupBoldAttributeName,
         NULL];
     [attributesForTagSets addObject:
         [NSDictionary dictionaryWithObjectsAndKeys:
@@ -173,7 +176,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
 
     // ### i
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithBool:YES], @"ITALIC",
+        [NSNumber numberWithBool:YES], kMarkupItalicAttributeName,
         NULL];
     [attributesForTagSets addObject:
         [NSDictionary dictionaryWithObjectsAndKeys:
@@ -218,7 +221,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
 
     // ### small
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithFloat:-4], @"SIZE",
+        [NSNumber numberWithFloat:-4], kMarkupSizeAdjustmentAttributeName,
         NULL];
     [attributesForTagSets addObject:
         [NSDictionary dictionaryWithObjectsAndKeys:
@@ -265,16 +268,16 @@ NSString *const kMarkupLinkAttributeName = @"link";
     UIFont *theFont = inBaseFont;
     
     // NORMALIZE ATTRIBUTES
-    BOOL theBoldFlag = [[theAttributes objectForKey:@"BOLD"] boolValue];
-    if ([theAttributes objectForKey:@"BOLD"] != NULL)
+    BOOL theBoldFlag = [[theAttributes objectForKey:kMarkupBoldAttributeName] boolValue];
+    if ([theAttributes objectForKey:kMarkupBoldAttributeName] != NULL)
         {
-        [theAttributes removeObjectForKey:@"BOLD"];
+        [theAttributes removeObjectForKey:kMarkupBoldAttributeName];
         }
 
-    BOOL theItalicFlag = [[theAttributes objectForKey:@"ITALIC"] boolValue];
-    if ([theAttributes objectForKey:@"ITALIC"] != NULL)
+    BOOL theItalicFlag = [[theAttributes objectForKey:kMarkupItalicAttributeName] boolValue];
+    if ([theAttributes objectForKey:kMarkupItalicAttributeName] != NULL)
         {
-        [theAttributes removeObjectForKey:@"ITALIC"];
+        [theAttributes removeObjectForKey:kMarkupItalicAttributeName];
         }
     
     if (theBoldFlag == YES && theItalicFlag == YES)
@@ -290,14 +293,13 @@ NSString *const kMarkupLinkAttributeName = @"link";
         theFont = inBaseFont.italicFont;
         }
         
-        
-    NSNumber *theSizeValue = [theAttributes objectForKey:@"SIZE"];
+    NSNumber *theSizeValue = [theAttributes objectForKey:kMarkupSizeAdjustmentAttributeName];
     if (theSizeValue != NULL)
         {
         CGFloat theSize = [theSizeValue floatValue];
         theFont = [theFont fontWithSize:theFont.pointSize + theSize];
         
-        [theAttributes removeObjectForKey:@"SIZE"];
+        [theAttributes removeObjectForKey:kMarkupSizeAdjustmentAttributeName];
         }
 
     if (theFont != NULL)
