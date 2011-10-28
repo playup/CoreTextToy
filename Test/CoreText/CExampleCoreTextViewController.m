@@ -26,39 +26,31 @@
 - (void)viewDidLoad
     {
     [super viewDidLoad];
+    
+    // #########################################################################
 
-    NSError *theError = NULL;
-    CMarkupValueTransformer *theTransformer = [[CMarkupValueTransformer alloc] init];
-    NSDictionary *theAttributes = NULL;
+    // ### 1st line...
 
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+    self.label1.lineBreakMode = UILineBreakModeTailTruncation;
+    self.label1.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    self.label1.markup = @"<b>Craig Hockenberry</b> <img src=\"reply-badge.png\" baseline=\"-2\"> <small>to you</small>";
+
+    // #########################################################################
+
+    NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor colorWithRed:0.761 green:0.486 blue:0.165 alpha:1.000].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
         [NSNumber numberWithInt:1], @"BOLD",
         NULL];
-    [theTransformer addStyleAttributes:theAttributes forTag:@"username"];
-    
-    NSString *theMarkup = NULL;
-    id theAttributedString = NULL;
-    
-    // ### 1st line...
 
-    theMarkup = @"<b>Craig Hockenberry</b> <img src=\"reply-badge.png\" baseline=\"-2\"> <small>to you</small>";
-    theAttributedString = [theTransformer transformedValue:theMarkup error:&theError];
 
-    self.label1.lineBreakMode = UILineBreakModeTailTruncation;
-//    self.label1.font = [UIFont fontWithName:@"Courier" size:14];
-    self.label1.text = theAttributedString;
-    self.label1.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
-
-    // ### 2nd line...
-
-    theMarkup = @"<username>@schwa</username> RUBBERS";
-    theAttributedString = [theTransformer transformedValue:theMarkup error:&theError];
-
+    [self.label2.markupValueTransformer addStyleAttributes:theAttributes forTag:@"username"];
     self.label2.lineBreakMode = UILineBreakModeWordWrap;
-    self.label2.text = theAttributedString;
     self.label2.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    self.label2.markup = @"<username>@schwa</username> RUBBERS";
     
+    // #########################################################################
+    
+    [self.label3.markupValueTransformer removeStyleAttributesForTag:@"a"];
 
     self.label3.textColor = [UIColor whiteColor];
     self.label3.lineBreakMode = UILineBreakModeWordWrap;

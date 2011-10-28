@@ -211,9 +211,19 @@ NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustm
         ];
     }
 
-- (void)removeStyleAttributesForTagSet:(NSSet *)inTagSet;
+- (void)removeStyleAttributesForTag:(NSString *)inTag
     {
-    NSAssert(NO, @"Not implemented");
+    NSMutableArray *theNewAttributesForTags = [NSMutableArray array];
+    
+    [self.attributesForTags enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSString *theTag = [obj objectForKey:@"tag"];
+        if ([theTag isEqualToString:inTag] == NO)
+            {
+            [theNewAttributesForTags addObject:obj];
+            }
+        }];
+    
+    self.attributesForTags = theNewAttributesForTags;
     }
 
 #pragma mark -
