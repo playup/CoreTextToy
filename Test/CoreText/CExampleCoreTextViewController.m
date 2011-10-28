@@ -9,8 +9,10 @@
 #import "CExampleCoreTextViewController.h"
 
 #import <CoreText/CoreText.h>
+#import <QuartzCore/QuartzCore.h>
 
 #import "CCoreTextLabel.h"
+#import "CCoreTextLabel_HTMLExtensions.h"
 #import "CMarkupValueTransformer.h"
 #import "UIFont_CoreTextExtensions.h"
 #import "NSAttributedString_DebugExtensions.h"
@@ -19,6 +21,7 @@
 
 @synthesize label1;
 @synthesize label2;
+@synthesize label3;
 
 - (void)viewDidLoad
     {
@@ -55,11 +58,16 @@
     self.label2.lineBreakMode = UILineBreakModeWordWrap;
     self.label2.text = theAttributedString;
     self.label2.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    
+
+    self.label3.textColor = [UIColor whiteColor];
+    self.label3.lineBreakMode = UILineBreakModeWordWrap;
+    self.label3.markup = @"<a href=\"link1\">@LINK1</a> The quick brown fox jumped over the lazy dog 1234567890 <a href=\"link2\">@LINK2</a> times.";
     }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
     {
     return(YES);
     }
-
+    
 @end

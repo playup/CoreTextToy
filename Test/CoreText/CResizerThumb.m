@@ -1,28 +1,29 @@
 //
-//  CResizableView.m
+//  CResizerThumb.m
 //  CoreText
 //
-//  Created by Jonathan Wight on 10/23/11.
+//  Created by Jonathan Wight on 10/28/11.
 //  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
 //
 
-#import "CResizableView.h"
+#import "CResizerThumb.h"
 
 #import <QuartzCore/QuartzCore.h>
 
-@interface CResizableView ()
+@interface CResizerThumb()
 @property (readwrite, nonatomic, assign) CGSize thumbSize;
 @property (readwrite, nonatomic, assign) CGSize minimumSize;
-@property (readwrite, nonatomic, assign) BOOL resizing;
 @property (readwrite, nonatomic, assign) CGSize originalSize;
 @property (readwrite, nonatomic, assign) CGPoint touchBeganLocation;
+
 @end
 
-@implementation CResizableView
+#pragma mark -
+
+@implementation CResizerThumb
 
 @synthesize thumbSize;
 @synthesize minimumSize;
-@synthesize resizing;
 @synthesize originalSize;
 @synthesize touchBeganLocation;
 
@@ -30,55 +31,42 @@
     {
     if ((self = [super initWithCoder:inCoder]) != NULL)
         {
-        self.layer.borderWidth = 1.0;
-        self.layer.borderColor = [UIColor purpleColor].CGColor;
-                
-        thumbSize = (CGSize){ 32, 32 };
-        minimumSize = CGSizeZero;
+        CALayer *theLayer = [CALayer layer];
+        theLayer.frame = self.bounds;
+        theLayer.contents = (__bridge id)[UIImage imageNamed:@"Thumb.png"].CGImage;
+        [self.layer addSublayer:theLayer];
         }
     return(self);
     }
 
-- (CGRect)thumbRect
+- (id)initWithFrame:(CGRect)frame
     {
-    return(CGRect){
-        .origin = {
-            .x = CGRectGetMaxX(self.bounds) - self.thumbSize.width, 
-            .y = CGRectGetMaxY(self.bounds) - self.thumbSize.height,
-            },
-        .size = self.thumbSize,
-        };
-    }
-
-- (void)drawRect:(CGRect)rect
-    {
-    CGContextStrokeRect(UIGraphicsGetCurrentContext(), self.thumbRect);
+    if ((self = [super initWithFrame:frame]) != NULL)
+        {
+        CALayer *theLayer = [CALayer layer];
+        theLayer.frame = self.bounds;
+        theLayer.contents = (__bridge id)[UIImage imageNamed:@"Thumb.png"].CGImage;
+        [self.layer addSublayer:theLayer];
+        }
+    return(self);
     }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
     {
+    self.originalSize = self.superview.frame.size;
+
     UITouch *theTouch = [touches anyObject];
     CGPoint theLocation = [theTouch locationInView:self];
-    if (CGRectContainsPoint(self.thumbRect, theLocation))
-        {
-        self.resizing = YES;
-        self.originalSize = self.frame.size;
-        self.touchBeganLocation = theLocation;
-        }
+    self.touchBeganLocation = [self convertPoint:theLocation toView:self.superview];
     }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
     {
-    if (self.resizing == NO)
-        {
-        return;
-        }
-        
     UITouch *theTouch = [touches anyObject];
-    CGPoint theLocation = [theTouch locationInView:self];
+    CGPoint theLocation = [self convertPoint:[theTouch locationInView:self] toView:self.superview];
 
-    self.frame = (CGRect){
-        .origin = self.frame.origin,
+    self.superview.frame = (CGRect){
+        .origin = self.superview.frame.origin,
         .size = {
             .width = MAX(self.originalSize.width + (theLocation.x - self.touchBeganLocation.x), self.minimumSize.width),
             .height = MAX(self.originalSize.height + (theLocation.y - self.touchBeganLocation.y), self.minimumSize.height),
@@ -89,14 +77,10 @@
     
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
     {
-    self.resizing = NO;
     }
     
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
     {
-    self.resizing = NO;
     }
-
-
 
 @end

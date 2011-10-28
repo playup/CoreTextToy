@@ -11,9 +11,12 @@
 		4528EAB91454816F00814B3E /* CExampleCoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4528EAB81454816F00814B3E /* CExampleCoreTextViewController.m */; };
 		453E8B7E1453255000C8A559 /* MissingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E8B7D1453255000C8A559 /* MissingImage.png */; };
 		453E8B85145334F500C8A559 /* CCoreTextRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 453E8B84145334F500C8A559 /* CCoreTextRenderer.m */; };
+		4548A9F2145B22D5001C5654 /* Thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 4548A9F1145B22D5001C5654 /* Thumb.png */; };
+		4548A9F6145B2422001C5654 /* CResizerThumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 4548A9F5145B2422001C5654 /* CResizerThumb.m */; };
 		455C9FCE14548BDC0098B70F /* reply-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 455C9FCD14548BDC0098B70F /* reply-badge.png */; };
 		455C9FD214548E8E0098B70F /* Craig.png in Resources */ = {isa = PBXBuildFile; fileRef = 455C9FD114548E8E0098B70F /* Craig.png */; };
-		455C9FD514548EA50098B70F /* CResizableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 455C9FD414548EA50098B70F /* CResizableView.m */; };
+		4592051D145A68D000DECA27 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4592051C145A68D000DECA27 /* QuartzCore.framework */; };
+		45920521145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */; };
 		45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */; };
 		45DEC481142BBEDB009FBCC6 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */; };
 		45DEC482142BBEDB009FBCC6 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */; };
@@ -56,10 +59,14 @@
 		453E8B7D1453255000C8A559 /* MissingImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MissingImage.png; sourceTree = "<group>"; };
 		453E8B83145334F500C8A559 /* CCoreTextRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextRenderer.h; sourceTree = "<group>"; };
 		453E8B84145334F500C8A559 /* CCoreTextRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextRenderer.m; sourceTree = "<group>"; };
+		4548A9F1145B22D5001C5654 /* Thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Thumb.png; sourceTree = "<group>"; };
+		4548A9F4145B2422001C5654 /* CResizerThumb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CResizerThumb.h; sourceTree = "<group>"; };
+		4548A9F5145B2422001C5654 /* CResizerThumb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CResizerThumb.m; sourceTree = "<group>"; };
 		455C9FCD14548BDC0098B70F /* reply-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply-badge.png"; sourceTree = "<group>"; };
 		455C9FD114548E8E0098B70F /* Craig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Craig.png; sourceTree = "<group>"; };
-		455C9FD314548EA50098B70F /* CResizableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CResizableView.h; sourceTree = "<group>"; };
-		455C9FD414548EA50098B70F /* CResizableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CResizableView.m; sourceTree = "<group>"; };
+		4592051C145A68D000DECA27 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4592051F145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTwitterStyleTweetTextLabel.h; sourceTree = "<group>"; };
+		45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTwitterStyleTweetTextLabel.m; sourceTree = "<group>"; };
 		45DEC476142BBEDB009FBCC6 /* CCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel.h; sourceTree = "<group>"; };
 		45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel.m; sourceTree = "<group>"; };
 		45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMarkupValueTransformer.h; sourceTree = "<group>"; };
@@ -99,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4592051D145A68D000DECA27 /* QuartzCore.framework in Frameworks */,
 				45FF286D13CD695E006D9574 /* CoreText.framework in Frameworks */,
 				45FF283313CD6920006D9574 /* UIKit.framework in Frameworks */,
 				45FF283513CD6920006D9574 /* Foundation.framework in Frameworks */,
@@ -146,6 +154,7 @@
 		45FF282313CD6920006D9574 = {
 			isa = PBXGroup;
 			children = (
+				4592051C145A68D000DECA27 /* QuartzCore.framework */,
 				45DEC475142BBEDB009FBCC6 /* Source */,
 				45FF283813CD6920006D9574 /* CoreText */,
 				45FF285713CD6920006D9574 /* CoreTextTests */,
@@ -178,19 +187,22 @@
 		45FF283813CD6920006D9574 /* CoreText */ = {
 			isa = PBXGroup;
 			children = (
+				45FF284413CD6920006D9574 /* MainStoryboard.storyboard */,
 				45FF284113CD6920006D9574 /* CoreTextAppDelegate.h */,
 				45FF284213CD6920006D9574 /* CoreTextAppDelegate.m */,
-				45FF284413CD6920006D9574 /* MainStoryboard.storyboard */,
 				45FF284713CD6920006D9574 /* CFreeformCoreTextViewController.h */,
 				45FF284813CD6920006D9574 /* CFreeformCoreTextViewController.m */,
 				4528EAB71454816F00814B3E /* CExampleCoreTextViewController.h */,
 				4528EAB81454816F00814B3E /* CExampleCoreTextViewController.m */,
 				4528EA5F145386F500814B3E /* NSAttributedString_DebugExtensions.h */,
 				4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */,
-				455C9FD314548EA50098B70F /* CResizableView.h */,
-				455C9FD414548EA50098B70F /* CResizableView.m */,
+				4592051F145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.h */,
+				45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */,
+				4548A9F4145B2422001C5654 /* CResizerThumb.h */,
+				4548A9F5145B2422001C5654 /* CResizerThumb.m */,
 				455C9FCD14548BDC0098B70F /* reply-badge.png */,
 				455C9FD114548E8E0098B70F /* Craig.png */,
+				4548A9F1145B22D5001C5654 /* Thumb.png */,
 				45FF283913CD6920006D9574 /* Supporting Files */,
 			);
 			path = CoreText;
@@ -302,6 +314,7 @@
 				453E8B7E1453255000C8A559 /* MissingImage.png in Resources */,
 				455C9FCE14548BDC0098B70F /* reply-badge.png in Resources */,
 				455C9FD214548E8E0098B70F /* Craig.png in Resources */,
+				4548A9F2145B22D5001C5654 /* Thumb.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,8 +361,9 @@
 				453E8B85145334F500C8A559 /* CCoreTextRenderer.m in Sources */,
 				4528EA61145386F500814B3E /* NSAttributedString_DebugExtensions.m in Sources */,
 				4528EAB91454816F00814B3E /* CExampleCoreTextViewController.m in Sources */,
-				455C9FD514548EA50098B70F /* CResizableView.m in Sources */,
 				45ED79B1145A33A400941149 /* CCoreTextLabel_HTMLExtensions.m in Sources */,
+				45920521145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m in Sources */,
+				4548A9F6145B2422001C5654 /* CResizerThumb.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

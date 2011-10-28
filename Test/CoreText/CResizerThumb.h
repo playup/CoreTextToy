@@ -1,13 +1,13 @@
 //
-//  CResizableView.h
+//  CResizerThumb.h
 //  CoreText
 //
-//  Created by Jonathan Wight on 10/23/11.
+//  Created by Jonathan Wight on 10/28/11.
 //  Copyright (c) 2011 toxicsoftware.com. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface CResizableView : UIView
+@interface CResizerThumb : UIView
 
 @end
