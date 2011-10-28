@@ -45,4 +45,7 @@
 
 + (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size;
 
+- (NSArray *)rectsForRange:(NSRange)inRange;
+
+
 @end

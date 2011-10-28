@@ -28,4 +28,6 @@
 
 - (NSDictionary *)attributesAtPoint:(CGPoint)inPoint;
 
+- (NSArray *)rectsForRange:(NSRange)inRange;
+
 @end

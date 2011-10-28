@@ -287,7 +287,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
         }
     }
 
-- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint
+- (NSUInteger)indexAtPoint:(CGPoint)inPoint
     {
     inPoint.y *= -1;
     inPoint.y += self.size.height;
@@ -299,7 +299,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
 
     __block CGPoint theLastLineOrigin = (CGPoint){ 0, CGFLOAT_MAX };
-    __block NSDictionary *theAttributes = NULL;
+    __block CFIndex theIndex = NSNotFound;
 
     [theLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 
@@ -310,17 +310,57 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
             {
             CTLineRef theLine = (__bridge CTLineRef)obj;
 
-            CFIndex theIndex = CTLineGetStringIndexForPosition(theLine, (CGPoint){ .x = inPoint.x - theLineOrigin.x, inPoint.y - theLineOrigin.y });
+            theIndex = CTLineGetStringIndexForPosition(theLine, (CGPoint){ .x = inPoint.x - theLineOrigin.x, inPoint.y - theLineOrigin.y });
             if (theIndex != NSNotFound && (NSUInteger)theIndex < self.normalizedText.length)
                 {
-                theAttributes = [self.normalizedText attributesAtIndex:theIndex effectiveRange:NULL];
                 *stop = YES;
                 }
             }
         theLastLineOrigin = theLineOrigin;
         }];
         
+    return(theIndex);
+    }
+
+- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint
+    {
+    NSUInteger theIndex = [self indexAtPoint:inPoint];
+    NSDictionary *theAttributes = [self.normalizedText attributesAtIndex:theIndex effectiveRange:NULL];
     return(theAttributes);
+    }
+    
+- (NSArray *)rectsForRange:(NSRange)inRange
+    {
+    NSMutableArray *theRects = [NSMutableArray array];
+    
+    // ### Create a frame...
+    UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
+    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
+
+    // ### Get the lines and the line origin points...
+    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
+    CGPoint *theLineOrigins = malloc(sizeof(CGPoint) * theLines.count);
+    CTFrameGetLineOrigins(theFrame, (CFRange){}, theLineOrigins); 
+    
+    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:NULL handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+    
+        CFRange theRunRange = CTRunGetStringRange(inRun);
+        if (theRunRange.location >= inRange.location && theRunRange.location <= inRange.location + inRange.length)
+            {
+            inRect.origin.y *= -1;
+            inRect.origin.y += self.size.height -  inRect.size.height;
+            
+            [theRects addObject:[NSValue valueWithCGRect:inRect]];
+            }
+        }];
+
+    CFRelease(theFrame);
+    free(theLineOrigins);
+
+    // TODO: We need to coelesce ajacent rectangles here...
+//    NSMutableArray *theCoelescedRects = [NSMutableArray array];
+    
+    return(theRects);
     }
 
 @end
@@ -347,6 +387,5 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon)
 static void MyCTRunDelegateDeallocCallback(void *refCon)
     {
     CFRelease(refCon);
-
     }
 

@@ -66,7 +66,6 @@
     if ((self = [super initWithFrame:frame]) != NULL)
         {
         self.contentMode = UIViewContentModeRedraw;
-        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
@@ -81,7 +80,7 @@
     if ((self = [super initWithCoder:inCoder]) != NULL)
         {
         self.contentMode = UIViewContentModeRedraw;
-        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
+//        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
@@ -138,12 +137,27 @@
 
 - (void)setInsets:(UIEdgeInsets)inInsets
     {
-    
     insets = inInsets;
 
-        self.renderer = NULL;
-        [self setNeedsDisplay];
+    self.renderer = NULL;
+    [self setNeedsDisplay];
     }
+
+- (void)setURLHandler:(void (^)(NSURL *))inURLHandler
+    {
+    if (URLHandler != inURLHandler)
+        {
+        URLHandler = [inURLHandler copy];
+        //
+        #warning TODO do this properly!
+        if (URLHandler != NULL)
+            {
+            [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
+            }
+        }
+    }
+
+#pragma mark -
 
 - (CCoreTextRenderer *)renderer
     {
@@ -267,6 +281,13 @@
             self.URLHandler(theLink);
             }
         }
+    }
+    
+#pragma mark -
+
+- (NSArray *)rectsForRange:(NSRange)inRange;
+    {
+    return([self.renderer rectsForRange:inRange]);
     }
 
 @end
