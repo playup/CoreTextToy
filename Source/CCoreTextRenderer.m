@@ -84,7 +84,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     {
     if (normalizedText == NULL)
         {
-        NSMutableAttributedString *theString = [self.text mutableCopy];
+        NSMutableAttributedString *theMutableText = [self.text mutableCopy];
 
         CTRunDelegateCallbacks theCallbacks = {
             .version = kCTRunDelegateVersion1,
@@ -94,19 +94,19 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
             .dealloc = MyCTRunDelegateDeallocCallback,
             };
         
-        [theString enumerateAttribute:kMarkupImageAttributeName inRange:(NSRange){ .length = theString.length } options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
+        [theMutableText enumerateAttribute:kMarkupImageAttributeName inRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
             if (value)
                 {
                 UIImage *theImage = value;
                 NSValue *theSizeValue = [NSValue valueWithCGSize:theImage.size];
                 
                 CTRunDelegateRef theImageDelegate = CTRunDelegateCreate(&theCallbacks, (void *)(__bridge_retained CFTypeRef)theSizeValue);
-                CFAttributedStringSetAttribute((__bridge CFMutableAttributedStringRef)theString, (CFRange) { .location = range.location, .length = range.length }, kCTRunDelegateAttributeName, theImageDelegate);
+                CFAttributedStringSetAttribute((__bridge CFMutableAttributedStringRef)theMutableText, (CFRange) { .location = range.location, .length = range.length }, kCTRunDelegateAttributeName, theImageDelegate);
                 CFRelease(theImageDelegate);
                 }
             }];
         
-        normalizedText = [theString copy];
+        normalizedText = [theMutableText copy];
         }
     return(normalizedText);
     }

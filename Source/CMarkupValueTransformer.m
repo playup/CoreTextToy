@@ -40,19 +40,17 @@
 NSString *const kMarkupImageAttributeName = @"image";
 NSString *const kMarkupLinkAttributeName = @"link";
 
-
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTagSets;
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack;
-- (NSDictionary *)normalizeAttributes:(NSDictionary *)inAttributes;
++ (NSDictionary *)normalizeAttributes:(NSDictionary *)inAttributes baseFont:(UIFont *)inBaseFont;
 @end
 
 #pragma mark -
 
 @implementation CMarkupValueTransformer
 
-@synthesize standardFont;
 @synthesize attributesForTagSets;
 
 + (Class)transformedValueClass
@@ -69,8 +67,6 @@ NSString *const kMarkupLinkAttributeName = @"link";
 	{
 	if ((self = [super init]) != NULL)
 		{
-        standardFont = [UIFont fontWithName:@"Helvetica" size:16.0];
-
         attributesForTagSets = [NSMutableArray array];
 
         [self resetStyles];
@@ -137,7 +133,6 @@ NSString *const kMarkupLinkAttributeName = @"link";
 
     theParser.textHandler = ^(NSString *inString, NSArray *tagStack) {
         NSDictionary *theAttributes = [self attributesForTagStack:tagStack];
-        theAttributes = [self normalizeAttributes:theAttributes];
         theTextAttributes = [theAttributes mutableCopy];
 
         if (theCurrentLink != NULL)
@@ -247,7 +242,7 @@ NSString *const kMarkupLinkAttributeName = @"link";
     return(theAttributes);
     }
 
-- (NSDictionary *)normalizeAttributes:(NSDictionary *)inAttributes
++ (NSDictionary *)normalizeAttributes:(NSDictionary *)inAttributes baseFont:(UIFont *)inBaseFont
     {
     NSMutableDictionary *theAttributes = [inAttributes mutableCopy];
     
@@ -266,18 +261,48 @@ NSString *const kMarkupLinkAttributeName = @"link";
     
     if (theBoldFlag == YES && theItalicFlag == YES)
         {
-        [theAttributes setObject:(__bridge id)self.standardFont.boldItalicFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+        UIFont *theFont = inBaseFont.boldItalicFont;
+        if (theFont != NULL)
+            {
+            [theAttributes setObject:(__bridge id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+            }
         }
     else if (theBoldFlag == YES)
         {
-        [theAttributes setObject:(__bridge id)self.standardFont.boldFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+        UIFont *theFont = inBaseFont.boldFont;
+        if (theFont != NULL)
+            {
+            [theAttributes setObject:(__bridge id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+            }
         }
     else if (theItalicFlag == YES)
         {
-        [theAttributes setObject:(__bridge id)self.standardFont.italicFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+        UIFont *theFont = inBaseFont.italicFont;
+        if (theFont != NULL)
+            {
+            [theAttributes setObject:(__bridge id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
+            }
         }
         
     return(theAttributes);
+    }
+    
++ (NSAttributedString *)normalizedAttributedStringForAttributedString:(NSAttributedString *)inAttributedString baseFont:(UIFont *)inBaseFont
+    {
+    NSMutableAttributedString *theString = [inAttributedString mutableCopy];
+    
+    [theString enumerateAttributesInRange:(NSRange){ .length = theString.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+        UIFont *theFont = inBaseFont;
+        CTFontRef theCTFont = (__bridge CTFontRef)[attrs objectForKey:(__bridge NSString *)kCTFontAttributeName];
+        if (theCTFont != NULL)
+            {
+            theFont = [UIFont fontWithCTFont:theCTFont];
+            }
+        
+        attrs = [self normalizeAttributes:attrs baseFont:theFont];
+        [theString setAttributes:attrs range:range];
+        }];
+    return(theString);
     }
 
 @end

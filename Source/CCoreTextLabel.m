@@ -149,18 +149,18 @@
     {
     if (renderer == NULL)
         {
-        NSMutableAttributedString *theText = [self.text mutableCopy];
+        NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:self.text baseFont:self.font] mutableCopy];
 
         UIFont *theFont = self.font ?: [UIFont systemFontOfSize:17.0];
         UIColor *theColor = self.textColor ?: [UIColor blackColor];
-        [theText enumerateAttributesInRange:(NSRange){ .length = theText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+        [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
             if ([attrs objectForKey:(__bridge NSString *)kCTFontAttributeName] == NULL)
                 {
-                [theText addAttribute:(__bridge NSString *)kCTFontAttributeName value:(__bridge id)theFont.CTFont range:range];
+                [theMutableText addAttribute:(__bridge NSString *)kCTFontAttributeName value:(__bridge id)theFont.CTFont range:range];
                 }
             if ([attrs objectForKey:(__bridge NSString *)kCTForegroundColorAttributeName] == NULL)
                 {
-                [theText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
+                [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
                 }
         }];
         
@@ -191,13 +191,13 @@
         NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
             (__bridge id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
             NULL];
-        [theText addAttributes:theAttributes range:(NSRange){ .length = [theText length] }];
+        [theMutableText addAttributes:theAttributes range:(NSRange){ .length = [theMutableText length] }];
 
             CGRect theBounds = self.bounds;
             theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
 
         
-        renderer = [[CCoreTextRenderer alloc] initWithText:theText size:theBounds.size];
+        renderer = [[CCoreTextRenderer alloc] initWithText:theMutableText size:theBounds.size];
 
         #warning TODO make constants for backgroundColor and strikeColor
         [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {

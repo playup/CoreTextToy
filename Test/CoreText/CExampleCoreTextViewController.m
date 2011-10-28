@@ -30,7 +30,7 @@
 
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)[UIColor colorWithRed:0.761 green:0.486 blue:0.165 alpha:1.000].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
-        (__bridge id)[theTransformer.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
+        [NSNumber numberWithInt:1], @"BOLD",
         NULL];
     [theTransformer addStyleAttributes:theAttributes forTagSet:[NSSet setWithObject:@"username"]];
     
@@ -43,6 +43,7 @@
     theAttributedString = [theTransformer transformedValue:theMarkup error:&theError];
 
     self.label1.lineBreakMode = UILineBreakModeTailTruncation;
+//    self.label1.font = [UIFont fontWithName:@"Courier" size:14];
     self.label1.text = theAttributedString;
     self.label1.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
 

@@ -36,13 +36,13 @@ extern NSString *const kMarkupLinkAttributeName;
 
 @interface CMarkupValueTransformer : NSValueTransformer
 
-@property (readwrite, nonatomic, strong) UIFont *standardFont;
-
 - (id)transformedValue:(id)value error:(NSError **)outError;
 
 - (void)resetStyles;
 - (void)addStandardStyles;
 - (void)addStyleAttributes:(NSDictionary *)inAttributes forTagSet:(NSSet *)inTagSet;
+
++ (NSAttributedString *)normalizedAttributedStringForAttributedString:(NSAttributedString *)inAttributedString baseFont:(UIFont *)inBaseFont;
 
 @end
 
