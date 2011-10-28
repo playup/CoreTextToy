@@ -19,6 +19,7 @@
 		45DEC482142BBEDB009FBCC6 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */; };
 		45DEC483142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47D142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m */; };
 		45DEC484142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47F142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m */; };
+		45ED79B1145A33A400941149 /* CCoreTextLabel_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ED79B0145A33A400941149 /* CCoreTextLabel_HTMLExtensions.m */; };
 		45FF283313CD6920006D9574 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283213CD6920006D9574 /* UIKit.framework */; };
 		45FF283513CD6920006D9574 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283413CD6920006D9574 /* Foundation.framework */; };
 		45FF283713CD6920006D9574 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283613CD6920006D9574 /* CoreGraphics.framework */; };
@@ -69,6 +70,8 @@
 		45DEC47D142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScanner_HTMLExtensions.m; sourceTree = "<group>"; };
 		45DEC47E142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFont_CoreTextExtensions.h; sourceTree = "<group>"; };
 		45DEC47F142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFont_CoreTextExtensions.m; sourceTree = "<group>"; };
+		45ED79AF145A33A400941149 /* CCoreTextLabel_HTMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel_HTMLExtensions.h; sourceTree = "<group>"; };
+		45ED79B0145A33A400941149 /* CCoreTextLabel_HTMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel_HTMLExtensions.m; sourceTree = "<group>"; };
 		45FF282E13CD6920006D9574 /* CoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45FF283213CD6920006D9574 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		45FF283413CD6920006D9574 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -122,6 +125,8 @@
 			children = (
 				45DEC476142BBEDB009FBCC6 /* CCoreTextLabel.h */,
 				45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */,
+				45ED79AF145A33A400941149 /* CCoreTextLabel_HTMLExtensions.h */,
+				45ED79B0145A33A400941149 /* CCoreTextLabel_HTMLExtensions.m */,
 				45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */,
 				45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */,
 				45DEC47A142BBEDB009FBCC6 /* CSimpleHTMLParser.h */,
@@ -344,6 +349,7 @@
 				4528EA61145386F500814B3E /* NSAttributedString_DebugExtensions.m in Sources */,
 				4528EAB91454816F00814B3E /* CExampleCoreTextViewController.m in Sources */,
 				455C9FD514548EA50098B70F /* CResizableView.m in Sources */,
+				45ED79B1145A33A400941149 /* CCoreTextLabel_HTMLExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
