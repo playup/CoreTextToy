@@ -31,7 +31,6 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *const kMarkupImageAttributeName;
 extern NSString *const kMarkupLinkAttributeName;
 extern NSString *const kMarkupBoldAttributeName;
 extern NSString *const kMarkupItalicAttributeName;

@@ -38,7 +38,6 @@
 #import "CSimpleHTMLParser.h"
 #import "CCoreTextAttachment.h"
 
-NSString *const kMarkupImageAttributeName = @"com.touchcode.image";
 NSString *const kMarkupLinkAttributeName = @"com.touchcode.link";
 NSString *const kMarkupBoldAttributeName = @"com.touchcode.bold";
 NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
@@ -125,7 +124,6 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
                 CTRunDelegateRef theRunDelegate = [theAttachment createRunDelegate];
 
                 NSMutableDictionary *theImageAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                    theImage, kMarkupImageAttributeName,
                     theAttachment, kMarkupAttachmentAttributeName,
                     (__bridge id)theRunDelegate, (__bridge id)kCTRunDelegateAttributeName,
                     NULL];
