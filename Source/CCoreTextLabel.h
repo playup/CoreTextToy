@@ -43,9 +43,8 @@
 
 @property (readwrite, nonatomic, copy) void (^URLHandler)(NSURL *);
 
-+ (CGSize)sizeForString:(NSAttributedString *)inString lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)size;
++ (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)inSize;
 
 - (NSArray *)rectsForRange:(NSRange)inRange;
-
 
 @end

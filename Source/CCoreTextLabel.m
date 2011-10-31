@@ -42,6 +42,7 @@
 @property (readwrite, nonatomic, retain) CCoreTextRenderer *renderer;
 @property (readwrite, nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
 
++ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
 - (void)tap:(UITapGestureRecognizer *)inGestureRecognizer;
 @end
 
@@ -58,9 +59,58 @@
 @synthesize renderer;
 @synthesize tapRecognizer;
 
-+ (CGSize)sizeForString:(NSAttributedString *)inString lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)size;
++ (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)inSize 
     {
-    return([CCoreTextRenderer sizeForString:inString lineBreakMode:inLineBreakMode thatFits:size]);
+    NSAttributedString *theNormalizedText = [self normalizeString:inString font:inBaseFont textColor:inTextColor alignment:inTextAlignment lineBreakMode:inLineBreakMode];
+    CGSize theSize = [CCoreTextRenderer sizeForString:theNormalizedText thatFits:inSize];
+    return(theSize);
+    }
+
++ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode
+    {
+    NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:inBaseFont] mutableCopy];
+
+    UIFont *theFont = inBaseFont ?: [UIFont systemFontOfSize:17.0];
+    UIColor *theColor = inTextColor ?: [UIColor blackColor];
+    [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+        if ([attrs objectForKey:(__bridge NSString *)kCTFontAttributeName] == NULL)
+            {
+            [theMutableText addAttribute:(__bridge NSString *)kCTFontAttributeName value:(__bridge id)theFont.CTFont range:range];
+            }
+        if ([attrs objectForKey:(__bridge NSString *)kCTForegroundColorAttributeName] == NULL)
+            {
+            [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
+            }
+        }];
+    
+    CTTextAlignment theTextAlignment;
+    switch (inTextAlignment)
+        {
+        case UITextAlignmentLeft:
+            theTextAlignment = kCTLeftTextAlignment;
+            break;
+        case UITextAlignmentCenter:
+            theTextAlignment = kCTCenterTextAlignment;
+            break;
+        case UITextAlignmentRight:
+            theTextAlignment = kCTRightTextAlignment;
+            break;
+        }
+    
+    // UILineBreakMode maps 1:1 to CTLineBreakMode
+    CTLineBreakMode theLineBreakMode = inLineBreakMode;
+
+    CTParagraphStyleSetting theSettings[] = {
+        { .spec = kCTParagraphStyleSpecifierAlignment, .valueSize = sizeof(theTextAlignment), .value = &theTextAlignment, },
+        { .spec = kCTParagraphStyleSpecifierLineBreakMode, .valueSize = sizeof(theLineBreakMode), .value = &theLineBreakMode, },
+        };
+    CTParagraphStyleRef theParagraphStyle = CTParagraphStyleCreate( theSettings, 2 );
+    NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+        (__bridge id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
+        NULL];
+    [theMutableText addAttributes:theAttributes range:(NSRange){ .length = [theMutableText length] }];
+
+    return(theMutableText);
     }
 
 - (id)initWithFrame:(CGRect)frame
@@ -169,55 +219,12 @@
     {
     if (renderer == NULL)
         {
-        NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:self.text baseFont:self.font] mutableCopy];
+        NSAttributedString *theNormalizedText = [[self class] normalizeString:self.text font:self.font textColor:self.textColor alignment:self.textAlignment lineBreakMode:self.lineBreakMode];
 
-        UIFont *theFont = self.font ?: [UIFont systemFontOfSize:17.0];
-        UIColor *theColor = self.textColor ?: [UIColor blackColor];
-        [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
-            if ([attrs objectForKey:(__bridge NSString *)kCTFontAttributeName] == NULL)
-                {
-                [theMutableText addAttribute:(__bridge NSString *)kCTFontAttributeName value:(__bridge id)theFont.CTFont range:range];
-                }
-            if ([attrs objectForKey:(__bridge NSString *)kCTForegroundColorAttributeName] == NULL)
-                {
-                [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
-                }
-        }];
+        CGRect theBounds = self.bounds;
+        theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
         
-        //
-
-        CTTextAlignment theTextAlignment;
-        switch (self.textAlignment)
-            {
-            case UITextAlignmentLeft:
-                theTextAlignment = kCTLeftTextAlignment;
-                break;
-            case UITextAlignmentCenter:
-                theTextAlignment = kCTCenterTextAlignment;
-                break;
-            case UITextAlignmentRight:
-                theTextAlignment = kCTRightTextAlignment;
-                break;
-            }
-        
-        // UILineBreakMode maps 1:1 to CTLineBreakMode
-        CTLineBreakMode theLineBreakMode = self.lineBreakMode;
-
-        CTParagraphStyleSetting theSettings[] = {
-            { .spec = kCTParagraphStyleSpecifierAlignment, .valueSize = sizeof(theTextAlignment), .value = &theTextAlignment, },
-            { .spec = kCTParagraphStyleSpecifierLineBreakMode, .valueSize = sizeof(theLineBreakMode), .value = &theLineBreakMode, },
-            };
-        CTParagraphStyleRef theParagraphStyle = CTParagraphStyleCreate( theSettings, 2 );
-        NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-            (__bridge id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
-            NULL];
-        [theMutableText addAttributes:theAttributes range:(NSRange){ .length = [theMutableText length] }];
-
-            CGRect theBounds = self.bounds;
-            theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
-
-        
-        renderer = [[CCoreTextRenderer alloc] initWithText:theMutableText size:theBounds.size];
+        renderer = [[CCoreTextRenderer alloc] initWithText:theNormalizedText size:theBounds.size];
 
         #warning TODO make constants for backgroundColor and strikeColor
         [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {

@@ -34,12 +34,19 @@
 
 @synthesize framesetter;
 
-+ (CGSize)sizeForString:(NSAttributedString *)inString lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)size;
++ (CGSize)sizeForString:(NSAttributedString *)inString thatFits:(CGSize)inSize
     {
-    #warning TODO -- this doesn't support images or insets yet...
+    #warning TODO -- this doesn't support insets yet...
     CTFramesetterRef theFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)inString);
-    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){}, NULL, size, NULL);
+    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){}, NULL, inSize, NULL);
     CFRelease(theFramesetter);
+    
+    if (inSize.width < CGFLOAT_MAX && inSize.height == CGFLOAT_MAX)
+        {
+        theSize.width = inSize.width;
+        }
+    
+    
     return(theSize);
     }
 
