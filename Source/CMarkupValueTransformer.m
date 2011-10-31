@@ -116,9 +116,7 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
             if (theImage != NULL)
                 {
                 CCoreTextAttachment *theAttachment = [[CCoreTextAttachment alloc] initWithAscent:theImage.size.height descent:0.0 width:theImage.size.width representedObject:theImage renderer:^(CCoreTextAttachment *inAttachment, CGContextRef inContext, CGRect inRect) {
-                    // We use CGContextDrawImage because it understands the CTM
-                    #warning TODO Change to UIimage draw.
-                    CGContextDrawImage(inContext, inRect, theImage.CGImage);
+                    [theImage drawInRect:inRect];
                     }];
 
                 CTRunDelegateRef theRunDelegate = [theAttachment createRunDelegate];
@@ -127,7 +125,6 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
                     theAttachment, kMarkupAttachmentAttributeName,
                     (__bridge id)theRunDelegate, (__bridge id)kCTRunDelegateAttributeName,
                     NULL];
-                
                 
                 if (theCurrentLink != NULL)
                     {

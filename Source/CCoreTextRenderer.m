@@ -193,13 +193,18 @@
             }];
         }
 
-    // ### Iterate through each line...
+    CGContextRestoreGState(inContext);
+
+    // ### Now that the CTM is restored. Iterate through each line and render any attachments.
     [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
         NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
         // ### If we have an image we draw it...
         CCoreTextAttachment *theAttachment = [theAttributes objectForKey:kMarkupAttachmentAttributeName];
         if (theAttachment != NULL)
             {
+            inRect.origin.y *= -1;
+            inRect.origin.y += self.size.height - inRect.size.height;
+
             theAttachment.renderer(theAttachment, inContext2, inRect);
             }
         }];
@@ -207,8 +212,6 @@
     free(theLineOrigins);
 
     CFRelease(theFrame);
-
-    CGContextRestoreGState(inContext);
     }
 
 - (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler
