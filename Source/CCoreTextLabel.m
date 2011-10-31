@@ -40,6 +40,7 @@
 
 @interface CCoreTextLabel ()
 @property (readwrite, nonatomic, retain) CCoreTextRenderer *renderer;
+@property (readwrite, nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
 
 - (void)tap:(UITapGestureRecognizer *)inGestureRecognizer;
 @end
@@ -55,6 +56,7 @@
 @synthesize lineBreakMode;
 
 @synthesize renderer;
+@synthesize tapRecognizer;
 
 + (CGSize)sizeForString:(NSAttributedString *)inString lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)size;
     {
@@ -148,10 +150,15 @@
         {
         URLHandler = [inURLHandler copy];
         //
-        #warning TODO do this properly!
         if (URLHandler != NULL)
             {
-            [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
+            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+            [self addGestureRecognizer:self.tapRecognizer];
+            }
+        else
+            {
+            [self removeGestureRecognizer:self.tapRecognizer];
+            self.tapRecognizer = NULL;
             }
         }
     }
