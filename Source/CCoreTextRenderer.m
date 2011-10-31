@@ -40,7 +40,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 @synthesize framesetter;
 @synthesize normalizedText;
 
-+ (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size
++ (CGSize)sizeForString:(NSAttributedString *)inString thatFits:(CGSize)size
     {
     #warning TODO -- this doesn't support images or insets yet...
     CTFramesetterRef theFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)inString);

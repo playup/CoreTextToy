@@ -15,8 +15,7 @@
 @property (readonly, nonatomic, strong) NSAttributedString *text;
 @property (readonly, nonatomic, assign) CGSize size;
 
-
-+ (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size;
++ (CGSize)sizeForString:(NSAttributedString *)inString lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)size;
 
 - (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize;
 

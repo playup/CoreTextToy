@@ -56,9 +56,9 @@
 
 @synthesize renderer;
 
-+ (CGSize)sizeForString:(NSAttributedString *)inString ThatFits:(CGSize)size
++ (CGSize)sizeForString:(NSAttributedString *)inString lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)size;
     {
-    return([CCoreTextRenderer sizeForString:inString ThatFits:size]);
+    return([CCoreTextRenderer sizeForString:inString lineBreakMode:inLineBreakMode thatFits:size]);
     }
 
 - (id)initWithFrame:(CGRect)frame
@@ -80,7 +80,6 @@
     if ((self = [super initWithCoder:inCoder]) != NULL)
         {
         self.contentMode = UIViewContentModeRedraw;
-//        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
