@@ -36,6 +36,7 @@ extern NSString *const kMarkupLinkAttributeName;
 extern NSString *const kMarkupBoldAttributeName;
 extern NSString *const kMarkupItalicAttributeName;
 extern NSString *const kMarkupSizeAdjustmentAttributeName;
+extern NSString *const kMarkupAttachmentAttributeName;
 
 @interface CMarkupValueTransformer : NSValueTransformer
 

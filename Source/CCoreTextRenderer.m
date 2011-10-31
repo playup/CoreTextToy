@@ -13,17 +13,12 @@
 
 #import "UIFont_CoreTextExtensions.h"
 #import "CMarkupValueTransformer.h"
+#import "CCoreTextAttachment.h"
 
 //#define CORE_TEXT_SHOW_RUNS 1
 
-static CGFloat MyCTRunDelegateGetAscentCallback(void *refCon);
-static CGFloat MyCTRunDelegateGetDescentCallback(void *refCon);
-static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon);
-static void MyCTRunDelegateDeallocCallback(void *refCon);
-
 @interface CCoreTextRenderer ()
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
-@property (readwrite, nonatomic, retain) NSAttributedString *normalizedText;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *prerenderersForAttributes;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *postRenderersForAttributes;
 
@@ -38,9 +33,8 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 @synthesize postRenderersForAttributes;
 
 @synthesize framesetter;
-@synthesize normalizedText;
 
-+ (CGSize)sizeForString:(NSAttributedString *)inString thatFits:(CGSize)size
++ (CGSize)sizeForString:(NSAttributedString *)inString lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)size;
     {
     #warning TODO -- this doesn't support images or insets yet...
     CTFramesetterRef theFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)inString);
@@ -74,41 +68,10 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
         {
         if (self.text != NULL)
             {
-            framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)self.normalizedText);
+            framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)self.text);
             }
         }
     return(framesetter);
-    }
-
-- (NSAttributedString *)normalizedText
-    {
-    if (normalizedText == NULL)
-        {
-        NSMutableAttributedString *theMutableText = [self.text mutableCopy];
-
-        CTRunDelegateCallbacks theCallbacks = {
-            .version = kCTRunDelegateVersion1,
-            .getAscent = MyCTRunDelegateGetAscentCallback,
-            .getDescent = MyCTRunDelegateGetDescentCallback,
-            .getWidth = MyCTRunDelegateGetWidthCallback,
-            .dealloc = MyCTRunDelegateDeallocCallback,
-            };
-        
-        [theMutableText enumerateAttribute:kMarkupImageAttributeName inRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
-            if (value)
-                {
-                UIImage *theImage = value;
-                NSValue *theSizeValue = [NSValue valueWithCGSize:theImage.size];
-                
-                CTRunDelegateRef theImageDelegate = CTRunDelegateCreate(&theCallbacks, (void *)(__bridge_retained CFTypeRef)theSizeValue);
-                CFAttributedStringSetAttribute((__bridge CFMutableAttributedStringRef)theMutableText, (CFRange){ .location = range.location, .length = range.length }, kCTRunDelegateAttributeName, theImageDelegate);
-                CFRelease(theImageDelegate);
-                }
-            }];
-        
-        normalizedText = [theMutableText copy];
-        }
-    return(normalizedText);
     }
 
 - (void)addPrerendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
@@ -144,7 +107,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 
 - (void)drawInContext:(CGContextRef)inContext
     {
-    if (self.normalizedText.length == 0)
+    if (self.text.length == 0)
         {
         return;
         }
@@ -234,11 +197,10 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
         NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
         // ### If we have an image we draw it...
-        UIImage *theImage = [theAttributes objectForKey:kMarkupImageAttributeName];
-        if (theImage != NULL)
+        CCoreTextAttachment *theAttachment = [theAttributes objectForKey:kMarkupAttachmentAttributeName];
+        if (theAttachment != NULL)
             {
-            // We use CGContextDrawImage because it understands the CTM
-            CGContextDrawImage(inContext2, inRect, theImage.CGImage);
+            theAttachment.renderer(theAttachment, inContext2, inRect);
             }
         }];
 
@@ -311,7 +273,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
             CTLineRef theLine = (__bridge CTLineRef)obj;
 
             theIndex = CTLineGetStringIndexForPosition(theLine, (CGPoint){ .x = inPoint.x - theLineOrigin.x, inPoint.y - theLineOrigin.y });
-            if (theIndex != NSNotFound && (NSUInteger)theIndex < self.normalizedText.length)
+            if (theIndex != NSNotFound && (NSUInteger)theIndex < self.text.length)
                 {
                 *stop = YES;
                 }
@@ -325,7 +287,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 - (NSDictionary *)attributesAtPoint:(CGPoint)inPoint
     {
     NSUInteger theIndex = [self indexAtPoint:inPoint];
-    NSDictionary *theAttributes = [self.normalizedText attributesAtIndex:theIndex effectiveRange:NULL];
+    NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:NULL];
     return(theAttributes);
     }
     
@@ -364,28 +326,3 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
     }
 
 @end
-
-static CGFloat MyCTRunDelegateGetAscentCallback(void *refCon)
-    {
-    NSValue *theValue = (__bridge NSValue *)refCon;
-    CGSize theSize = [theValue CGSizeValue];
-    return(theSize.height);
-    }
-
-static CGFloat MyCTRunDelegateGetDescentCallback(void *refCon)
-    {
-    return(0.0);
-    }
-
-static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon)
-    {
-    NSValue *theValue = (__bridge NSValue *)refCon;
-    CGSize theSize = [theValue CGSizeValue];
-    return(theSize.width);
-    }
-
-static void MyCTRunDelegateDeallocCallback(void *refCon)
-    {
-    CFRelease(refCon);
-    }
-

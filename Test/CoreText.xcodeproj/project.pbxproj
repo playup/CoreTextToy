@@ -15,6 +15,7 @@
 		4548A9F6145B2422001C5654 /* CResizerThumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 4548A9F5145B2422001C5654 /* CResizerThumb.m */; };
 		455C9FCE14548BDC0098B70F /* reply-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 455C9FCD14548BDC0098B70F /* reply-badge.png */; };
 		455C9FD214548E8E0098B70F /* Craig.png in Resources */ = {isa = PBXBuildFile; fileRef = 455C9FD114548E8E0098B70F /* Craig.png */; };
+		45789C5D145F1338004EA63E /* CCoreTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 45789C5C145F1338004EA63E /* CCoreTextAttachment.m */; };
 		4592051D145A68D000DECA27 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4592051C145A68D000DECA27 /* QuartzCore.framework */; };
 		45920521145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */; };
 		45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */; };
@@ -64,6 +65,8 @@
 		4548A9F5145B2422001C5654 /* CResizerThumb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CResizerThumb.m; sourceTree = "<group>"; };
 		455C9FCD14548BDC0098B70F /* reply-badge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reply-badge.png"; sourceTree = "<group>"; };
 		455C9FD114548E8E0098B70F /* Craig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Craig.png; sourceTree = "<group>"; };
+		45789C5B145F1338004EA63E /* CCoreTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextAttachment.h; sourceTree = "<group>"; };
+		45789C5C145F1338004EA63E /* CCoreTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextAttachment.m; sourceTree = "<group>"; };
 		4592051C145A68D000DECA27 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4592051F145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTwitterStyleTweetTextLabel.h; sourceTree = "<group>"; };
 		45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTwitterStyleTweetTextLabel.m; sourceTree = "<group>"; };
@@ -145,6 +148,8 @@
 				45DEC47F142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m */,
 				453E8B83145334F500C8A559 /* CCoreTextRenderer.h */,
 				453E8B84145334F500C8A559 /* CCoreTextRenderer.m */,
+				45789C5B145F1338004EA63E /* CCoreTextAttachment.h */,
+				45789C5C145F1338004EA63E /* CCoreTextAttachment.m */,
 				453E8B7D1453255000C8A559 /* MissingImage.png */,
 			);
 			name = Source;
@@ -156,7 +161,7 @@
 			children = (
 				4592051C145A68D000DECA27 /* QuartzCore.framework */,
 				45DEC475142BBEDB009FBCC6 /* Source */,
-				45FF283813CD6920006D9574 /* CoreText */,
+				45FF283813CD6920006D9574 /* Test */,
 				45FF285713CD6920006D9574 /* CoreTextTests */,
 				45FF283113CD6920006D9574 /* Frameworks */,
 				45FF282F13CD6920006D9574 /* Products */,
@@ -184,7 +189,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		45FF283813CD6920006D9574 /* CoreText */ = {
+		45FF283813CD6920006D9574 /* Test */ = {
 			isa = PBXGroup;
 			children = (
 				45FF284413CD6920006D9574 /* MainStoryboard.storyboard */,
@@ -205,6 +210,7 @@
 				4548A9F1145B22D5001C5654 /* Thumb.png */,
 				45FF283913CD6920006D9574 /* Supporting Files */,
 			);
+			name = Test;
 			path = CoreText;
 			sourceTree = "<group>";
 		};
@@ -364,6 +370,7 @@
 				45ED79B1145A33A400941149 /* CCoreTextLabel_HTMLExtensions.m in Sources */,
 				45920521145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m in Sources */,
 				4548A9F6145B2422001C5654 /* CResizerThumb.m in Sources */,
+				45789C5D145F1338004EA63E /* CCoreTextAttachment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

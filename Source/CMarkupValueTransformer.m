@@ -36,12 +36,14 @@
 #import "UIFont_CoreTextExtensions.h"
 #import "CMarkupValueTransformer.h"
 #import "CSimpleHTMLParser.h"
+#import "CCoreTextAttachment.h"
 
 NSString *const kMarkupImageAttributeName = @"com.touchcode.image";
 NSString *const kMarkupLinkAttributeName = @"com.touchcode.link";
 NSString *const kMarkupBoldAttributeName = @"com.touchcode.bold";
 NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
 NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustment";
+NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
 
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTags;
@@ -114,7 +116,21 @@ NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustm
                 }
             if (theImage != NULL)
                 {
-                NSMutableDictionary *theImageAttributes = [NSMutableDictionary dictionaryWithObject:theImage forKey:kMarkupImageAttributeName];
+                CCoreTextAttachment *theAttachment = [[CCoreTextAttachment alloc] initWithAscent:theImage.size.height descent:0.0 width:theImage.size.width representedObject:theImage renderer:^(CCoreTextAttachment *inAttachment, CGContextRef inContext, CGRect inRect) {
+                    // We use CGContextDrawImage because it understands the CTM
+                    #warning TODO Change to UIimage draw.
+                    CGContextDrawImage(inContext, inRect, theImage.CGImage);
+                    }];
+
+                CTRunDelegateRef theRunDelegate = [theAttachment createRunDelegate];
+
+                NSMutableDictionary *theImageAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                    theImage, kMarkupImageAttributeName,
+                    theAttachment, kMarkupAttachmentAttributeName,
+                    (__bridge id)theRunDelegate, (__bridge id)kCTRunDelegateAttributeName,
+                    NULL];
+                
+                
                 if (theCurrentLink != NULL)
                     {
                     [theImageAttributes setObject:theCurrentLink forKey:kMarkupLinkAttributeName];
