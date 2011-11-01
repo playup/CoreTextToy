@@ -299,9 +299,16 @@
 
 - (NSDictionary *)attributesAtPoint:(CGPoint)inPoint
     {
-    NSUInteger theIndex = [self indexAtPoint:inPoint];
-    NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:NULL];
-    return(theAttributes);
+    const NSUInteger theIndex = [self indexAtPoint:inPoint];
+    if (theIndex == NSNotFound || theIndex >= self.text.length)
+        {
+        return(NULL);
+        }
+    else
+        {
+        NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:NULL];
+        return(theAttributes);
+        }
     }
     
 - (NSArray *)rectsForRange:(NSRange)inRange
