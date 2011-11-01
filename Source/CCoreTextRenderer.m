@@ -38,14 +38,17 @@
     {
     #warning TODO -- this doesn't support insets yet...
     CTFramesetterRef theFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)inString);
-    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){}, NULL, inSize, NULL);
-    CFRelease(theFramesetter);
-    
-    if (inSize.width < CGFLOAT_MAX && inSize.height == CGFLOAT_MAX)
+    CGSize theSize = CGSizeZero;
+    if (theFramesetter != NULL)
         {
-        theSize.width = inSize.width;
+        theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){}, NULL, inSize, NULL);
+        CFRelease(theFramesetter);
+        
+        if (inSize.width < CGFLOAT_MAX && inSize.height == CGFLOAT_MAX)
+            {
+            theSize.width = inSize.width;
+            }
         }
-    
     
     return(theSize);
     }
