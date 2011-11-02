@@ -162,7 +162,7 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
         return(NULL);
         }
 
-    return([theAttributedString copy]);
+    return(theAttributedString);
     }
 
 - (void)resetStyles

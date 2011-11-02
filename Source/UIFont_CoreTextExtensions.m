@@ -97,7 +97,7 @@ static void *kCTFontKey;
             }
         }
 
-    NSLog(@"No bold font found in %@", [UIFont fontNamesForFamilyName:self.familyName]);
+    NSLog(@"No bold font found in %@ for %@", [UIFont fontNamesForFamilyName:self.familyName], self);
 
     return(NULL);
     }
