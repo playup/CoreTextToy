@@ -108,7 +108,13 @@
     NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
         (__bridge id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
         NULL];
-    [theMutableText addAttributes:theAttributes range:(NSRange){ .length = [theMutableText length] }];
+
+    [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+        if ([attrs objectForKey:(__bridge NSString *)kCTParagraphStyleAttributeName] == NULL)
+            {
+            [theMutableText addAttributes:theAttributes range:range];
+            }
+        }];
 
     return(theMutableText);
     }
