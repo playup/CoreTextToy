@@ -70,5 +70,7 @@ static CGFloat MyCTRunDelegateGetWidthCallback(void *refCon)
 
 static void MyCTRunDelegateDeallocCallback(void *refCon)
     {
-//    CFRelease(refCon);
+    // TODO This is __strange__ but it works.
+    
+    CFRelease(refCon);
     }

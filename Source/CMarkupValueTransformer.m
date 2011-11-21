@@ -123,7 +123,7 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
 
                 NSMutableDictionary *theImageAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                     theAttachment, kMarkupAttachmentAttributeName,
-                    (__bridge id)theRunDelegate, (__bridge id)kCTRunDelegateAttributeName,
+                    (__bridge_transfer id)theRunDelegate, (__bridge id)kCTRunDelegateAttributeName,
                     NULL];
                 
                 if (theCurrentLink != NULL)

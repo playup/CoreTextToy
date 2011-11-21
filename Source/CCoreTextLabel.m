@@ -106,7 +106,7 @@
         };
     CTParagraphStyleRef theParagraphStyle = CTParagraphStyleCreate( theSettings, 2 );
     NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
+        (__bridge_transfer id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
         NULL];
     [theMutableText addAttributes:theAttributes range:(NSRange){ .length = [theMutableText length] }];
 

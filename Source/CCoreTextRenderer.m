@@ -294,6 +294,8 @@
         theLastLineOrigin = theLineOrigin;
         }];
         
+    CFRelease(theFrame);
+        
     return(theIndex);
     }
 
