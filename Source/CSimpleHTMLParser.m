@@ -85,7 +85,7 @@
 
     NSMutableArray *theTagStack = [NSMutableArray array];
 
-    __block NSMutableString *theString = [NSMutableString string];
+    __weak NSMutableString *theString = [NSMutableString string];
 
     BOOL theLastCharacterWasWhitespace = NO;
 
