@@ -38,6 +38,7 @@
 + (UIFont *)fontWithCTFont:(CTFontRef)inCTFont;
 
 - (CTFontRef)CTFont;
+- (CGFontRef)CGFont;
 
 - (UIFont *)boldFont;
 - (UIFont *)italicFont;

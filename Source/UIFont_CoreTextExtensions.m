@@ -86,6 +86,21 @@ static void *kCTFontKey;
     return(theFont);
     }
 
+static void *kCGFontKey;
+
+- (CGFontRef)CGFont
+    {
+    CGFontRef theFont = (__bridge CGFontRef)objc_getAssociatedObject(self, &kCGFontKey);
+    if (theFont == NULL)
+        {
+        theFont = CGFontCreateWithFontName((__bridge CFStringRef)self.fontName);
+        NSAssert1(theFont != NULL, @"Could not convert font %@ to CGFont", self.fontName);
+
+        objc_setAssociatedObject(self, &kCGFontKey, (__bridge id)theFont, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
+    return(theFont);
+    }
+
 - (UIFont *)boldFont
     {
     for (NSString *theFontName in [UIFont fontNamesForFamilyName:self.familyName])
