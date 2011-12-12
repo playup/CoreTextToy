@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37850D021496641A004AAA31 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 37850D011496641A004AAA31 /* UIColor+Hex.m */; };
 		4528EA61145386F500814B3E /* NSAttributedString_DebugExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */; };
 		4528EAB91454816F00814B3E /* CExampleCoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4528EAB81454816F00814B3E /* CExampleCoreTextViewController.m */; };
 		453E8B7E1453255000C8A559 /* MissingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E8B7D1453255000C8A559 /* MissingImage.png */; };
@@ -53,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		37850CFF1496640E004AAA31 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		37850D011496641A004AAA31 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		4528EA5F145386F500814B3E /* NSAttributedString_DebugExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAttributedString_DebugExtensions.h; sourceTree = "<group>"; };
 		4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedString_DebugExtensions.m; sourceTree = "<group>"; };
 		4528EAB71454816F00814B3E /* CExampleCoreTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CExampleCoreTextViewController.h; sourceTree = "<group>"; };
@@ -151,6 +154,8 @@
 				45789C5B145F1338004EA63E /* CCoreTextAttachment.h */,
 				45789C5C145F1338004EA63E /* CCoreTextAttachment.m */,
 				453E8B7D1453255000C8A559 /* MissingImage.png */,
+				37850CFF1496640E004AAA31 /* UIColor+Hex.h */,
+				37850D011496641A004AAA31 /* UIColor+Hex.m */,
 			);
 			name = Source;
 			path = ../Source;
@@ -371,6 +376,7 @@
 				45920521145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m in Sources */,
 				4548A9F6145B2422001C5654 /* CResizerThumb.m in Sources */,
 				45789C5D145F1338004EA63E /* CCoreTextAttachment.m in Sources */,
+				37850D021496641A004AAA31 /* UIColor+Hex.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

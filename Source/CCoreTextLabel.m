@@ -37,6 +37,7 @@
 #import "CMarkupValueTransformer.h"
 #import "CCoreTextRenderer.h"
 #import "UIFont_CoreTextExtensions.h"
+#import "UIColor+Hex.h"
 
 @interface CCoreTextLabel ()
 @property (readwrite, nonatomic, retain) CCoreTextRenderer *renderer;
@@ -81,6 +82,13 @@
             {
             [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
             }
+        // [DW]
+        if ([attrs objectForKey:kMarkupTextColorAttributeName] != NULL)
+        {
+            NSString *theColorStr = [attrs objectForKey:kMarkupTextColorAttributeName];
+            if(theColorStr)
+                [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor colorWithHexString:theColorStr].CGColor range:range];
+        }
         }];
     
     CTTextAlignment theTextAlignment;

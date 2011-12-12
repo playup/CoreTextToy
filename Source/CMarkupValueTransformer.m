@@ -43,6 +43,7 @@ NSString *const kMarkupBoldAttributeName = @"com.touchcode.bold";
 NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
 NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustment";
 NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
+NSString *const kMarkupTextColorAttributeName = @"com.touchcode.textColor";
 
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTags;
@@ -93,6 +94,7 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
 
     __block NSMutableDictionary *theTextAttributes = NULL;
     __block NSURL *theCurrentLink = NULL;
+    __block NSString *theCurrentColor = NULL;
 
     CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
 
@@ -105,6 +107,14 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
                 theCurrentLink = [NSURL URLWithString:theURLString];
                 }
             }
+        else if ([inTag isEqualToString:@"font"] == YES)
+        {
+            NSString *theURLString = [inAttributes objectForKey:@"color"];
+            if ((id)theURLString != [NSNull null] && theURLString.length > 0)
+            {
+                theCurrentColor = [NSString stringWithString:theURLString];
+            }            
+        }
         else if ([inTag isEqualToString:@"img"] == YES)
             {
             NSString *theImageSource = [inAttributes objectForKey:@"src"];
@@ -139,11 +149,12 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
         };
 
     theParser.closeTagHandler = ^(NSString *inTag, NSArray *tagStack) {
-        if ([inTag isEqualToString:@"a"] == YES)
-            {
+        if ([inTag isEqualToString:@"a"] == YES|| [inTag isEqualToString:@"font"] == YES)
+        {
             theCurrentLink = NULL;
-            }
-        };
+            theCurrentColor = NULL;
+        }
+    };
 
     theParser.textHandler = ^(NSString *inString, NSArray *tagStack) {
         NSDictionary *theAttributes = [self attributesForTagStack:tagStack];
@@ -153,6 +164,12 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
             {
             [theTextAttributes setObject:theCurrentLink forKey:kMarkupLinkAttributeName];
             }
+        
+        if (theCurrentColor != NULL)
+        {
+            [theTextAttributes setObject:theCurrentColor forKey:kMarkupTextColorAttributeName];
+        }
+        
 
         [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:inString attributes:theTextAttributes]];
         };

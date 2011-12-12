@@ -46,7 +46,7 @@
     [self.label2.markupValueTransformer addStyleAttributes:theAttributes forTag:@"username"];
     self.label2.lineBreakMode = UILineBreakModeWordWrap;
     self.label2.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
-    self.label2.markup = @"<username>@schwa</username> RUBBERS";
+    self.label2.markup = @"<font color=\"#33ff00\">colored</font><username>@schwa</username> RUBBERS";
     
     // #########################################################################
     
