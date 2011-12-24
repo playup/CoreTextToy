@@ -117,8 +117,12 @@ NSString *const kMarkupTextColorAttributeName = @"com.touchcode.textColor";
         }
         else if ([inTag isEqualToString:@"img"] == YES)
             {
-            NSString *theImageSource = [inAttributes objectForKey:@"src"];
-            UIImage *theImage = [UIImage imageNamed:theImageSource];
+            id theImageSource = [inAttributes objectForKey:@"src"];
+            UIImage *theImage = NULL;
+            if (theImageSource != [NSNull null] && [theImageSource length] > 0)
+                {
+                theImage = [UIImage imageNamed:theImageSource];
+                }
             if (theImage == NULL)
                 {
                 theImage = [UIImage imageNamed:@"MissingImage.png"];
