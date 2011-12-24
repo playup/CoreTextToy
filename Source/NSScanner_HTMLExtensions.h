@@ -36,4 +36,6 @@
 - (BOOL)scanOpenTag:(NSString **)outTag attributes:(NSDictionary **)outAttributes;
 - (BOOL)scanCloseTag:(NSString **)outTag;
 
+- (BOOL)scanStandaloneTag:(NSString **)outTag attributes:(NSDictionary **)outAttributes;
+
 @end
