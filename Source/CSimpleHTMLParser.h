@@ -31,6 +31,13 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const kSimpleHTMLParserErrorDomain /* = @"kSimpleHTMLParserErrorDomain" */;
+enum {
+    kSimpleHTMLParserErrorCode_UnknownError = -1,
+    kSimpleHTMLParserErrorCode_StackUnderflow = -2,
+    kSimpleHTMLParserErrorCode_MalformedEntity = -3,
+    };
+
 @interface CSimpleHTMLParser : NSObject
 
 @property (readwrite, nonatomic, copy) void (^openTagHandler)(NSString *tag, NSDictionary *attributes, NSArray *tagStack);

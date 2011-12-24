@@ -33,6 +33,9 @@
 
 #import "NSScanner_HTMLExtensions.h"
 
+NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
+
+
 @interface CSimpleHTMLParser ()
 - (NSString *)stringForEntity:(NSString *)inEntity;
 @end
@@ -115,7 +118,7 @@
                     NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                         @"Stack underflow", NSLocalizedDescriptionKey,
                         NULL];
-                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                    *outError = [NSError errorWithDomain:kSimpleHTMLParserErrorDomain code:kSimpleHTMLParserErrorCode_StackUnderflow userInfo:theUserInfo];
                     }
                 return(NO);
                 }
@@ -144,6 +147,27 @@
                 [theTagStack addObject:theTag];
                 }
             }
+        else if ([theScanner scanStandaloneTag:&theTag attributes:&theAttributes] == YES)
+            {
+            if (theString.length > 0)
+                {
+                theLastCharacterWasWhitespace = NO;
+                self.textHandler(theString, theTagStack);
+                theString = [NSMutableString string];
+                }
+
+            if ([theTag isEqualToString:@"br"])
+                {
+                theLastCharacterWasWhitespace = YES;
+                self.textHandler(@"\n", theTagStack);
+                theString = [NSMutableString string];
+                }
+            else
+                {
+                self.openTagHandler(theTag, theAttributes, theTagStack);
+                self.closeTagHandler(theTag, theTagStack);
+                }
+            }
         else if ([theScanner scanString:@"&" intoString:NULL] == YES)
             {
             NSString *theEntity = NULL;
@@ -154,7 +178,7 @@
                     NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                         @"& not followed by ;", NSLocalizedDescriptionKey,
                         NULL];
-                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                    *outError = [NSError errorWithDomain:kSimpleHTMLParserErrorDomain code:kSimpleHTMLParserErrorCode_MalformedEntity userInfo:theUserInfo];
                     }
                 return(NO);
                 }
@@ -165,7 +189,7 @@
                     NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                         @"& not followed by ;", NSLocalizedDescriptionKey,
                         NULL];
-                    *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                    *outError = [NSError errorWithDomain:kSimpleHTMLParserErrorDomain code:kSimpleHTMLParserErrorCode_MalformedEntity userInfo:theUserInfo];
                     }
                 return(NO);
                 }
@@ -203,8 +227,10 @@
                 {
                 NSDictionary *theUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                     @"Unknown error occured!", NSLocalizedDescriptionKey,
+                    [NSNumber numberWithInt:theScanner.scanLocation], @"character",
+                    inString, @"markup",
                     NULL];
-                *outError = [NSError errorWithDomain:@"TODO_DOMAIN" code:-1 userInfo:theUserInfo];
+                *outError = [NSError errorWithDomain:kSimpleHTMLParserErrorDomain code:kSimpleHTMLParserErrorCode_UnknownError userInfo:theUserInfo];
                 }
             return(NO);
             }
