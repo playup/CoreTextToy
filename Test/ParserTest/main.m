@@ -58,6 +58,9 @@ White space mostly follows normal HTML rules. (But a bit buggy?)<br>\n\
 Links will work too:<br>\n\
 <a href=\"http://apple.com\">Apple</a><br>\n\
 <a href=\"http://google.com\">Google</a><br>\n\
+<a href=\"\">/<a> empty attributes\n\
+<foo/> standlone elements\n\
+<foo bar=\"x\"> standlone elements with attributes\n\
 ";
         
         if ([theParser parseString:theMarkup error:&theError] == NO)
