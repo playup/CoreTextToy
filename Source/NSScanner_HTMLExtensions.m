@@ -75,12 +75,7 @@
                 return(NO);
                 }
 
-            if ([self scanUpToString:@"\"" intoString:&theAttributeValue] == NO)
-                {
-                self.scanLocation = theSavedScanLocation;
-                self.charactersToBeSkipped = theSavedCharactersToBeSkipped;
-                return(NO);
-                }
+            [self scanUpToString:@"\"" intoString:&theAttributeValue];
 
             if ([self scanString:@"\"" intoString:NULL] == NO)
                 {
