@@ -44,6 +44,8 @@ NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
 NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustment";
 NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
 NSString *const kMarkupTextColorAttributeName = @"com.touchcode.textColor";
+NSString *const kMarkupBackgroundColorAttributeName = @"com.touchcode.backgroundColor";
+NSString *const kMarkupStrikeColorAttributeName = @"com.touchcode.strikeColor";
 
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTags;
@@ -216,13 +218,13 @@ NSString *const kMarkupTextColorAttributeName = @"com.touchcode.textColor";
 
     // ### mark
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)[UIColor yellowColor].CGColor, @"backgroundColor",
+        (__bridge id)[UIColor yellowColor].CGColor, kMarkupBackgroundColorAttributeName,
         NULL];
     [self addStyleAttributes:theAttributes forTag:@"mark"];
 
     // ### strike
     theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)[UIColor blackColor].CGColor, @"strikeColor",
+        (__bridge id)[UIColor blackColor].CGColor, kMarkupStrikeColorAttributeName,
         NULL];
     [self addStyleAttributes:theAttributes forTag:@"strike"];
 

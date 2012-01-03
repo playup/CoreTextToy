@@ -297,22 +297,21 @@
         
         renderer = [[CCoreTextRenderer alloc] initWithText:theNormalizedText size:theBounds.size];
 
-        #warning TODO make constants for backgroundColor and strikeColor
         [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:@"backgroundColor"];
+            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:kMarkupBackgroundColorAttributeName];
             CGContextSetFillColorWithColor(inContext, theColor2);
             CGContextFillRect(inContext, inRect);
-            } forAttributeKey:@"backgroundColor"];
+            } forAttributeKey:kMarkupBackgroundColorAttributeName];
 
         [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:@"strikeColor"];
+            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:kMarkupStrikeColorAttributeName];
             CGContextSetStrokeColorWithColor(inContext, theColor2);
             CGContextMoveToPoint(inContext, CGRectGetMinX(inRect), CGRectGetMidY(inRect));
             CGContextAddLineToPoint(inContext, CGRectGetMaxX(inRect), CGRectGetMidY(inRect));
             CGContextStrokePath(inContext);
-            } forAttributeKey:@"strikeColor"];
+            } forAttributeKey:kMarkupStrikeColorAttributeName];
         }
     return(renderer);
     }
