@@ -106,6 +106,12 @@
 
 - (CGSize)sizeThatFits:(CGSize)inSize
     {
+    if (inSize.width == 0.0 && inSize.height == 0.0)
+        {
+        inSize.width = CGFLOAT_MAX;
+        inSize.height = CGFLOAT_MAX;
+        }
+    
     CFRange theFitRange;
     CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){}, NULL, inSize, &theFitRange);
 
