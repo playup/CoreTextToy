@@ -129,3 +129,10 @@ For the long way see "How do I add custom styles?"
 * Support tags like "p" & <s>"br"</s> that don't style the text but do control flow <ins>(br is now implemented)</ins>
 * Support HTML entities
 * Support tags with attributes. This is important for the "a" tag.
+
+## Screen Shots
+
+<a href="wiki/Screen Shot 1.png"><img width="192" height="256" src="wiki/Screen Shot 1.png"/></a>
+
+<a href="wiki/Screen Shot 2.png"><img width="192" height="256" src="wiki/Screen Shot 2.png"/></a>
+
