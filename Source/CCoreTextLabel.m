@@ -304,7 +304,7 @@
             CGContextFillRect(inContext, inRect);
             } forAttributeKey:kMarkupBackgroundColorAttributeName];
 
-        [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+        [renderer addPostRendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
             
             CTFontRef theFont = (__bridge CTFontRef)[theAttributes2 objectForKey:(__bridge NSString *)kCTFontAttributeName];
