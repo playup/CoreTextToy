@@ -46,8 +46,6 @@ NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
 NSString *const kMarkupTextColorAttributeName = @"com.touchcode.textColor";
 NSString *const kMarkupBackgroundColorAttributeName = @"com.touchcode.backgroundColor";
 NSString *const kMarkupStrikeColorAttributeName = @"com.touchcode.strikeColor";
-NSString *const kMarkupShadowColorAttributeName = @"com.touchcode.shadowColor";
-NSString *const kMarkupShadowOffsetAttributeName = @"com.touchcode.shadowOffset";
 
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTags;

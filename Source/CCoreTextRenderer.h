@@ -10,6 +10,10 @@
 
 #import <CoreText/CoreText.h>
 
+extern NSString *const kShadowColorAttributeName;
+extern NSString *const kShadowOffsetAttributeName;
+extern NSString *const kShadowBlurRadiusAttributeName;
+
 @interface CCoreTextRenderer : NSObject
 
 @property (readonly, nonatomic, strong) NSAttributedString *text;

@@ -17,6 +17,10 @@
 
 //#define CORE_TEXT_SHOW_RUNS 1
 
+NSString *const kShadowColorAttributeName = @"com.touchcode.shadowColor";
+NSString *const kShadowOffsetAttributeName = @"com.touchcode.shadowOffset";
+NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadius";
+
 @interface CCoreTextRenderer ()
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *prerenderersForAttributes;
@@ -200,15 +204,17 @@
         [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
             // TODO: Optimisation instead of constantly saving/restoring state and setting shadow we can keep track of current shadow and only save/restore/set when there's a change.
             NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-            CGColorRef theShadowColor = (__bridge CGColorRef)[theAttributes objectForKey:kMarkupShadowColorAttributeName];
+            CGColorRef theShadowColor = (__bridge CGColorRef)[theAttributes objectForKey:kShadowColorAttributeName];
             CGSize theShadowOffset = CGSizeZero;
-            NSValue *theShadowOffsetValue = [theAttributes objectForKey:kMarkupShadowOffsetAttributeName];
+            NSValue *theShadowOffsetValue = [theAttributes objectForKey:kShadowOffsetAttributeName];
             if (theShadowColor != NULL && theShadowOffsetValue != NULL)
                 {
                 theShadowOffset = [theShadowOffsetValue CGSizeValue];
 
+                CGFloat theShadowBlurRadius = [[theAttributes objectForKey:kShadowBlurRadiusAttributeName] floatValue];
+
                 CGContextSaveGState(inContext);
-                CGContextSetShadowWithColor(inContext2, theShadowOffset, 0.0, theShadowColor);
+                CGContextSetShadowWithColor(inContext2, theShadowOffset, theShadowBlurRadius, theShadowColor);
                 }
 
             CGContextSetTextPosition(inContext2, 0, inRect.origin.y);

@@ -106,6 +106,11 @@ Links will work too:&lt;br>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <view contentMode="scaleToFill" id="BVh-bx-AJV" customClass="CCoreTextLabel">
+                                <rect key="frame" x="143" y="631" width="437" height="181"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This is a UILabel with shadow " lineBreakMode="tailTruncation" minimumFontSize="10" id="IDA-VA-7TK">
                                 <rect key="frame" x="136" y="578" width="437" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -123,6 +128,7 @@ Links will work too:&lt;br>
                         <outlet property="label2" destination="ZCd-jT-zLQ" id="M0P-Dw-n7z"/>
                         <outlet property="label3" destination="iDk-ZM-dad" id="llb-R8-6Nc"/>
                         <outlet property="label4" destination="ZCd-jT-zLQ" id="1zo-DG-aUW"/>
+                        <outlet property="label5" destination="BVh-bx-AJV" id="1Al-l0-kD7"/>
                     </connections>
                 </viewController>
             </objects>
@@ -193,6 +199,7 @@ Links will work too:&lt;br>
                 <relationship kind="outlet" name="label2" candidateClass="CCoreTextLabel"/>
                 <relationship kind="outlet" name="label3" candidateClass="CCoreTextLabel"/>
                 <relationship kind="outlet" name="label4" candidateClass="CCoreTextLabel"/>
+                <relationship kind="outlet" name="label5" candidateClass="CCoreTextLabel"/>
             </relationships>
         </class>
         <class className="CFreeformCoreTextViewController" superclassName="UIViewController">
