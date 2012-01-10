@@ -36,6 +36,15 @@
     return(self);
     }
 
+- (void)setFrame:(CGRect)inFrame
+    {
+    [super setFrame:inFrame];
+    
+    self.selectedLinkIndex = NSNotFound;
+    [self.selectionLayer removeFromSuperlayer];
+    self.selectionLayer = NULL;
+    }
+
 - (NSArray *)linkRanges
     {
     if (linkRanges == NULL)
