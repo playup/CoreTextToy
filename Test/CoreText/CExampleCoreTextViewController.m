@@ -22,6 +22,7 @@
 @synthesize label1;
 @synthesize label2;
 @synthesize label3;
+@synthesize label4;
 
 - (void)viewDidLoad
     {
@@ -55,6 +56,14 @@
     self.label3.textColor = [UIColor whiteColor];
     self.label3.lineBreakMode = UILineBreakModeWordWrap;
     self.label3.markup = @"<a href=\"link1\">@LINK1</a> The quick brown fox jumped over the lazy dog 1234567890 <a href=\"link2\">@LINK2</a> times.";
+
+    // #########################################################################
+
+    self.label4.text = [[NSAttributedString alloc] initWithString:@"This CCoreTextLabel with a shadow"];
+    self.label4.backgroundColor = [UIColor whiteColor];
+    self.label4.textColor = [UIColor blackColor];
+    self.label4.shadowColor = [[UIColor redColor] colorWithAlphaComponent:0.3333333];
+    
     }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

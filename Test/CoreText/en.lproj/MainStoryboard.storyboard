@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1934" systemVersion="11C73" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="93x-WQ-fvS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1938" systemVersion="11C73" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="93x-WQ-fvS">
     <dependencies>
         <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="931"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="933"/>
     </dependencies>
     <scenes>
         <scene sceneID="4">
@@ -71,11 +71,6 @@ Links will work too:&lt;br>
                                 <rect key="frame" x="136" y="203" width="437" height="104"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" id="ZCd-jT-zLQ" customClass="CCoreTextLabel">
-                                        <rect key="frame" x="97" y="53" width="320" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" red="0.3803921938" green="0.1960784495" blue="0.078431375319999996" alpha="1" colorSpace="deviceRGB"/>
-                                    </view>
                                     <view contentMode="scaleToFill" id="aCq-c8-VcB" customClass="CCoreTextLabel">
                                         <rect key="frame" x="97" y="20" width="320" height="31"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -106,6 +101,19 @@ Links will work too:&lt;br>
                                 </subviews>
                                 <color key="backgroundColor" red="0.32156863810000003" green="0.32156863810000003" blue="0.32156863810000003" alpha="1" colorSpace="deviceRGB"/>
                             </view>
+                            <view contentMode="scaleToFill" id="ZCd-jT-zLQ" customClass="CCoreTextLabel">
+                                <rect key="frame" x="136" y="531" width="437" height="31"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This is a UILabel with shadow " lineBreakMode="tailTruncation" minimumFontSize="10" id="IDA-VA-7TK">
+                                <rect key="frame" x="136" y="578" width="437" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" red="1" green="0.0" blue="0.0" alpha="0.33000000000000002" colorSpace="calibratedRGB"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -114,6 +122,7 @@ Links will work too:&lt;br>
                         <outlet property="label1" destination="aCq-c8-VcB" id="9CQ-N0-o6c"/>
                         <outlet property="label2" destination="ZCd-jT-zLQ" id="M0P-Dw-n7z"/>
                         <outlet property="label3" destination="iDk-ZM-dad" id="llb-R8-6Nc"/>
+                        <outlet property="label4" destination="ZCd-jT-zLQ" id="1zo-DG-aUW"/>
                     </connections>
                 </viewController>
             </objects>
@@ -183,6 +192,7 @@ Links will work too:&lt;br>
                 <relationship kind="outlet" name="label1" candidateClass="CCoreTextLabel"/>
                 <relationship kind="outlet" name="label2" candidateClass="CCoreTextLabel"/>
                 <relationship kind="outlet" name="label3" candidateClass="CCoreTextLabel"/>
+                <relationship kind="outlet" name="label4" candidateClass="CCoreTextLabel"/>
             </relationships>
         </class>
         <class className="CFreeformCoreTextViewController" superclassName="UIViewController">

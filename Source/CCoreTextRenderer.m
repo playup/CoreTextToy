@@ -189,7 +189,40 @@
     CGContextSetTextPosition(inContext, 0, 0);
 
     // ### Render the text...
-    CTFrameDraw(theFrame, inContext);
+
+    // TODO: Optimisation, if we have no shadows we can use the native (presumably faster) renderer.
+    if (0)
+        {
+        CTFrameDraw(theFrame, inContext);
+        }
+    else
+        {
+        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
+            // TODO: Optimisation instead of constantly saving/restoring state and setting shadow we can keep track of current shadow and only save/restore/set when there's a change.
+            NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            CGColorRef theShadowColor = (__bridge CGColorRef)[theAttributes objectForKey:kMarkupShadowColorAttributeName];
+            CGSize theShadowOffset = CGSizeZero;
+            NSValue *theShadowOffsetValue = [theAttributes objectForKey:kMarkupShadowOffsetAttributeName];
+            if (theShadowColor != NULL && theShadowOffsetValue != NULL)
+                {
+                theShadowOffset = [theShadowOffsetValue CGSizeValue];
+
+                CGContextSaveGState(inContext);
+                CGContextSetShadowWithColor(inContext2, theShadowOffset, 0.0, theShadowColor);
+                }
+
+            CGContextSetTextPosition(inContext2, 0, inRect.origin.y);
+
+            CTRunDraw(inRun, inContext2, (CFRange){});
+
+            if (theShadowColor != NULL && theShadowOffsetValue != NULL)
+                {
+                CGContextRestoreGState(inContext);
+                }
+            }];
+
+        }
+
 
     // ### Reset the text position (important!)
     CGContextSetTextPosition(inContext, 0, 0);

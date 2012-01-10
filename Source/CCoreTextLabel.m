@@ -44,7 +44,7 @@
 @property (readwrite, nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
 
 + (CTParagraphStyleRef)createParagraphStyleForAttributes:(NSDictionary *)inAttributes alignment:(CTTextAlignment)inTextAlignment lineBreakMode:(CTLineBreakMode)inLineBreakMode;
-+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
++ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
 - (void)tap:(UITapGestureRecognizer *)inGestureRecognizer;
 @end
 
@@ -55,6 +55,8 @@
 @synthesize URLHandler;
 @synthesize font;
 @synthesize textColor;
+@synthesize shadowColor;
+@synthesize shadowOffset;
 @synthesize textAlignment;
 @synthesize lineBreakMode;
 
@@ -63,7 +65,7 @@
 
 + (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)inSize 
     {
-    NSAttributedString *theNormalizedText = [self normalizeString:inString font:inBaseFont textColor:inTextColor alignment:inTextAlignment lineBreakMode:inLineBreakMode];
+    NSAttributedString *theNormalizedText = [self normalizeString:inString font:inBaseFont textColor:inTextColor shadowColor:NULL shadowOffset:(CGSize){ 0, -1 } alignment:inTextAlignment lineBreakMode:inLineBreakMode];
     CGSize theSize = [CCoreTextRenderer sizeForString:theNormalizedText thatFits:inSize];
     return(theSize);
     }
@@ -130,12 +132,14 @@
     return CTParagraphStyleCreate( newSettings, sizeof(newSettings)/sizeof(CTParagraphStyleSetting) );
     }
 
-+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode
++ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode
     {
     NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:inBaseFont] mutableCopy];
 
     UIFont *theFont = inBaseFont ?: [UIFont systemFontOfSize:17.0];
     UIColor *theColor = inTextColor ?: [UIColor blackColor];
+    
+    
     [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         if ([attrs objectForKey:(__bridge NSString *)kCTFontAttributeName] == NULL)
             {
@@ -145,13 +149,25 @@
             {
             [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
             }
+        if (inShadowColor)
+            {
+            if ([attrs objectForKey:kMarkupShadowColorAttributeName] == NULL)
+                {
+                [theMutableText addAttribute:kMarkupShadowColorAttributeName value:(__bridge id)inShadowColor.CGColor range:range];
+                }
+            if ([attrs objectForKey:kMarkupShadowOffsetAttributeName] == NULL)
+                {
+                [theMutableText addAttribute:kMarkupShadowOffsetAttributeName value:[NSValue valueWithCGSize:inShadowOffset] range:range];
+                }
+            }
+
         // [DW]
         if ([attrs objectForKey:kMarkupTextColorAttributeName] != NULL)
-        {
+            {
             NSString *theColorStr = [attrs objectForKey:kMarkupTextColorAttributeName];
             if(theColorStr)
                 [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor colorWithHexString:theColorStr].CGColor range:range];
-        }
+            }
         }];
     
     CTTextAlignment theTextAlignment;
@@ -192,6 +208,8 @@
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
+        shadowColor = NULL;
+        shadowOffset = (CGSize){ 0.0, -1.0 };
         textAlignment = UITextAlignmentLeft;
         lineBreakMode = UILineBreakModeTailTruncation;
         }
@@ -206,6 +224,8 @@
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
+        shadowColor = NULL;
+        shadowOffset = (CGSize){ 0.0, -1.0 };
         textAlignment = UITextAlignmentLeft;
         lineBreakMode = UILineBreakModeTailTruncation;
         }
@@ -290,7 +310,7 @@
     {
     if (renderer == NULL)
         {
-        NSAttributedString *theNormalizedText = [[self class] normalizeString:self.text font:self.font textColor:self.textColor alignment:self.textAlignment lineBreakMode:self.lineBreakMode];
+        NSAttributedString *theNormalizedText = [[self class] normalizeString:self.text font:self.font textColor:self.textColor shadowColor:self.shadowColor shadowOffset:self.shadowOffset alignment:self.textAlignment lineBreakMode:self.lineBreakMode];
 
         CGRect theBounds = self.bounds;
         theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
