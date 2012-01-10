@@ -306,10 +306,17 @@
 
         [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            
+            CTFontRef theFont = (__bridge CTFontRef)[theAttributes2 objectForKey:(__bridge NSString *)kCTFontAttributeName];
+            
+            CGFloat theXHeight = CTFontGetXHeight(theFont);
+            
             CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:kMarkupStrikeColorAttributeName];
             CGContextSetStrokeColorWithColor(inContext, theColor2);
-            CGContextMoveToPoint(inContext, CGRectGetMinX(inRect), CGRectGetMidY(inRect));
-            CGContextAddLineToPoint(inContext, CGRectGetMaxX(inRect), CGRectGetMidY(inRect));
+            const CGFloat Y = CGRectGetMidY(inRect) - theXHeight * 0.5f;
+            
+            CGContextMoveToPoint(inContext, CGRectGetMinX(inRect), Y);
+            CGContextAddLineToPoint(inContext, CGRectGetMaxX(inRect), Y);
             CGContextStrokePath(inContext);
             } forAttributeKey:kMarkupStrikeColorAttributeName];
         }
