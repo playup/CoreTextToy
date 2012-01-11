@@ -206,6 +206,7 @@
     if ((self = [super initWithFrame:frame]) != NULL)
         {
         self.contentMode = UIViewContentModeRedraw;
+        self.backgroundColor = [UIColor whiteColor];
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
