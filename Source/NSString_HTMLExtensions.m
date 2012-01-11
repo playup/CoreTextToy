@@ -68,10 +68,18 @@
 
 - (NSString *)stringByMarkingUpString
     {
+    return([self stringByMarkingUpString:YES]);
+    }
+
+- (NSString *)stringByMarkingUpString:(BOOL)inLinkifyString
+    {
     NSString *theString = [self stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
     theString = [theString stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
     theString = [theString stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
-    theString = [theString stringByLinkifyingString];
+    if (inLinkifyString == YES)
+        {
+        theString = [theString stringByLinkifyingString];
+        }
     theString = [theString stringByReplacingOccurrencesOfString:@"\n" withString:@"<br>"];
     return(theString);
     }

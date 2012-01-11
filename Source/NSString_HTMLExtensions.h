@@ -35,5 +35,6 @@
 
 - (NSString *)stringByLinkifyingString;
 - (NSString *)stringByMarkingUpString;
+- (NSString *)stringByMarkingUpString:(BOOL)inLinkifyString;
 
 @end
