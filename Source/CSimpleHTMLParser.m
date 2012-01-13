@@ -88,7 +88,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 
     NSMutableArray *theTagStack = [NSMutableArray array];
 
-    __weak NSMutableString *theString = [NSMutableString string];
+    __block NSMutableString *theString = [NSMutableString string];
 
     BOOL theLastCharacterWasWhitespace = NO;
 
