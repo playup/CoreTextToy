@@ -17,5 +17,6 @@
 @property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label3;
 @property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label4;
 @property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label5;
+@property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label6;
 
 @end

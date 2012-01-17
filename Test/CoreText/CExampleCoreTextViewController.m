@@ -24,6 +24,7 @@
 @synthesize label3;
 @synthesize label4;
 @synthesize label5;
+@synthesize label6;
 
 - (void)viewDidLoad
     {
@@ -65,6 +66,8 @@
     self.label4.textColor = [UIColor blackColor];
     self.label4.shadowColor = [[UIColor redColor] colorWithAlphaComponent:0.3333333];
 
+    // #########################################################################
+
     self.label5.markup = @"This should <font color=\"#0000FF\">GLOW</font>";
     self.label5.backgroundColor = [UIColor grayColor];
     self.label5.font = [UIFont systemFontOfSize:36];
@@ -72,6 +75,14 @@
     self.label5.shadowColor = [UIColor blueColor];
     self.label5.shadowOffset = CGSizeZero;
     self.label5.shadowBlurRadius = 30.0;    
+
+    // #########################################################################
+
+    self.label6.markup = @"<img src=\"reply-badge.png\" baseline=\"-2\"> This is right justified?";
+    self.label6.backgroundColor = [UIColor grayColor];
+    self.label6.textAlignment = UITextAlignmentRight;
+    self.label6.textColor = [UIColor whiteColor];
+    self.label6.font = [UIFont systemFontOfSize:18];
     
     }
 

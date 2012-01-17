@@ -25,6 +25,7 @@ NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadiu
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *prerenderersForAttributes;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *postRenderersForAttributes;
+@property (readwrite, nonatomic, assign) BOOL enableShadowRenderer;
 
 - (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler;
 @end
@@ -35,6 +36,7 @@ NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadiu
 @synthesize size;
 @synthesize prerenderersForAttributes;
 @synthesize postRenderersForAttributes;
+@synthesize enableShadowRenderer;
 
 @synthesize framesetter;
 
@@ -63,6 +65,7 @@ NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadiu
         {
         text = inText;
         size = inSize;
+        enableShadowRenderer = YES;
         }
     return self;
     }
@@ -195,38 +198,56 @@ NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadiu
     // ### Render the text...
 
     // TODO: Optimisation, if we have no shadows we can use the native (presumably faster) renderer.
-    if (0)
+    if (self.enableShadowRenderer == NO)
         {
         CTFrameDraw(theFrame, inContext);
         }
     else
         {
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
-            // TODO: Optimisation instead of constantly saving/restoring state and setting shadow we can keep track of current shadow and only save/restore/set when there's a change.
-            NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-            CGColorRef theShadowColor = (__bridge CGColorRef)[theAttributes objectForKey:kShadowColorAttributeName];
-            CGSize theShadowOffset = CGSizeZero;
-            NSValue *theShadowOffsetValue = [theAttributes objectForKey:kShadowOffsetAttributeName];
-            if (theShadowColor != NULL && theShadowOffsetValue != NULL)
+
+        NSUInteger idx = 0;
+        for (id obj in theLines)
+            {
+            CTLineRef theLine = (__bridge CTLineRef)obj;
+
+            // ### Get the line rect offseting it by the line origin
+            const CGPoint theLineOrigin = theLineOrigins[idx];
+
+            CGContextSetTextPosition(inContext, theLineOrigin.x, theLineOrigin.y);
+            
+            // ### Iterate each run... Keeping track of our X position...
+            NSArray *theRuns = (__bridge NSArray *)CTLineGetGlyphRuns(theLine);
+            for (id oneRun in theRuns)
                 {
-                theShadowOffset = [theShadowOffsetValue CGSizeValue];
+                CTRunRef theRun = (__bridge CTRunRef)oneRun;
 
-                CGFloat theShadowBlurRadius = [[theAttributes objectForKey:kShadowBlurRadiusAttributeName] floatValue];
+                // TODO: Optimisation instead of constantly saving/restoring state and setting shadow we can keep track of current shadow and only save/restore/set when there's a change.
+                NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(theRun);
+                CGColorRef theShadowColor = (__bridge CGColorRef)[theAttributes objectForKey:kShadowColorAttributeName];
+                CGSize theShadowOffset = CGSizeZero;
+                NSValue *theShadowOffsetValue = [theAttributes objectForKey:kShadowOffsetAttributeName];
+                if (theShadowColor != NULL && theShadowOffsetValue != NULL)
+                    {
+                    theShadowOffset = [theShadowOffsetValue CGSizeValue];
 
-                CGContextSaveGState(inContext);
-                CGContextSetShadowWithColor(inContext2, theShadowOffset, theShadowBlurRadius, theShadowColor);
+                    CGFloat theShadowBlurRadius = [[theAttributes objectForKey:kShadowBlurRadiusAttributeName] floatValue];
+
+                    CGContextSaveGState(inContext);
+                    CGContextSetShadowWithColor(inContext, theShadowOffset, theShadowBlurRadius, theShadowColor);
+                    }
+
+                // Render!
+                CTRunDraw(theRun, inContext, (CFRange){});
+
+                // Restore state if we were in a shadow
+                if (theShadowColor != NULL && theShadowOffsetValue != NULL)
+                    {
+                    CGContextRestoreGState(inContext);
+                    }
                 }
 
-            CGContextSetTextPosition(inContext2, 0, inRect.origin.y);
-
-            CTRunDraw(inRun, inContext2, (CFRange){});
-
-            if (theShadowColor != NULL && theShadowOffsetValue != NULL)
-                {
-                CGContextRestoreGState(inContext);
-                }
-            }];
-
+            idx++;
+            }
         }
 
 
