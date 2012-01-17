@@ -169,7 +169,6 @@
 
         [theMutableText addAttributes:theShadowAttributes range:(NSRange){ .length = [theMutableText length] }];
         }
-
     
     CTTextAlignment theTextAlignment;
     switch (inTextAlignment)
@@ -188,15 +187,11 @@
     // UILineBreakMode maps 1:1 to CTLineBreakMode
     CTLineBreakMode theLineBreakMode = inLineBreakMode;
 
-    CTParagraphStyleSetting theSettings[] = {
-        { .spec = kCTParagraphStyleSpecifierAlignment, .valueSize = sizeof(theTextAlignment), .value = &theTextAlignment, },
-        { .spec = kCTParagraphStyleSpecifierLineBreakMode, .valueSize = sizeof(theLineBreakMode), .value = &theLineBreakMode, },
-        };
-    CTParagraphStyleRef theParagraphStyle = CTParagraphStyleCreate( theSettings, 2 );
-    NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge_transfer id)theParagraphStyle, (__bridge id)kCTParagraphStyleAttributeName,
-        NULL];
-    [theMutableText addAttributes:theAttributes range:(NSRange){ .length = [theMutableText length] }];
+    [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+        CTParagraphStyleRef newParagraphStyle = [self createParagraphStyleForAttributes:attrs alignment:theTextAlignment lineBreakMode:theLineBreakMode];
+        [theMutableText addAttribute:(__bridge NSString *)kCTParagraphStyleAttributeName value:(__bridge id)newParagraphStyle range:range];
+        CFRelease(newParagraphStyle);
+        }];
 
     return(theMutableText);
     }
