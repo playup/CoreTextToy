@@ -201,12 +201,18 @@
     return(theMutableText);
     }
 
+#pragma mark -
+
 - (id)initWithFrame:(CGRect)frame
     {
     if ((self = [super initWithFrame:frame]) != NULL)
         {
         self.contentMode = UIViewContentModeRedraw;
         self.backgroundColor = [UIColor whiteColor];
+
+        self.isAccessibilityElement = YES;
+        self.accessibilityTraits = UIAccessibilityTraitStaticText;
+        self.accessibilityLabel = @"";
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
@@ -224,6 +230,10 @@
     if ((self = [super initWithCoder:inCoder]) != NULL)
         {
         self.contentMode = UIViewContentModeRedraw;
+
+        self.isAccessibilityElement = YES;
+        self.accessibilityTraits = UIAccessibilityTraitStaticText;
+        self.accessibilityLabel = @"";
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
@@ -275,6 +285,8 @@
     if (text != inText)
         {
         text = inText;
+        
+        self.accessibilityLabel = inText.string;
         
         self.renderer = NULL;
         [self setNeedsDisplay];
