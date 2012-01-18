@@ -17,6 +17,17 @@
 #import "UIFont_CoreTextExtensions.h"
 #import "NSAttributedString_DebugExtensions.h"
 
+@interface CExampleCoreTextViewController ()
+@property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label1;
+@property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label2;
+@property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label3;
+@property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label4;
+@property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label5;
+@property (readwrite, nonatomic, retain) IBOutlet CCoreTextLabel *label6;
+
+@property (readwrite, nonatomic, retain) CALayer *sizeLayer;
+@end
+
 @implementation CExampleCoreTextViewController
 
 @synthesize label1;
@@ -25,6 +36,7 @@
 @synthesize label4;
 @synthesize label5;
 @synthesize label6;
+@synthesize sizeLayer;
 
 - (void)viewDidLoad
     {
@@ -78,17 +90,38 @@
 
     // #########################################################################
 
-    self.label6.markup = @"<img src=\"reply-badge.png\" baseline=\"-2\"> This is right justified?";
+    self.label6.text = [[NSAttributedString alloc] initWithString:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Lorem" ofType:@"txt"]]];
+    self.label6.insets = (UIEdgeInsets){ .left = 20, .top = 20, .right = 20, .bottom = 20 };
+    self.label6.lineBreakMode = UILineBreakModeWordWrap;
+    
     self.label6.backgroundColor = [UIColor grayColor];
-    self.label6.textAlignment = UITextAlignmentRight;
+//    self.label6.textAlignment = UITextAlignmentRight;
     self.label6.textColor = [UIColor whiteColor];
     self.label6.font = [UIFont systemFontOfSize:18];
+    
+    
+    self.sizeLayer = [CALayer layer];
+    self.sizeLayer.borderColor = [UIColor blackColor].CGColor;
+    self.sizeLayer.borderWidth = 1.0;
+    self.sizeLayer.bounds = (CGRect){ .size = [CCoreTextLabel sizeForString:self.label6.text font:self.label6.font alignment:self.label6.textAlignment lineBreakMode:self.label6.lineBreakMode contentInsets:self.label6.insets thatFits:self.label6.frame.size] };
+    self.sizeLayer.anchorPoint = (CGPoint){ 0, 0 };
+    self.sizeLayer.position = (CGPoint){ 20, 20 };
+    [self.label6.layer addSublayer:self.sizeLayer];
+    
+    [self addObserver:self forKeyPath:@"label6.frame" options:0 context:NULL];
     
     }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
     {
     return(YES);
+    }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
+    {
+    self.sizeLayer.bounds = (CGRect){ .size = [CCoreTextLabel sizeForString:self.label6.text font:self.label6.font alignment:self.label6.textAlignment lineBreakMode:self.label6.lineBreakMode contentInsets:self.label6.insets thatFits:self.label6.frame.size] };
+    self.sizeLayer.anchorPoint = (CGPoint){ 0, 0 };
+    self.sizeLayer.position = (CGPoint){ 20, 20 };
     }
     
 @end
