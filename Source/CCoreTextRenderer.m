@@ -42,7 +42,6 @@ NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadiu
 
 + (CGSize)sizeForString:(NSAttributedString *)inString thatFits:(CGSize)inSize
     {
-    #warning TODO -- this doesn't support insets yet...
     CTFramesetterRef theFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)inString);
     CGSize theSize = CGSizeZero;
     if (theFramesetter != NULL)
