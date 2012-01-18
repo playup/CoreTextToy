@@ -64,9 +64,14 @@
 @synthesize renderer;
 @synthesize tapRecognizer;
 
-+ (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode thatFits:(CGSize)inSize 
++ (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode contentInsets:(UIEdgeInsets)inContentInsets thatFits:(CGSize)inSize 
     {
-    NSAttributedString *theNormalizedText = [self normalizeString:inString font:inBaseFont textColor:inTextColor shadowColor:NULL shadowOffset:(CGSize){ 0, -1 } shadowBlurRadius:0.0 alignment:inTextAlignment lineBreakMode:inLineBreakMode];
+    NSAttributedString *theNormalizedText = [self normalizeString:inString font:inBaseFont textColor:[UIColor blackColor] shadowColor:NULL shadowOffset:(CGSize){ 0, -1 } shadowBlurRadius:0.0 alignment:inTextAlignment lineBreakMode:inLineBreakMode];
+    
+    CGRect theRect = (CGRect){ .size = inSize };
+    theRect = UIEdgeInsetsInsetRect(theRect, inContentInsets);
+    inSize = theRect.size; 
+    
     CGSize theSize = [CCoreTextRenderer sizeForString:theNormalizedText thatFits:inSize];
     return(theSize);
     }
