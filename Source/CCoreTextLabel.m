@@ -343,7 +343,7 @@
     if (self.enabled == NO)
         {
         // 0.44 seems to be magic number (at least with black text).
-        CGContextSetAlpha(theContext, 0.44);
+        CGContextSetAlpha(theContext, 0.44f);
         }
 
     [self.renderer drawInContext:theContext];
@@ -482,7 +482,7 @@
         }
     
     // UILineBreakMode maps 1:1 to CTLineBreakMode
-    CTLineBreakMode theLineBreakMode = [[inSettings valueForKey:@"lineBreakMode"] integerValue];
+    CTLineBreakMode theLineBreakMode = (CTLineBreakMode)[[inSettings valueForKey:@"lineBreakMode"] unsignedIntegerValue];
 
     [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         CTParagraphStyleRef newParagraphStyle = [self createParagraphStyleForAttributes:attrs alignment:theTextAlignment lineBreakMode:theLineBreakMode];

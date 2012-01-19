@@ -38,10 +38,10 @@
 	[[NSScanner scannerWithString:alpha] scanHexInt:&colorValueA];
     
     
-	return [UIColor colorWithRed:((colorValueR)&0xFF)/255.0 
-                           green:((colorValueG)&0xFF)/255.0 
-                            blue:((colorValueB)&0xFF)/255.0 
-                           alpha:((colorValueA)&0xFF)/255.0];
+	return [UIColor colorWithRed:((colorValueR)&0xFF)/255.0f 
+                           green:((colorValueG)&0xFF)/255.0f 
+                            blue:((colorValueB)&0xFF)/255.0f 
+                           alpha:((colorValueA)&0xFF)/255.0f];
     
     
 }
