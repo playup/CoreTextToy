@@ -52,15 +52,18 @@
 @implementation CCoreTextLabel
 
 @synthesize text;
-@synthesize insets;
-@synthesize URLHandler;
 @synthesize font;
 @synthesize textColor;
+@synthesize textAlignment;
+@synthesize lineBreakMode;
 @synthesize shadowColor;
 @synthesize shadowOffset;
 @synthesize shadowBlurRadius;
-@synthesize textAlignment;
-@synthesize lineBreakMode;
+@synthesize highlightedTextColor;
+@synthesize highlighted;
+@synthesize enabled;
+@synthesize insets;
+@synthesize URLHandler;
 
 @synthesize renderer;
 @synthesize tapRecognizer;
@@ -135,32 +138,9 @@
     [super setFrame:inFrame];
 
     self.renderer = NULL;
-    [self setNeedsDisplay];
     }
 
 #pragma mark -
-
-- (void)setTextAlignment:(UITextAlignment)inTextAlignment
-    {
-    if (textAlignment != inTextAlignment)
-        {
-        textAlignment = inTextAlignment;
-        
-        self.renderer = NULL;
-        [self setNeedsDisplay];
-        }
-    }
-    
-- (void)setLineBreakMode:(UILineBreakMode)inLineBreakMode
-    {
-    if (lineBreakMode != inLineBreakMode)
-        {
-        lineBreakMode = inLineBreakMode;
-        
-        self.renderer = NULL;
-        [self setNeedsDisplay];
-        }
-    }
 
 - (void)setText:(NSAttributedString *)inText
     {
@@ -171,7 +151,109 @@
         self.accessibilityLabel = inText.string;
         
         self.renderer = NULL;
-        [self setNeedsDisplay];
+        }
+    }
+
+- (void)setFont:(UIFont *)inFont
+    {
+    if (font != inFont)
+        {
+        font = inFont;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setTextColor:(UIColor *)inTextColor
+    {
+    if (textColor != inTextColor)
+        {
+        textColor = inTextColor;
+        
+        if (self.highlighted == NO)
+            {
+            self.renderer = NULL;
+            }
+        }
+    }
+
+- (void)setTextAlignment:(UITextAlignment)inTextAlignment
+    {
+    if (textAlignment != inTextAlignment)
+        {
+        textAlignment = inTextAlignment;
+        
+        self.renderer = NULL;
+        }
+    }
+    
+- (void)setLineBreakMode:(UILineBreakMode)inLineBreakMode
+    {
+    if (lineBreakMode != inLineBreakMode)
+        {
+        lineBreakMode = inLineBreakMode;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setShadowColor:(UIColor *)inShadowColor
+    {
+    if (shadowColor != inShadowColor)
+        {
+        shadowColor = inShadowColor;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setShadowOffset:(CGSize)inShadowOffset
+    {
+    shadowOffset = inShadowOffset;
+    
+    self.renderer = NULL;
+    }
+
+- (void)setShadowBlurRadius:(CGFloat)inShadowBlurRadius
+    {
+    if (shadowBlurRadius != inShadowBlurRadius)
+        {
+        shadowBlurRadius = inShadowBlurRadius;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setHighlightedTextColor:(UIColor *)inHighlightedTextColor
+    {
+    if (highlightedTextColor != inHighlightedTextColor)
+        {
+        highlightedTextColor = inHighlightedTextColor;
+        
+        if (self.highlighted == NO)
+            {
+            self.renderer = NULL;
+            }
+        }
+    }
+
+- (void)setHighlighted:(BOOL)inHighlighted
+    {
+    if (highlighted != inHighlighted)
+        {
+        highlighted = inHighlighted;
+
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setEnabled:(BOOL)inEnabled
+    {
+    if (enabled != inEnabled)
+        {
+        enabled = inEnabled;
+        
+        self.renderer = NULL;
         }
     }
 
@@ -180,7 +262,6 @@
     insets = inInsets;
 
     self.renderer = NULL;
-    [self setNeedsDisplay];
     }
 
 - (void)setURLHandler:(void (^)(NSURL *))inURLHandler
@@ -241,6 +322,16 @@
     return(renderer);
     }
 
+- (void)setRenderer:(CCoreTextRenderer *)inRenderer
+    {
+    if (renderer != inRenderer)
+        {
+        renderer = inRenderer;
+        
+        [self setNeedsDisplay];
+        }
+    }
+
 #pragma mark -
 
 - (CGSize)sizeThatFits:(CGSize)size
@@ -270,16 +361,6 @@
     [self.renderer drawInContext:theContext];
 
     CGContextRestoreGState(theContext);    
-
-// If you wanted to dump the rendered images to disk so you can make sure it is rendering correctly here's how you could do it...
-//    #if 1
-//    UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0.0);
-//    theContext = UIGraphicsGetCurrentContext();
-//    [self.renderer drawInContext:theContext];
-//    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    [UIImagePNGRepresentation(theImage) writeToFile:[NSString stringWithFormat:@"/Users/schwa/Desktop/%d.png", [theImage hash]] atomically:NO];
-//    #endif
     }
 
 #pragma mark -
