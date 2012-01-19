@@ -44,7 +44,8 @@
 @property (readwrite, nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
 
 + (CTParagraphStyleRef)createParagraphStyleForAttributes:(NSDictionary *)inAttributes alignment:(CTTextAlignment)inTextAlignment lineBreakMode:(CTLineBreakMode)inLineBreakMode;
-+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset shadowBlurRadius:(CGFloat)inShadowBlurRadius alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
+//+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset shadowBlurRadius:(CGFloat)inShadowBlurRadius alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
++ (NSAttributedString *)normalizeString:(NSAttributedString *)inString settings:(id)inSettings;
 - (void)tap:(UITapGestureRecognizer *)inGestureRecognizer;
 @end
 
@@ -66,8 +67,14 @@
 
 + (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode contentInsets:(UIEdgeInsets)inContentInsets thatFits:(CGSize)inSize 
     {
-    NSAttributedString *theNormalizedText = [self normalizeString:inString font:inBaseFont textColor:[UIColor blackColor] shadowColor:NULL shadowOffset:(CGSize){ 0, -1 } shadowBlurRadius:0.0 alignment:inTextAlignment lineBreakMode:inLineBreakMode];
-    
+    NSDictionary *theSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+        inBaseFont, @"font",
+        [NSNumber numberWithInteger:inTextAlignment], @"textAlignment",
+        [NSNumber numberWithInteger:inLineBreakMode], @"lineBreakMode",
+        NULL];
+        
+    NSAttributedString *theNormalizedText = [self normalizeString:inString settings:theSettings];
+        
     CGRect theRect = (CGRect){ .size = inSize };
     theRect = UIEdgeInsetsInsetRect(theRect, inContentInsets);
     inSize = theRect.size; 
@@ -201,7 +208,7 @@
     {
     if (renderer == NULL)
         {
-        NSAttributedString *theNormalizedText = [[self class] normalizeString:self.text font:self.font textColor:self.textColor shadowColor:self.shadowColor shadowOffset:self.shadowOffset shadowBlurRadius:self.shadowBlurRadius alignment:self.textAlignment lineBreakMode:self.lineBreakMode];
+        NSAttributedString *theNormalizedText = [[self class] normalizeString:self.text settings:self];
 
         CGRect theBounds = self.bounds;
         theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
@@ -339,14 +346,13 @@
     return CTParagraphStyleCreate( newSettings, sizeof(newSettings)/sizeof(CTParagraphStyleSetting) );
     }
 
-+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset shadowBlurRadius:(CGFloat)inShadowBlurRadius alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode
++ (NSAttributedString *)normalizeString:(NSAttributedString *)inString settings:(id)inSettings;
     {
-    NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:inBaseFont] mutableCopy];
+    UIFont *theFont = [inSettings valueForKey:@"font"] ?: [UIFont systemFontOfSize:17.0];
+    
+    NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:theFont] mutableCopy];
 
-    UIFont *theFont = inBaseFont ?: [UIFont systemFontOfSize:17.0];
-    UIColor *theColor = inTextColor ?: [UIColor blackColor];
-    
-    
+    UIColor *theColor = [inSettings valueForKey:@"textColor"] ?: [UIColor blackColor];
     [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         if ([attrs objectForKey:(__bridge NSString *)kCTFontAttributeName] == NULL)
             {
@@ -366,32 +372,38 @@
             }
         }];
 
-    if (inShadowColor != NULL)
+    UIColor *theShadowColor = [inSettings valueForKey:@"shadowColor"];
+    if (theShadowColor != NULL)
         {
         NSMutableDictionary *theShadowAttributes = [NSMutableDictionary dictionary];
-        [theShadowAttributes setObject:(__bridge id)inShadowColor.CGColor forKey:kShadowColorAttributeName];
-        [theShadowAttributes setObject:[NSValue valueWithCGSize:inShadowOffset] forKey:kShadowOffsetAttributeName];
-        [theShadowAttributes setObject:[NSNumber numberWithFloat:inShadowBlurRadius] forKey:kShadowBlurRadiusAttributeName];
+        [theShadowAttributes setObject:(__bridge id)theShadowColor.CGColor forKey:kShadowColorAttributeName];
+        
+        NSValue *theShadowOffset = [inSettings valueForKey:@"shadowOffset"];
+        [theShadowAttributes setObject:theShadowOffset forKey:kShadowOffsetAttributeName];
+
+        NSNumber *theShadowBlueRadius = [inSettings valueForKey:@"shadowBlurRadius"];
+        [theShadowAttributes setObject:theShadowBlueRadius forKey:kShadowBlurRadiusAttributeName];
 
         [theMutableText addAttributes:theShadowAttributes range:(NSRange){ .length = [theMutableText length] }];
         }
     
     CTTextAlignment theTextAlignment;
-    switch (inTextAlignment)
+    switch ([[inSettings valueForKey:@"textAlignment"] integerValue])
         {
-        case UITextAlignmentLeft:
-            theTextAlignment = kCTLeftTextAlignment;
-            break;
         case UITextAlignmentCenter:
             theTextAlignment = kCTCenterTextAlignment;
             break;
         case UITextAlignmentRight:
             theTextAlignment = kCTRightTextAlignment;
             break;
+        case UITextAlignmentLeft:
+        default:
+            theTextAlignment = kCTLeftTextAlignment;
+            break;
         }
     
     // UILineBreakMode maps 1:1 to CTLineBreakMode
-    CTLineBreakMode theLineBreakMode = inLineBreakMode;
+    CTLineBreakMode theLineBreakMode = [[inSettings valueForKey:@"lineBreakMode"] integerValue];
 
     [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         CTParagraphStyleRef newParagraphStyle = [self createParagraphStyleForAttributes:attrs alignment:theTextAlignment lineBreakMode:theLineBreakMode];
