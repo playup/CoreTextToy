@@ -88,30 +88,21 @@
 
     __block NSMutableDictionary *theTextAttributes = NULL;
     __block NSURL *theCurrentLink = NULL;
-    __block NSString *theCurrentColor = NULL;
 
     CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
 
-    theParser.openTagHandler = ^(NSString *inTag, NSDictionary *inAttributes, NSArray *tagStack) {
-        if ([inTag isEqualToString:@"a"] == YES)
+    theParser.openTagHandler = ^(CTag *inTag, NSArray *tagStack) {
+        if ([inTag.name isEqualToString:@"a"] == YES)
             {
-            NSString *theURLString = [inAttributes objectForKey:@"href"];
+            NSString *theURLString = [inTag.attributes objectForKey:@"href"];
             if ((id)theURLString != [NSNull null] && theURLString.length > 0)
                 {
                 theCurrentLink = [NSURL URLWithString:theURLString];
                 }
             }
-        else if ([inTag isEqualToString:@"font"] == YES)
-        {
-            NSString *theURLString = [inAttributes objectForKey:@"color"];
-            if ((id)theURLString != [NSNull null] && theURLString.length > 0)
+        else if ([inTag.name isEqualToString:@"img"] == YES)
             {
-                theCurrentColor = [NSString stringWithString:theURLString];
-            }            
-        }
-        else if ([inTag isEqualToString:@"img"] == YES)
-            {
-            id theImageSource = [inAttributes objectForKey:@"src"];
+            id theImageSource = [inTag.attributes objectForKey:@"src"];
             UIImage *theImage = NULL;
             if (theImageSource != [NSNull null] && [theImageSource length] > 0)
                 {
@@ -146,12 +137,11 @@
             }
         };
 
-    theParser.closeTagHandler = ^(NSString *inTag, NSArray *tagStack) {
-        if ([inTag isEqualToString:@"a"] == YES|| [inTag isEqualToString:@"font"] == YES)
-        {
+    theParser.closeTagHandler = ^(CTag *inTag, NSArray *tagStack) {
+        if ([inTag.name isEqualToString:@"a"] == YES == YES)
+            {
             theCurrentLink = NULL;
-            theCurrentColor = NULL;
-        }
+            }
     };
 
     theParser.textHandler = ^(NSString *inString, NSArray *tagStack) {
@@ -163,12 +153,6 @@
             [theTextAttributes setObject:theCurrentLink forKey:kMarkupLinkAttributeName];
             }
         
-        if (theCurrentColor != NULL)
-        {
-            [theTextAttributes setObject:theCurrentColor forKey:kMarkupTextHexColorAttributeName];
-        }
-        
-
         [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:inString attributes:theTextAttributes]];
         };
 
@@ -237,6 +221,15 @@
             NULL]);
         };
     [self addHandler:theTagHandler forTag:@"small"];
+
+
+    // ### font
+    theTagHandler = ^(void) {
+        NSLog(@"FONT");
+        
+        return((NSDictionary *)NULL);
+        };
+    [self addHandler:theTagHandler forTag:@"font"];
     }
 
 - (void)addHandler:(BTagHandler)inHandler forTag:(NSString *)inTag
@@ -268,7 +261,7 @@
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack
     {
-    NSSet *theTagSet = [NSSet setWithArray:inTagStack];
+    NSSet *theTagSet = [NSSet setWithArray:[inTagStack valueForKey:@"name"]];
     NSMutableDictionary *theCumulativeAttributes = [NSMutableDictionary dictionary];
     
     for (NSDictionary *theDictionary in self.tagHandlers)

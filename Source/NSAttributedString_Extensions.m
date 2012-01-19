@@ -15,7 +15,6 @@ NSString *const kMarkupLinkAttributeName = @"com.touchcode.link";
 NSString *const kMarkupBoldAttributeName = @"com.touchcode.bold";
 NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
 NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustment";
-NSString *const kMarkupTextHexColorAttributeName = @"com.touchcode.textHexColor";
 NSString *const kShadowColorAttributeName = @"com.touchcode.shadowColor";
 NSString *const kShadowOffsetAttributeName = @"com.touchcode.shadowOffset";
 NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadius";

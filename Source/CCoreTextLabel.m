@@ -443,14 +443,6 @@
             {
             [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theTextColor.CGColor range:range];
             }
-
-        // [DW]
-        if ([attrs objectForKey:kMarkupTextHexColorAttributeName] != NULL)
-            {
-            NSString *theColorStr = [attrs objectForKey:kMarkupTextHexColorAttributeName];
-            if(theColorStr)
-                [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor colorWithHexString:theColorStr].CGColor range:range];
-            }
         }];
 
     if ([[inSettings valueForKey:@"highlighted"] boolValue] == YES)

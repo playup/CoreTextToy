@@ -50,8 +50,8 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 	{
 	if ((self = [super init]) != NULL)
 		{
-        openTagHandler = ^(NSString *tag, NSDictionary *attributes, NSArray *tagStack) {};
-        closeTagHandler = ^(NSString *tag, NSArray *tagStack) {};
+        openTagHandler = ^(CTag *tag, NSArray *tagStack) {};
+        closeTagHandler = ^(CTag *tag, NSArray *tagStack) {};
         textHandler = ^(NSString *text, NSArray *tagStack) {};
 		}
 	return(self);
@@ -96,11 +96,14 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
         {
         NSString *theRun = NULL;
 
-        NSString *theTag = NULL;
+        NSString *theTagName = NULL;
         NSDictionary *theAttributes = NULL;
 
-        if ([theScanner scanCloseTag:&theTag] == YES)
+        if ([theScanner scanCloseTag:&theTagName] == YES)
             {
+            CTag *theTag = [[CTag alloc] init];
+            theTag.name = theTagName;
+            
             if (theString.length > 0)
                 {
                 theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
@@ -110,7 +113,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 
             self.closeTagHandler(theTag, theTagStack);
 
-            NSUInteger theIndex = [theTagStack indexOfObjectWithOptions:NSEnumerationReverse passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) { return([obj isEqualToString:theTag]); }];
+            NSUInteger theIndex = [theTagStack indexOfObjectWithOptions:NSEnumerationReverse passingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) { return([[obj name] isEqualToString:theTagName]); }];
             if (theIndex == NSNotFound)
                 {
                 if (outError)
@@ -125,8 +128,12 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 
             [theTagStack removeObjectsInRange:(NSRange){ .location = theIndex, .length = theTagStack.count - theIndex }];
             }
-        else if ([theScanner scanOpenTag:&theTag attributes:&theAttributes] == YES)
+        else if ([theScanner scanOpenTag:&theTagName attributes:&theAttributes] == YES)
             {
+            CTag *theTag = [[CTag alloc] init];
+            theTag.name = theTagName;
+            theTag.attributes = theAttributes;
+
             if (theString.length > 0)
                 {
                 theLastCharacterWasWhitespace = NO;
@@ -134,7 +141,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
                 theString = [NSMutableString string];
                 }
 
-            if ([theTag isEqualToString:@"br"])
+            if ([theTagName isEqualToString:@"br"])
                 {
                 theLastCharacterWasWhitespace = YES;
                 self.textHandler(@"\n", theTagStack);
@@ -142,13 +149,17 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
                 }
             else
                 {
-                self.openTagHandler(theTag, theAttributes, theTagStack);
+                self.openTagHandler(theTag, theTagStack);
 
                 [theTagStack addObject:theTag];
                 }
             }
-        else if ([theScanner scanStandaloneTag:&theTag attributes:&theAttributes] == YES)
+        else if ([theScanner scanStandaloneTag:&theTagName attributes:&theAttributes] == YES)
             {
+            CTag *theTag = [[CTag alloc] init];
+            theTag.name = theTagName;
+            theTag.attributes = theAttributes;
+
             if (theString.length > 0)
                 {
                 theLastCharacterWasWhitespace = NO;
@@ -156,7 +167,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
                 theString = [NSMutableString string];
                 }
 
-            if ([theTag isEqualToString:@"br"])
+            if ([theTagName isEqualToString:@"br"])
                 {
                 theLastCharacterWasWhitespace = YES;
                 self.textHandler(@"\n", theTagStack);
@@ -164,7 +175,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
                 }
             else
                 {
-                self.openTagHandler(theTag, theAttributes, theTagStack);
+                self.openTagHandler(theTag, theTagStack);
                 self.closeTagHandler(theTag, theTagStack);
                 }
             }
@@ -245,5 +256,13 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
     return(YES);
     }
 
+@end
+
+#pragma mark - 
+
+@implementation CTag
+
+@synthesize name;
+@synthesize attributes;
 
 @end
