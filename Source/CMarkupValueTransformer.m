@@ -41,7 +41,7 @@
 #import "NSAttributedString_Extensions.h"
 
 @interface CMarkupValueTransformer ()
-@property (readwrite, nonatomic, strong) NSMutableArray *attributesForTags;
+@property (readwrite, nonatomic, strong) NSMutableArray *tagHandlers;
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack;
 @end
@@ -50,7 +50,7 @@
 
 @implementation CMarkupValueTransformer
 
-@synthesize attributesForTags;
+@synthesize tagHandlers;
 
 + (Class)transformedValueClass
     {
@@ -66,7 +66,7 @@
 	{
 	if ((self = [super init]) != NULL)
 		{
-        attributesForTags = [NSMutableArray array];
+        tagHandlers = [NSMutableArray array];
 
         [self resetStyles];
 
@@ -182,74 +182,86 @@
 
 - (void)resetStyles
     {
-    self.attributesForTags = [NSMutableArray array];
+    self.tagHandlers = [NSMutableArray array];
     }
 
 - (void)addStandardStyles
     {
-    NSDictionary *theAttributes = NULL;
+    BTagHandler theTagHandler = NULL;
 
     // ### b
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithBool:YES], kMarkupBoldAttributeName,
-        NULL];
-    [self addStyleAttributes:theAttributes forTag:@"b"];
+    theTagHandler = ^(void) {
+        return([NSDictionary dictionaryWithObjectsAndKeys:
+            [NSNumber numberWithBool:YES], kMarkupBoldAttributeName,
+            NULL]);
+        };
+    [self addHandler:theTagHandler forTag:@"b"];
 
     // ### i
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithBool:YES], kMarkupItalicAttributeName,
-        NULL];
-    [self addStyleAttributes:theAttributes forTag:@"i"];
+    theTagHandler = ^(void) {
+        return([NSDictionary dictionaryWithObjectsAndKeys:
+            [NSNumber numberWithBool:YES], kMarkupItalicAttributeName,
+            NULL]);
+        };
+    [self addHandler:theTagHandler forTag:@"i"];
 
     // ### a
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
-        [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
-        NULL];
-    [self addStyleAttributes:theAttributes forTag:@"a"];
+    theTagHandler = ^(void) {
+        return([NSDictionary dictionaryWithObjectsAndKeys:
+            (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
+            [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
+            NULL]);
+        };
+    [self addHandler:theTagHandler forTag:@"a"];
 
     // ### mark
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)[UIColor yellowColor].CGColor, kMarkupBackgroundColorAttributeName,
-        NULL];
-    [self addStyleAttributes:theAttributes forTag:@"mark"];
+    theTagHandler = ^(void) {
+        return([NSDictionary dictionaryWithObjectsAndKeys:
+            (__bridge id)[UIColor yellowColor].CGColor, kMarkupBackgroundColorAttributeName,
+            NULL]);
+        };
+    [self addHandler:theTagHandler forTag:@"mark"];
 
     // ### strike
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        (__bridge id)[UIColor blackColor].CGColor, kMarkupStrikeColorAttributeName,
-        NULL];
-    [self addStyleAttributes:theAttributes forTag:@"strike"];
+    theTagHandler = ^(void) {
+        return([NSDictionary dictionaryWithObjectsAndKeys:
+            (__bridge id)[UIColor blackColor].CGColor, kMarkupStrikeColorAttributeName,
+            NULL]);
+        };
+    [self addHandler:theTagHandler forTag:@"strike"];
 
     // ### small
-    theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSNumber numberWithFloat:-4], kMarkupSizeAdjustmentAttributeName,
-        NULL];
-    [self addStyleAttributes:theAttributes forTag:@"small"];
+    theTagHandler = ^(void) {
+        return([NSDictionary dictionaryWithObjectsAndKeys:
+            [NSNumber numberWithFloat:-4], kMarkupSizeAdjustmentAttributeName,
+            NULL]);
+        };
+    [self addHandler:theTagHandler forTag:@"small"];
     }
 
-- (void)addStyleAttributes:(NSDictionary *)inAttributes forTag:(NSString *)inTag
+- (void)addHandler:(BTagHandler)inHandler forTag:(NSString *)inTag
     {
-    [self.attributesForTags addObject:
+    [self.tagHandlers addObject:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            inAttributes, @"attributes",
+            [inHandler copy], @"handler",
             inTag, @"tag",
             NULL]
         ];
     }
 
-- (void)removeStyleAttributesForTag:(NSString *)inTag
+- (void)removeHandlerForTag:(NSString *)inTag
     {
-    NSMutableArray *theNewAttributesForTags = [NSMutableArray array];
+    NSMutableArray *theNewHandlers = [NSMutableArray array];
     
-    [self.attributesForTags enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [self.tagHandlers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString *theTag = [obj objectForKey:@"tag"];
         if ([theTag isEqualToString:inTag] == NO)
             {
-            [theNewAttributesForTags addObject:obj];
+            [theNewHandlers addObject:obj];
             }
         }];
     
-    self.attributesForTags = theNewAttributesForTags;
+    self.tagHandlers = theNewHandlers;
     }
 
 #pragma mark -
@@ -257,19 +269,21 @@
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack
     {
     NSSet *theTagSet = [NSSet setWithArray:inTagStack];
-    NSMutableDictionary *theAttributes = [NSMutableDictionary dictionary];
+    NSMutableDictionary *theCumulativeAttributes = [NSMutableDictionary dictionary];
     
-    for (NSDictionary *theDictionary in self.attributesForTags)
+    for (NSDictionary *theDictionary in self.tagHandlers)
         {
         NSString *theTag = [theDictionary objectForKey:@"tag"];
 
         if ([theTagSet containsObject:theTag])
             {
-            [theAttributes addEntriesFromDictionary:[theDictionary objectForKey:@"attributes"]];
+            BTagHandler theHandler = [theDictionary objectForKey:@"handler"];
+            NSDictionary *theAttributes = theHandler();
+            [theCumulativeAttributes addEntriesFromDictionary:theAttributes];
             }
         }
 
-    return(theAttributes);
+    return(theCumulativeAttributes);
     }
 
 @end

@@ -31,6 +31,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NSDictionary *(^BTagHandler)(void);
+
 @interface CMarkupValueTransformer : NSValueTransformer
 
 - (id)transformedValue:(id)value error:(NSError **)outError;
@@ -38,8 +40,8 @@
 - (void)resetStyles;
 - (void)addStandardStyles;
 
-- (void)addStyleAttributes:(NSDictionary *)inAttributes forTag:(NSString *)inTag;
-- (void)removeStyleAttributesForTag:(NSString *)inTag;
+- (void)addHandler:(BTagHandler)inHandler forTag:(NSString *)inTag;
+- (void)removeHandlerForTag:(NSString *)inTag;
 
 @end
 
