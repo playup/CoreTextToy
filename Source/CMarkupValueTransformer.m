@@ -42,7 +42,7 @@
 #import "UIColor+Hex.h"
 
 @interface CMarkupValueTransformer ()
-@property (readwrite, nonatomic, strong) NSMutableArray *tagHandlers;
+@property (readwrite, nonatomic, strong) NSMutableDictionary *tagHandlers;
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack;
 @end
@@ -67,7 +67,7 @@
 	{
 	if ((self = [super init]) != NULL)
 		{
-        tagHandlers = [NSMutableArray array];
+        tagHandlers = [NSMutableDictionary dictionary];
 
         [self resetStyles];
 
@@ -167,7 +167,7 @@
 
 - (void)resetStyles
     {
-    self.tagHandlers = [NSMutableArray array];
+    self.tagHandlers = [NSMutableDictionary dictionary];
     }
 
 - (void)addStandardStyles
@@ -237,27 +237,12 @@
 
 - (void)addHandler:(BTagHandler)inHandler forTag:(NSString *)inTag
     {
-    [self.tagHandlers addObject:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            [inHandler copy], @"handler",
-            inTag, @"tag",
-            NULL]
-        ];
+    [self.tagHandlers setObject:[inHandler copy] forKey:inTag];
     }
 
 - (void)removeHandlerForTag:(NSString *)inTag
     {
-    NSMutableArray *theNewHandlers = [NSMutableArray array];
-    
-    [self.tagHandlers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString *theTag = [obj objectForKey:@"tag"];
-        if ([theTag isEqualToString:inTag] == NO)
-            {
-            [theNewHandlers addObject:obj];
-            }
-        }];
-    
-    self.tagHandlers = theNewHandlers;
+    [self.tagHandlers removeObjectForKey:inTag];
     }
 
 #pragma mark -
@@ -268,15 +253,12 @@
 
     for (CTag *theTag in inTagStack)
         {
-        for (NSDictionary *theTagHandlerDictionary in self.tagHandlers)
+        BTagHandler theHandler = [self.tagHandlers objectForKey:theTag.name]; 
+        if (theHandler)
             {
-            if ([[theTagHandlerDictionary objectForKey:@"tag"] isEqualToString:theTag.name])
-                {
-                BTagHandler theHandler = [theTagHandlerDictionary objectForKey:@"handler"];
-                NSDictionary *theAttributes = theHandler(theTag);
-                [theCumulativeAttributes addEntriesFromDictionary:theAttributes];
-                break;
-                }
+            NSDictionary *theAttributes = theHandler(theTag);
+            [theCumulativeAttributes addEntriesFromDictionary:theAttributes];
+            break;
             }
         }
 
