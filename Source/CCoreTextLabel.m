@@ -101,11 +101,13 @@
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
+        textAlignment = UITextAlignmentLeft;
+        lineBreakMode = UILineBreakModeTailTruncation;
         shadowColor = NULL;
         shadowOffset = (CGSize){ 0.0, -1.0 };
         shadowBlurRadius = 0.0;
-        textAlignment = UITextAlignmentLeft;
-        lineBreakMode = UILineBreakModeTailTruncation;
+        highlightedTextColor = [UIColor whiteColor];
+        enabled = YES;
         }
     return(self);
     }
@@ -122,11 +124,13 @@
 
         font = [UIFont systemFontOfSize:17];
         textColor = [UIColor blackColor];
+        textAlignment = UITextAlignmentLeft;
+        lineBreakMode = UILineBreakModeTailTruncation;
         shadowColor = NULL;
         shadowOffset = (CGSize){ 0.0, -1.0 };
         shadowBlurRadius = 0.0;
-        textAlignment = UITextAlignmentLeft;
-        lineBreakMode = UILineBreakModeTailTruncation;
+        highlightedTextColor = [UIColor whiteColor];
+        enabled = YES;
         }
     return(self);
     }
@@ -253,6 +257,7 @@
         {
         enabled = inEnabled;
         
+        // Disabling also turns off shadow, so we need to reset the renderer.
         self.renderer = NULL;
         }
     }
@@ -358,6 +363,12 @@
     CGContextSaveGState(theContext);
     CGContextTranslateCTM(theContext, theBounds.origin.x, theBounds.origin.y);
     
+    if (self.enabled == NO)
+        {
+        // 0.44 seems to be magic number (at least with black text).
+        CGContextSetAlpha(theContext, 0.44);
+        }
+
     [self.renderer drawInContext:theContext];
 
     CGContextRestoreGState(theContext);    
@@ -433,7 +444,7 @@
     
     NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:theFont] mutableCopy];
 
-    UIColor *theColor = [inSettings valueForKey:@"textColor"] ?: [UIColor blackColor];
+    UIColor *theTextColor = [inSettings valueForKey:@"textColor"] ?: [UIColor blackColor];
     [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         if ([attrs objectForKey:(__bridge NSString *)kCTFontAttributeName] == NULL)
             {
@@ -441,7 +452,7 @@
             }
         if ([attrs objectForKey:(__bridge NSString *)kCTForegroundColorAttributeName] == NULL)
             {
-            [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
+            [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theTextColor.CGColor range:range];
             }
 
         // [DW]
@@ -453,8 +464,14 @@
             }
         }];
 
+    if ([[inSettings valueForKey:@"highlighted"] boolValue] == YES)
+        {
+        UIColor *theHighlightColor = [inSettings valueForKey:@"highlightedTextColor"];
+        [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theHighlightColor.CGColor range:(NSRange){ .length = theMutableText.length }];
+        }
+
     UIColor *theShadowColor = [inSettings valueForKey:@"shadowColor"];
-    if (theShadowColor != NULL)
+    if (theShadowColor != NULL && [[inSettings valueForKey:@"enabled"] boolValue] == YES)
         {
         NSMutableDictionary *theShadowAttributes = [NSMutableDictionary dictionary];
         [theShadowAttributes setObject:(__bridge id)theShadowColor.CGColor forKey:kShadowColorAttributeName];
