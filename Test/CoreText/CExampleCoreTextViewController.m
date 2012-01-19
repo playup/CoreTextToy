@@ -73,9 +73,10 @@
 
     // #########################################################################
 
-    self.label4.text = [[NSAttributedString alloc] initWithString:@"This CCoreTextLabel with a shadow"];
-    self.label4.backgroundColor = [UIColor whiteColor];
+    self.label4.text = [[NSAttributedString alloc] initWithString:@"This is a highlighted CCoreTextLabel with a shadow"];
+    self.label4.backgroundColor = [UIColor grayColor];
     self.label4.textColor = [UIColor blackColor];
+    self.label4.highlighted = YES;
     self.label4.shadowColor = [[UIColor redColor] colorWithAlphaComponent:0.3333333];
 
     // #########################################################################
