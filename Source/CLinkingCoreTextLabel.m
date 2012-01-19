@@ -9,6 +9,7 @@
 #import "CLinkingCoreTextLabel.h"
 
 #import "CMarkupValueTransformer.h"
+#import "NSAttributedString_Extensions.h"
 
 @interface CLinkingCoreTextLabel ()
 @property (readwrite, nonatomic, retain) NSArray *linkRanges;

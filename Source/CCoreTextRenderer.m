@@ -14,15 +14,9 @@
 #import "UIFont_CoreTextExtensions.h"
 #import "CMarkupValueTransformer.h"
 #import "CCoreTextAttachment.h"
+#import "NSAttributedString_Extensions.h"
 
 //#define CORE_TEXT_SHOW_RUNS 1
-
-NSString *const kShadowColorAttributeName = @"com.touchcode.shadowColor";
-NSString *const kShadowOffsetAttributeName = @"com.touchcode.shadowOffset";
-NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadius";
-NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
-NSString *const kMarkupBackgroundColorAttributeName = @"com.touchcode.backgroundColor";
-NSString *const kMarkupStrikeColorAttributeName = @"com.touchcode.strikeColor";
 
 @interface CCoreTextRenderer ()
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;

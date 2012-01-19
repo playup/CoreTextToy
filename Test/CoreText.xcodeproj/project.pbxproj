@@ -21,6 +21,7 @@
 		4592051D145A68D000DECA27 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4592051C145A68D000DECA27 /* QuartzCore.framework */; };
 		45920521145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */; };
 		4593F75914C7C0A300F78F92 /* CLinkingCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4593F75814C7C0A300F78F92 /* CLinkingCoreTextLabel.m */; };
+		4593F76614C7D01D00F78F92 /* NSAttributedString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4593F76514C7D01D00F78F92 /* NSAttributedString_Extensions.m */; };
 		45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */; };
 		45DEC481142BBEDB009FBCC6 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */; };
 		45DEC482142BBEDB009FBCC6 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */; };
@@ -78,6 +79,8 @@
 		45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTwitterStyleTweetTextLabel.m; sourceTree = "<group>"; };
 		4593F75714C7C0A300F78F92 /* CLinkingCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLinkingCoreTextLabel.h; sourceTree = "<group>"; };
 		4593F75814C7C0A300F78F92 /* CLinkingCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLinkingCoreTextLabel.m; sourceTree = "<group>"; };
+		4593F76414C7D01D00F78F92 /* NSAttributedString_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NSAttributedString_Extensions.h; sourceTree = "<group>"; };
+		4593F76514C7D01D00F78F92 /* NSAttributedString_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedString_Extensions.m; sourceTree = "<group>"; };
 		45DEC476142BBEDB009FBCC6 /* CCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel.h; sourceTree = "<group>"; };
 		45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel.m; sourceTree = "<group>"; };
 		45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMarkupValueTransformer.h; sourceTree = "<group>"; };
@@ -139,6 +142,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4593F75A14C7CE9200F78F92 /* Markup */ = {
+			isa = PBXGroup;
+			children = (
+				45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */,
+				45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */,
+				45DEC47A142BBEDB009FBCC6 /* CSimpleHTMLParser.h */,
+				45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */,
+				45DEC47C142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.h */,
+				45DEC47D142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m */,
+				45ED79AF145A33A400941149 /* CCoreTextLabel_HTMLExtensions.h */,
+				45ED79B0145A33A400941149 /* CCoreTextLabel_HTMLExtensions.m */,
+			);
+			name = Markup;
+			sourceTree = "<group>";
+		};
+		4593F75B14C7CEA900F78F92 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				45DEC47E142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.h */,
+				45DEC47F142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m */,
+				453E8B83145334F500C8A559 /* CCoreTextRenderer.h */,
+				453E8B84145334F500C8A559 /* CCoreTextRenderer.m */,
+				45789C5B145F1338004EA63E /* CCoreTextAttachment.h */,
+				45789C5C145F1338004EA63E /* CCoreTextAttachment.m */,
+				37850CFF1496640E004AAA31 /* UIColor+Hex.h */,
+				37850D011496641A004AAA31 /* UIColor+Hex.m */,
+				4593F76414C7D01D00F78F92 /* NSAttributedString_Extensions.h */,
+				4593F76514C7D01D00F78F92 /* NSAttributedString_Extensions.m */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
 		45DEC475142BBEDB009FBCC6 /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,23 +181,9 @@
 				45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */,
 				4593F75714C7C0A300F78F92 /* CLinkingCoreTextLabel.h */,
 				4593F75814C7C0A300F78F92 /* CLinkingCoreTextLabel.m */,
-				45ED79AF145A33A400941149 /* CCoreTextLabel_HTMLExtensions.h */,
-				45ED79B0145A33A400941149 /* CCoreTextLabel_HTMLExtensions.m */,
-				45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */,
-				45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */,
-				45DEC47A142BBEDB009FBCC6 /* CSimpleHTMLParser.h */,
-				45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */,
-				45DEC47C142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.h */,
-				45DEC47D142BBEDB009FBCC6 /* NSScanner_HTMLExtensions.m */,
-				45DEC47E142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.h */,
-				45DEC47F142BBEDB009FBCC6 /* UIFont_CoreTextExtensions.m */,
-				453E8B83145334F500C8A559 /* CCoreTextRenderer.h */,
-				453E8B84145334F500C8A559 /* CCoreTextRenderer.m */,
-				45789C5B145F1338004EA63E /* CCoreTextAttachment.h */,
-				45789C5C145F1338004EA63E /* CCoreTextAttachment.m */,
+				4593F75A14C7CE9200F78F92 /* Markup */,
+				4593F75B14C7CEA900F78F92 /* Utility */,
 				453E8B7D1453255000C8A559 /* MissingImage.png */,
-				37850CFF1496640E004AAA31 /* UIColor+Hex.h */,
-				37850D011496641A004AAA31 /* UIColor+Hex.m */,
 			);
 			name = Source;
 			path = ../Source;
@@ -387,6 +408,7 @@
 				45789C5D145F1338004EA63E /* CCoreTextAttachment.m in Sources */,
 				37850D021496641A004AAA31 /* UIColor+Hex.m in Sources */,
 				4593F75914C7C0A300F78F92 /* CLinkingCoreTextLabel.m in Sources */,
+				4593F76614C7D01D00F78F92 /* NSAttributedString_Extensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

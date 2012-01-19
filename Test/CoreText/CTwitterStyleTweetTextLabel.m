@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "CMarkupValueTransformer.h"
+#import "NSAttributedString_Extensions.h"
 
 @interface CTwitterStyleTweetTextLabel ()
 @property (readwrite, nonatomic, retain) CALayer *selectionLayer;

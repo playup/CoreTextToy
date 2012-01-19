@@ -31,12 +31,6 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *const kMarkupLinkAttributeName;
-extern NSString *const kMarkupBoldAttributeName;
-extern NSString *const kMarkupItalicAttributeName;
-extern NSString *const kMarkupSizeAdjustmentAttributeName;
-extern NSString *const kMarkupTextHexColorAttributeName;
-
 @interface CMarkupValueTransformer : NSValueTransformer
 
 - (id)transformedValue:(id)value error:(NSError **)outError;
@@ -46,8 +40,6 @@ extern NSString *const kMarkupTextHexColorAttributeName;
 
 - (void)addStyleAttributes:(NSDictionary *)inAttributes forTag:(NSString *)inTag;
 - (void)removeStyleAttributesForTag:(NSString *)inTag;
-
-+ (NSAttributedString *)normalizedAttributedStringForAttributedString:(NSAttributedString *)inAttributedString baseFont:(UIFont *)inBaseFont;
 
 @end
 

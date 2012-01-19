@@ -38,18 +38,12 @@
 #import "CSimpleHTMLParser.h"
 #import "CCoreTextAttachment.h"
 #import "CCoreTextRenderer.h"
-
-NSString *const kMarkupLinkAttributeName = @"com.touchcode.link";
-NSString *const kMarkupBoldAttributeName = @"com.touchcode.bold";
-NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
-NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustment";
-NSString *const kMarkupTextHexColorAttributeName = @"com.touchcode.textHexColor";
+#import "NSAttributedString_Extensions.h"
 
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTags;
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack;
-+ (NSDictionary *)normalizeAttributes:(NSDictionary *)inAttributes baseFont:(UIFont *)inBaseFont;
 @end
 
 #pragma mark -
@@ -276,73 +270,6 @@ NSString *const kMarkupTextHexColorAttributeName = @"com.touchcode.textHexColor"
         }
 
     return(theAttributes);
-    }
-
-+ (NSDictionary *)normalizeAttributes:(NSDictionary *)inAttributes baseFont:(UIFont *)inBaseFont
-    {
-    NSMutableDictionary *theAttributes = [inAttributes mutableCopy];
-    
-    UIFont *theFont = inBaseFont;
-    
-    // NORMALIZE ATTRIBUTES
-    BOOL theBoldFlag = [[theAttributes objectForKey:kMarkupBoldAttributeName] boolValue];
-    if ([theAttributes objectForKey:kMarkupBoldAttributeName] != NULL)
-        {
-        [theAttributes removeObjectForKey:kMarkupBoldAttributeName];
-        }
-
-    BOOL theItalicFlag = [[theAttributes objectForKey:kMarkupItalicAttributeName] boolValue];
-    if ([theAttributes objectForKey:kMarkupItalicAttributeName] != NULL)
-        {
-        [theAttributes removeObjectForKey:kMarkupItalicAttributeName];
-        }
-    
-    if (theBoldFlag == YES && theItalicFlag == YES)
-        {
-        theFont = inBaseFont.boldItalicFont;
-        }
-    else if (theBoldFlag == YES)
-        {
-        theFont = inBaseFont.boldFont;
-        }
-    else if (theItalicFlag == YES)
-        {
-        theFont = inBaseFont.italicFont;
-        }
-        
-    NSNumber *theSizeValue = [theAttributes objectForKey:kMarkupSizeAdjustmentAttributeName];
-    if (theSizeValue != NULL)
-        {
-        CGFloat theSize = [theSizeValue floatValue];
-        theFont = [theFont fontWithSize:theFont.pointSize + theSize];
-        
-        [theAttributes removeObjectForKey:kMarkupSizeAdjustmentAttributeName];
-        }
-
-    if (theFont != NULL)
-        {
-        [theAttributes setObject:(__bridge id)theFont.CTFont forKey:(__bridge NSString *)kCTFontAttributeName];
-        }
-        
-    return(theAttributes);
-    }
-    
-+ (NSAttributedString *)normalizedAttributedStringForAttributedString:(NSAttributedString *)inAttributedString baseFont:(UIFont *)inBaseFont
-    {
-    NSMutableAttributedString *theString = [inAttributedString mutableCopy];
-    
-    [theString enumerateAttributesInRange:(NSRange){ .length = theString.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
-        UIFont *theFont = inBaseFont;
-        CTFontRef theCTFont = (__bridge CTFontRef)[attrs objectForKey:(__bridge NSString *)kCTFontAttributeName];
-        if (theCTFont != NULL)
-            {
-            theFont = [UIFont fontWithCTFont:theCTFont];
-            }
-        
-        attrs = [self normalizeAttributes:attrs baseFont:theFont];
-        [theString setAttributes:attrs range:range];
-        }];
-    return(theString);
     }
 
 @end

@@ -38,6 +38,7 @@
 #import "CCoreTextRenderer.h"
 #import "UIFont_CoreTextExtensions.h"
 #import "UIColor+Hex.h"
+#import "NSAttributedString_Extensions.h"
 
 @interface CCoreTextLabel ()
 @property (readwrite, nonatomic, retain) CCoreTextRenderer *renderer;
@@ -430,7 +431,7 @@
     {
     UIFont *theFont = [inSettings valueForKey:@"font"] ?: [UIFont systemFontOfSize:17.0];
     
-    NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:theFont] mutableCopy];
+    NSMutableAttributedString *theMutableText = [[NSAttributedString normalizedAttributedStringForAttributedString:inString baseFont:theFont] mutableCopy];
 
     UIColor *theTextColor = [inSettings valueForKey:@"textColor"] ?: [UIColor blackColor];
     [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
