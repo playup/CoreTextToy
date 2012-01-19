@@ -269,6 +269,20 @@
 
 #pragma mark -
 
+@implementation CMarkupValueTransformer (CMarkupValueTransformer_ConvenienceExtensions)
+
+- (void)addStyleHandlerWithAttributes:(NSDictionary *)inDictionary forTag:(NSString *)inTag
+    {
+    BTagHandler theHandler = ^(CSimpleHTMLTag *inTag) {
+        return(inDictionary);
+        };
+    [self addHandler:theHandler forTag:inTag];
+    }
+
+@end
+
+#pragma mark -
+
 @implementation NSAttributedString (NSAttributedString_MarkupExtensions)
 
 + (NSAttributedString *)attributedStringWithMarkup:(NSString *)inMarkup error:(NSError **)outError

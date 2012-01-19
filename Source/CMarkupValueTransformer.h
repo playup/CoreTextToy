@@ -49,6 +49,12 @@ typedef NSDictionary *(^BTagHandler)(CSimpleHTMLTag *);
 
 #pragma mark -
 
+@interface CMarkupValueTransformer (CMarkupValueTransformer_ConvenienceExtensions)
+- (void)addStyleHandlerWithAttributes:(NSDictionary *)inDictionary forTag:(NSString *)inTag;
+@end
+
+#pragma mark -
+
 @interface NSAttributedString (NSAttributedString_MarkupExtensions)
 
 + (NSAttributedString *)attributedStringWithMarkup:(NSString *)inMarkup error:(NSError **)outError;
