@@ -57,7 +57,7 @@ Links will work too:&lt;br>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-2758" y="-2140"/>
+            <point key="canvasLocation" x="-2074" y="-1720"/>
         </scene>
         <scene sceneID="JSW-7g-sGO">
             <objects>
@@ -68,7 +68,7 @@ Links will work too:&lt;br>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="QZU-o6-6vw">
-                                <rect key="frame" x="136" y="203" width="437" height="104"/>
+                                <rect key="frame" x="20" y="174" width="437" height="104"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="aCq-c8-VcB" customClass="CCoreTextLabel">
@@ -95,7 +95,7 @@ Links will work too:&lt;br>
                                 <gestureRecognizers/>
                             </view>
                             <view contentMode="scaleToFill" id="iDk-ZM-dad" customClass="CTwitterStyleTweetTextLabel">
-                                <rect key="frame" x="136" y="333" width="437" height="148"/>
+                                <rect key="frame" x="20" y="282" width="437" height="148"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="7tK-aN-v5P" customClass="CResizerThumb">
@@ -107,17 +107,17 @@ Links will work too:&lt;br>
                                 <color key="backgroundColor" red="0.32156863810000003" green="0.32156863810000003" blue="0.32156863810000003" alpha="1" colorSpace="deviceRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="ZCd-jT-zLQ" customClass="CCoreTextLabel">
-                                <rect key="frame" x="136" y="531" width="437" height="31"/>
+                                <rect key="frame" x="20" y="436" width="437" height="31"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" id="BVh-bx-AJV" customClass="CCoreTextLabel">
-                                <rect key="frame" x="143" y="631" width="437" height="181"/>
+                                <rect key="frame" x="20" y="504" width="437" height="181"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This is a UILabel with shadow " lineBreakMode="tailTruncation" minimumFontSize="10" id="IDA-VA-7TK">
-                                <rect key="frame" x="136" y="578" width="437" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This is a UILabel with shadow " lineBreakMode="tailTruncation" minimumFontSize="10" enabled="NO" id="IDA-VA-7TK">
+                                <rect key="frame" x="20" y="475" width="437" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -125,7 +125,7 @@ Links will work too:&lt;br>
                                 <color key="shadowColor" red="1" green="0.0" blue="0.0" alpha="0.33000000000000002" colorSpace="calibratedRGB"/>
                             </label>
                             <view contentMode="scaleToFill" id="eYe-o4-m2T" customClass="CTwitterStyleTweetTextLabel">
-                                <rect key="frame" x="136" y="20" width="437" height="148"/>
+                                <rect key="frame" x="20" y="20" width="437" height="148"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="Sw0-Ab-r8z" customClass="CResizerThumb">
@@ -150,7 +150,7 @@ Links will work too:&lt;br>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-2916" y="-450"/>
+            <point key="canvasLocation" x="-2232" y="-30"/>
         </scene>
         <scene sceneID="wJg-MB-Ot2">
             <objects>
@@ -165,7 +165,7 @@ Links will work too:&lt;br>
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="-3892" y="-450"/>
+            <point key="canvasLocation" x="-3400" y="-118"/>
         </scene>
         <scene sceneID="1Pt-wG-E0r">
             <objects>
@@ -182,7 +182,7 @@ Links will work too:&lt;br>
                     </connections>
                 </tabBarController>
             </objects>
-            <point key="canvasLocation" x="-5698" y="-1228"/>
+            <point key="canvasLocation" x="-4950" y="-30"/>
         </scene>
         <scene sceneID="Rqd-2K-gkp">
             <objects>
@@ -200,7 +200,7 @@ Links will work too:&lt;br>
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="-3972" y="-2076"/>
+            <point key="canvasLocation" x="-3288" y="-1656"/>
         </scene>
     </scenes>
     <resources>

@@ -34,17 +34,18 @@
 @interface CCoreTextLabel : UIView
 
 @property (readwrite, nonatomic, strong) NSAttributedString *text;
-@property (readwrite, nonatomic, assign) UIEdgeInsets insets;
-
-@property (readwrite, nonatomic, retain) UIFont *font;                  // default is nil (system font 17 plain)
-@property (readwrite, nonatomic, retain) UIColor *textColor;            // default is nil (text draws black)
-@property (readwrite, nonatomic, retain) UIColor *shadowColor;          // default is nil (no shadow)
-@property (readwrite, nonatomic, assign) CGSize shadowOffset;           // default is CGSizeMake(0, -1) -- a top shadow
-@property (readwrite, nonatomic, assign) CGFloat shadowBlurRadius;      // default is 0 (sharp shadow)
-
+@property (readwrite, nonatomic, strong) UIFont *font;                  // default is nil (system font 17 plain)
+@property (readwrite, nonatomic, strong) UIColor *textColor;            // default is nil (text draws black)
 @property (readwrite, nonatomic, assign) UITextAlignment textAlignment; // default is UITextAlignmentLeft
 @property (readwrite, nonatomic, assign) UILineBreakMode lineBreakMode; // default is UILineBreakModeTailTruncation. used for single and multiple lines of text
+@property (readwrite, nonatomic, strong) UIColor *shadowColor;          // default is nil (no shadow)
+@property (readwrite, nonatomic, assign) CGSize shadowOffset;           // default is CGSizeMake(0, -1) -- a top shadow
+@property (readwrite, nonatomic, assign) CGFloat shadowBlurRadius;      // default is 0 (sharp shadow)
+@property (readwrite, nonatomic, strong) UIColor *highlightedTextColor; // default is nil
+@property (readwrite, nonatomic, getter=isHighlighted) BOOL highlighted; // default is NO
+@property (readwrite, nonatomic, getter=isEnabled) BOOL enabled; // default is YES. changes how the label is drawn
 
+@property (readwrite, nonatomic, assign) UIEdgeInsets insets;
 @property (readwrite, nonatomic, copy) void (^URLHandler)(NSURL *);
 
 + (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode contentInsets:(UIEdgeInsets)inContentInsets thatFits:(CGSize)inSize;

@@ -44,30 +44,40 @@
 @property (readwrite, nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
 
 + (CTParagraphStyleRef)createParagraphStyleForAttributes:(NSDictionary *)inAttributes alignment:(CTTextAlignment)inTextAlignment lineBreakMode:(CTLineBreakMode)inLineBreakMode;
-+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset shadowBlurRadius:(CGFloat)inShadowBlurRadius alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
+//+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset shadowBlurRadius:(CGFloat)inShadowBlurRadius alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
++ (NSAttributedString *)normalizeString:(NSAttributedString *)inString settings:(id)inSettings;
 - (void)tap:(UITapGestureRecognizer *)inGestureRecognizer;
 @end
 
 @implementation CCoreTextLabel
 
 @synthesize text;
-@synthesize insets;
-@synthesize URLHandler;
 @synthesize font;
 @synthesize textColor;
+@synthesize textAlignment;
+@synthesize lineBreakMode;
 @synthesize shadowColor;
 @synthesize shadowOffset;
 @synthesize shadowBlurRadius;
-@synthesize textAlignment;
-@synthesize lineBreakMode;
+@synthesize highlightedTextColor;
+@synthesize highlighted;
+@synthesize enabled;
+@synthesize insets;
+@synthesize URLHandler;
 
 @synthesize renderer;
 @synthesize tapRecognizer;
 
 + (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode contentInsets:(UIEdgeInsets)inContentInsets thatFits:(CGSize)inSize 
     {
-    NSAttributedString *theNormalizedText = [self normalizeString:inString font:inBaseFont textColor:[UIColor blackColor] shadowColor:NULL shadowOffset:(CGSize){ 0, -1 } shadowBlurRadius:0.0 alignment:inTextAlignment lineBreakMode:inLineBreakMode];
-    
+    NSDictionary *theSettings = [NSDictionary dictionaryWithObjectsAndKeys:
+        inBaseFont, @"font",
+        [NSNumber numberWithInteger:inTextAlignment], @"textAlignment",
+        [NSNumber numberWithInteger:inLineBreakMode], @"lineBreakMode",
+        NULL];
+        
+    NSAttributedString *theNormalizedText = [self normalizeString:inString settings:theSettings];
+        
     CGRect theRect = (CGRect){ .size = inSize };
     theRect = UIEdgeInsetsInsetRect(theRect, inContentInsets);
     inSize = theRect.size; 
@@ -75,6 +85,296 @@
     CGSize theSize = [CCoreTextRenderer sizeForString:theNormalizedText thatFits:inSize];
     return(theSize);
     }
+
+#pragma mark -
+
+- (id)initWithFrame:(CGRect)frame
+    {
+    if ((self = [super initWithFrame:frame]) != NULL)
+        {
+        self.contentMode = UIViewContentModeRedraw;
+        self.backgroundColor = [UIColor whiteColor];
+
+        self.isAccessibilityElement = YES;
+        self.accessibilityTraits = UIAccessibilityTraitStaticText;
+        self.accessibilityLabel = @"";
+
+        font = [UIFont systemFontOfSize:17];
+        textColor = [UIColor blackColor];
+        textAlignment = UITextAlignmentLeft;
+        lineBreakMode = UILineBreakModeTailTruncation;
+        shadowColor = NULL;
+        shadowOffset = (CGSize){ 0.0, -1.0 };
+        shadowBlurRadius = 0.0;
+        highlightedTextColor = [UIColor whiteColor];
+        enabled = YES;
+        }
+    return(self);
+    }
+
+- (id)initWithCoder:(NSCoder *)inCoder
+    {
+    if ((self = [super initWithCoder:inCoder]) != NULL)
+        {
+        self.contentMode = UIViewContentModeRedraw;
+
+        self.isAccessibilityElement = YES;
+        self.accessibilityTraits = UIAccessibilityTraitStaticText;
+        self.accessibilityLabel = @"";
+
+        font = [UIFont systemFontOfSize:17];
+        textColor = [UIColor blackColor];
+        textAlignment = UITextAlignmentLeft;
+        lineBreakMode = UILineBreakModeTailTruncation;
+        shadowColor = NULL;
+        shadowOffset = (CGSize){ 0.0, -1.0 };
+        shadowBlurRadius = 0.0;
+        highlightedTextColor = [UIColor whiteColor];
+        enabled = YES;
+        }
+    return(self);
+    }
+
+#pragma mark -
+
+- (void)setFrame:(CGRect)inFrame
+    {
+    [super setFrame:inFrame];
+
+    self.renderer = NULL;
+    }
+
+#pragma mark -
+
+- (void)setText:(NSAttributedString *)inText
+    {
+    if (text != inText)
+        {
+        text = inText;
+        
+        self.accessibilityLabel = inText.string;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setFont:(UIFont *)inFont
+    {
+    if (font != inFont)
+        {
+        font = inFont;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setTextColor:(UIColor *)inTextColor
+    {
+    if (textColor != inTextColor)
+        {
+        textColor = inTextColor;
+        
+        if (self.highlighted == NO)
+            {
+            self.renderer = NULL;
+            }
+        }
+    }
+
+- (void)setTextAlignment:(UITextAlignment)inTextAlignment
+    {
+    if (textAlignment != inTextAlignment)
+        {
+        textAlignment = inTextAlignment;
+        
+        self.renderer = NULL;
+        }
+    }
+    
+- (void)setLineBreakMode:(UILineBreakMode)inLineBreakMode
+    {
+    if (lineBreakMode != inLineBreakMode)
+        {
+        lineBreakMode = inLineBreakMode;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setShadowColor:(UIColor *)inShadowColor
+    {
+    if (shadowColor != inShadowColor)
+        {
+        shadowColor = inShadowColor;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setShadowOffset:(CGSize)inShadowOffset
+    {
+    shadowOffset = inShadowOffset;
+    
+    self.renderer = NULL;
+    }
+
+- (void)setShadowBlurRadius:(CGFloat)inShadowBlurRadius
+    {
+    if (shadowBlurRadius != inShadowBlurRadius)
+        {
+        shadowBlurRadius = inShadowBlurRadius;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setHighlightedTextColor:(UIColor *)inHighlightedTextColor
+    {
+    if (highlightedTextColor != inHighlightedTextColor)
+        {
+        highlightedTextColor = inHighlightedTextColor;
+        
+        if (self.highlighted == NO)
+            {
+            self.renderer = NULL;
+            }
+        }
+    }
+
+- (void)setHighlighted:(BOOL)inHighlighted
+    {
+    if (highlighted != inHighlighted)
+        {
+        highlighted = inHighlighted;
+
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setEnabled:(BOOL)inEnabled
+    {
+    if (enabled != inEnabled)
+        {
+        enabled = inEnabled;
+        
+        // Disabling also turns off shadow, so we need to reset the renderer.
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setInsets:(UIEdgeInsets)inInsets
+    {
+    insets = inInsets;
+
+    self.renderer = NULL;
+    }
+
+- (void)setURLHandler:(void (^)(NSURL *))inURLHandler
+    {
+    if (URLHandler != inURLHandler)
+        {
+        URLHandler = [inURLHandler copy];
+        //
+        if (URLHandler != NULL)
+            {
+            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+            [self addGestureRecognizer:self.tapRecognizer];
+            }
+        else
+            {
+            [self removeGestureRecognizer:self.tapRecognizer];
+            self.tapRecognizer = NULL;
+            }
+        }
+    }
+
+#pragma mark -
+
+- (CCoreTextRenderer *)renderer
+    {
+    if (renderer == NULL)
+        {
+        NSAttributedString *theNormalizedText = [[self class] normalizeString:self.text settings:self];
+
+        CGRect theBounds = self.bounds;
+        theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
+        
+        renderer = [[CCoreTextRenderer alloc] initWithText:theNormalizedText size:theBounds.size];
+
+        [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+            NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:kMarkupBackgroundColorAttributeName];
+            CGContextSetFillColorWithColor(inContext, theColor2);
+            CGContextFillRect(inContext, inRect);
+            } forAttributeKey:kMarkupBackgroundColorAttributeName];
+
+        [renderer addPostRendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+            NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
+            
+            CTFontRef theFont = (__bridge CTFontRef)[theAttributes2 objectForKey:(__bridge NSString *)kCTFontAttributeName];
+            
+            CGFloat theXHeight = CTFontGetXHeight(theFont);
+            
+            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:kMarkupStrikeColorAttributeName];
+            CGContextSetStrokeColorWithColor(inContext, theColor2);
+            const CGFloat Y = CGRectGetMidY(inRect) - theXHeight * 0.5f;
+            
+            CGContextMoveToPoint(inContext, CGRectGetMinX(inRect), Y);
+            CGContextAddLineToPoint(inContext, CGRectGetMaxX(inRect), Y);
+            CGContextStrokePath(inContext);
+            } forAttributeKey:kMarkupStrikeColorAttributeName];
+        }
+    return(renderer);
+    }
+
+- (void)setRenderer:(CCoreTextRenderer *)inRenderer
+    {
+    if (renderer != inRenderer)
+        {
+        renderer = inRenderer;
+        
+        [self setNeedsDisplay];
+        }
+    }
+
+#pragma mark -
+
+- (CGSize)sizeThatFits:(CGSize)size
+    {
+    CGSize theSize = size;
+    theSize.width -= self.insets.left + self.insets.right;
+    theSize.height -= self.insets.top + self.insets.bottom;
+    
+    theSize = [self.renderer sizeThatFits:theSize];
+    theSize.width += self.insets.left + self.insets.right;
+    theSize.height += self.insets.top + self.insets.bottom;
+    
+    return(theSize);
+    }
+
+- (void)drawRect:(CGRect)rect
+    {
+    // ### Work out the inset bounds...
+    CGRect theBounds = self.bounds;
+    theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
+
+    // ### Get and set up the context...
+    CGContextRef theContext = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(theContext);
+    CGContextTranslateCTM(theContext, theBounds.origin.x, theBounds.origin.y);
+    
+    if (self.enabled == NO)
+        {
+        // 0.44 seems to be magic number (at least with black text).
+        CGContextSetAlpha(theContext, 0.44);
+        }
+
+    [self.renderer drawInContext:theContext];
+
+    CGContextRestoreGState(theContext);    
+    }
+
+#pragma mark -
 
 + (CTParagraphStyleRef)createParagraphStyleForAttributes:(NSDictionary *)inAttributes alignment:(CTTextAlignment)inTextAlignment lineBreakMode:(CTLineBreakMode)inLineBreakMode
     {
@@ -138,14 +438,13 @@
     return CTParagraphStyleCreate( newSettings, sizeof(newSettings)/sizeof(CTParagraphStyleSetting) );
     }
 
-+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset shadowBlurRadius:(CGFloat)inShadowBlurRadius alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode
++ (NSAttributedString *)normalizeString:(NSAttributedString *)inString settings:(id)inSettings;
     {
-    NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:inBaseFont] mutableCopy];
+    UIFont *theFont = [inSettings valueForKey:@"font"] ?: [UIFont systemFontOfSize:17.0];
+    
+    NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:theFont] mutableCopy];
 
-    UIFont *theFont = inBaseFont ?: [UIFont systemFontOfSize:17.0];
-    UIColor *theColor = inTextColor ?: [UIColor blackColor];
-    
-    
+    UIColor *theTextColor = [inSettings valueForKey:@"textColor"] ?: [UIColor blackColor];
     [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         if ([attrs objectForKey:(__bridge NSString *)kCTFontAttributeName] == NULL)
             {
@@ -153,7 +452,7 @@
             }
         if ([attrs objectForKey:(__bridge NSString *)kCTForegroundColorAttributeName] == NULL)
             {
-            [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
+            [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theTextColor.CGColor range:range];
             }
 
         // [DW]
@@ -165,32 +464,44 @@
             }
         }];
 
-    if (inShadowColor != NULL)
+    if ([[inSettings valueForKey:@"highlighted"] boolValue] == YES)
+        {
+        UIColor *theHighlightColor = [inSettings valueForKey:@"highlightedTextColor"];
+        [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theHighlightColor.CGColor range:(NSRange){ .length = theMutableText.length }];
+        }
+
+    UIColor *theShadowColor = [inSettings valueForKey:@"shadowColor"];
+    if (theShadowColor != NULL && [[inSettings valueForKey:@"enabled"] boolValue] == YES)
         {
         NSMutableDictionary *theShadowAttributes = [NSMutableDictionary dictionary];
-        [theShadowAttributes setObject:(__bridge id)inShadowColor.CGColor forKey:kShadowColorAttributeName];
-        [theShadowAttributes setObject:[NSValue valueWithCGSize:inShadowOffset] forKey:kShadowOffsetAttributeName];
-        [theShadowAttributes setObject:[NSNumber numberWithFloat:inShadowBlurRadius] forKey:kShadowBlurRadiusAttributeName];
+        [theShadowAttributes setObject:(__bridge id)theShadowColor.CGColor forKey:kShadowColorAttributeName];
+        
+        NSValue *theShadowOffset = [inSettings valueForKey:@"shadowOffset"];
+        [theShadowAttributes setObject:theShadowOffset forKey:kShadowOffsetAttributeName];
+
+        NSNumber *theShadowBlueRadius = [inSettings valueForKey:@"shadowBlurRadius"];
+        [theShadowAttributes setObject:theShadowBlueRadius forKey:kShadowBlurRadiusAttributeName];
 
         [theMutableText addAttributes:theShadowAttributes range:(NSRange){ .length = [theMutableText length] }];
         }
     
     CTTextAlignment theTextAlignment;
-    switch (inTextAlignment)
+    switch ([[inSettings valueForKey:@"textAlignment"] integerValue])
         {
-        case UITextAlignmentLeft:
-            theTextAlignment = kCTLeftTextAlignment;
-            break;
         case UITextAlignmentCenter:
             theTextAlignment = kCTCenterTextAlignment;
             break;
         case UITextAlignmentRight:
             theTextAlignment = kCTRightTextAlignment;
             break;
+        case UITextAlignmentLeft:
+        default:
+            theTextAlignment = kCTLeftTextAlignment;
+            break;
         }
     
     // UILineBreakMode maps 1:1 to CTLineBreakMode
-    CTLineBreakMode theLineBreakMode = inLineBreakMode;
+    CTLineBreakMode theLineBreakMode = [[inSettings valueForKey:@"lineBreakMode"] integerValue];
 
     [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         CTParagraphStyleRef newParagraphStyle = [self createParagraphStyleForAttributes:attrs alignment:theTextAlignment lineBreakMode:theLineBreakMode];
@@ -202,203 +513,6 @@
     }
 
 #pragma mark -
-
-- (id)initWithFrame:(CGRect)frame
-    {
-    if ((self = [super initWithFrame:frame]) != NULL)
-        {
-        self.contentMode = UIViewContentModeRedraw;
-        self.backgroundColor = [UIColor whiteColor];
-
-        self.isAccessibilityElement = YES;
-        self.accessibilityTraits = UIAccessibilityTraitStaticText;
-        self.accessibilityLabel = @"";
-
-        font = [UIFont systemFontOfSize:17];
-        textColor = [UIColor blackColor];
-        shadowColor = NULL;
-        shadowOffset = (CGSize){ 0.0, -1.0 };
-        shadowBlurRadius = 0.0;
-        textAlignment = UITextAlignmentLeft;
-        lineBreakMode = UILineBreakModeTailTruncation;
-        }
-    return(self);
-    }
-
-- (id)initWithCoder:(NSCoder *)inCoder
-    {
-    if ((self = [super initWithCoder:inCoder]) != NULL)
-        {
-        self.contentMode = UIViewContentModeRedraw;
-
-        self.isAccessibilityElement = YES;
-        self.accessibilityTraits = UIAccessibilityTraitStaticText;
-        self.accessibilityLabel = @"";
-
-        font = [UIFont systemFontOfSize:17];
-        textColor = [UIColor blackColor];
-        shadowColor = NULL;
-        shadowOffset = (CGSize){ 0.0, -1.0 };
-        shadowBlurRadius = 0.0;
-        textAlignment = UITextAlignmentLeft;
-        lineBreakMode = UILineBreakModeTailTruncation;
-        }
-    return(self);
-    }
-
-#pragma mark -
-
-- (void)setFrame:(CGRect)inFrame
-    {
-    [super setFrame:inFrame];
-
-    self.renderer = NULL;
-    [self setNeedsDisplay];
-    }
-
-#pragma mark -
-
-- (void)setTextAlignment:(UITextAlignment)inTextAlignment
-    {
-    if (textAlignment != inTextAlignment)
-        {
-        textAlignment = inTextAlignment;
-        
-        self.renderer = NULL;
-        [self setNeedsDisplay];
-        }
-    }
-    
-- (void)setLineBreakMode:(UILineBreakMode)inLineBreakMode
-    {
-    if (lineBreakMode != inLineBreakMode)
-        {
-        lineBreakMode = inLineBreakMode;
-        
-        self.renderer = NULL;
-        [self setNeedsDisplay];
-        }
-    }
-
-- (void)setText:(NSAttributedString *)inText
-    {
-    if (text != inText)
-        {
-        text = inText;
-        
-        self.accessibilityLabel = inText.string;
-        
-        self.renderer = NULL;
-        [self setNeedsDisplay];
-        }
-    }
-
-- (void)setInsets:(UIEdgeInsets)inInsets
-    {
-    insets = inInsets;
-
-    self.renderer = NULL;
-    [self setNeedsDisplay];
-    }
-
-- (void)setURLHandler:(void (^)(NSURL *))inURLHandler
-    {
-    if (URLHandler != inURLHandler)
-        {
-        URLHandler = [inURLHandler copy];
-        //
-        if (URLHandler != NULL)
-            {
-            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-            [self addGestureRecognizer:self.tapRecognizer];
-            }
-        else
-            {
-            [self removeGestureRecognizer:self.tapRecognizer];
-            self.tapRecognizer = NULL;
-            }
-        }
-    }
-
-#pragma mark -
-
-- (CCoreTextRenderer *)renderer
-    {
-    if (renderer == NULL)
-        {
-        NSAttributedString *theNormalizedText = [[self class] normalizeString:self.text font:self.font textColor:self.textColor shadowColor:self.shadowColor shadowOffset:self.shadowOffset shadowBlurRadius:self.shadowBlurRadius alignment:self.textAlignment lineBreakMode:self.lineBreakMode];
-
-        CGRect theBounds = self.bounds;
-        theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
-        
-        renderer = [[CCoreTextRenderer alloc] initWithText:theNormalizedText size:theBounds.size];
-
-        [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
-            NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:kMarkupBackgroundColorAttributeName];
-            CGContextSetFillColorWithColor(inContext, theColor2);
-            CGContextFillRect(inContext, inRect);
-            } forAttributeKey:kMarkupBackgroundColorAttributeName];
-
-        [renderer addPostRendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
-            NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
-            
-            CTFontRef theFont = (__bridge CTFontRef)[theAttributes2 objectForKey:(__bridge NSString *)kCTFontAttributeName];
-            
-            CGFloat theXHeight = CTFontGetXHeight(theFont);
-            
-            CGColorRef theColor2 = (__bridge CGColorRef)[theAttributes2 objectForKey:kMarkupStrikeColorAttributeName];
-            CGContextSetStrokeColorWithColor(inContext, theColor2);
-            const CGFloat Y = CGRectGetMidY(inRect) - theXHeight * 0.5f;
-            
-            CGContextMoveToPoint(inContext, CGRectGetMinX(inRect), Y);
-            CGContextAddLineToPoint(inContext, CGRectGetMaxX(inRect), Y);
-            CGContextStrokePath(inContext);
-            } forAttributeKey:kMarkupStrikeColorAttributeName];
-        }
-    return(renderer);
-    }
-
-#pragma mark -
-
-- (CGSize)sizeThatFits:(CGSize)size
-    {
-    CGSize theSize = size;
-    theSize.width -= self.insets.left + self.insets.right;
-    theSize.height -= self.insets.top + self.insets.bottom;
-    
-    theSize = [self.renderer sizeThatFits:theSize];
-    theSize.width += self.insets.left + self.insets.right;
-    theSize.height += self.insets.top + self.insets.bottom;
-    
-    return(theSize);
-    }
-
-- (void)drawRect:(CGRect)rect
-    {
-    // ### Work out the inset bounds...
-    CGRect theBounds = self.bounds;
-    theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
-
-    // ### Get and set up the context...
-    CGContextRef theContext = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(theContext);
-    CGContextTranslateCTM(theContext, theBounds.origin.x, theBounds.origin.y);
-    
-    [self.renderer drawInContext:theContext];
-
-    CGContextRestoreGState(theContext);    
-
-// If you wanted to dump the rendered images to disk so you can make sure it is rendering correctly here's how you could do it...
-//    #if 1
-//    UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0.0);
-//    theContext = UIGraphicsGetCurrentContext();
-//    [self.renderer drawInContext:theContext];
-//    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//    [UIImagePNGRepresentation(theImage) writeToFile:[NSString stringWithFormat:@"/Users/schwa/Desktop/%d.png", [theImage hash]] atomically:NO];
-//    #endif
-    }
 
 - (void)tap:(UITapGestureRecognizer *)inGestureRecognizer
     {
