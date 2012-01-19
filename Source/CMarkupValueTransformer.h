@@ -31,7 +31,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NSDictionary *(^BTagHandler)(void);
+@class CTag;
+
+typedef NSDictionary *(^BTagHandler)(CTag *);
 
 @interface CMarkupValueTransformer : NSValueTransformer
 

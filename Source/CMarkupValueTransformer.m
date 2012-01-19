@@ -39,6 +39,7 @@
 #import "CCoreTextAttachment.h"
 #import "CCoreTextRenderer.h"
 #import "NSAttributedString_Extensions.h"
+#import "UIColor+Hex.h"
 
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *tagHandlers;
@@ -174,7 +175,7 @@
     BTagHandler theTagHandler = NULL;
 
     // ### b
-    theTagHandler = ^(void) {
+    theTagHandler = ^(CTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithBool:YES], kMarkupBoldAttributeName,
             NULL]);
@@ -182,7 +183,7 @@
     [self addHandler:theTagHandler forTag:@"b"];
 
     // ### i
-    theTagHandler = ^(void) {
+    theTagHandler = ^(CTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithBool:YES], kMarkupItalicAttributeName,
             NULL]);
@@ -190,7 +191,7 @@
     [self addHandler:theTagHandler forTag:@"i"];
 
     // ### a
-    theTagHandler = ^(void) {
+    theTagHandler = ^(CTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
             [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
@@ -199,7 +200,7 @@
     [self addHandler:theTagHandler forTag:@"a"];
 
     // ### mark
-    theTagHandler = ^(void) {
+    theTagHandler = ^(CTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             (__bridge id)[UIColor yellowColor].CGColor, kMarkupBackgroundColorAttributeName,
             NULL]);
@@ -207,7 +208,7 @@
     [self addHandler:theTagHandler forTag:@"mark"];
 
     // ### strike
-    theTagHandler = ^(void) {
+    theTagHandler = ^(CTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             (__bridge id)[UIColor blackColor].CGColor, kMarkupStrikeColorAttributeName,
             NULL]);
@@ -215,19 +216,21 @@
     [self addHandler:theTagHandler forTag:@"strike"];
 
     // ### small
-    theTagHandler = ^(void) {
+    theTagHandler = ^(CTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithFloat:-4], kMarkupSizeAdjustmentAttributeName,
             NULL]);
         };
     [self addHandler:theTagHandler forTag:@"small"];
 
-
     // ### font
-    theTagHandler = ^(void) {
-        NSLog(@"FONT");
-        
-        return((NSDictionary *)NULL);
+    theTagHandler = ^(CTag *inTag) {
+        NSString *theColorString = [inTag.attributes objectForKey:@"color"];
+        UIColor *theColor = [UIColor colorWithHexString:theColorString];
+        return([NSDictionary dictionaryWithObjectsAndKeys:
+            (__bridge id)theColor.CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
+            [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
+            NULL]);
         };
     [self addHandler:theTagHandler forTag:@"font"];
     }
@@ -270,7 +273,7 @@
             if ([[theTagHandlerDictionary objectForKey:@"tag"] isEqualToString:theTag.name])
                 {
                 BTagHandler theHandler = [theTagHandlerDictionary objectForKey:@"handler"];
-                NSDictionary *theAttributes = theHandler();
+                NSDictionary *theAttributes = theHandler(theTag);
                 [theCumulativeAttributes addEntriesFromDictionary:theAttributes];
                 break;
                 }
