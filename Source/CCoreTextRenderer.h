@@ -13,6 +13,9 @@
 extern NSString *const kShadowColorAttributeName;
 extern NSString *const kShadowOffsetAttributeName;
 extern NSString *const kShadowBlurRadiusAttributeName;
+extern NSString *const kMarkupAttachmentAttributeName;
+extern NSString *const kMarkupBackgroundColorAttributeName;
+extern NSString *const kMarkupStrikeColorAttributeName;
 
 @interface CCoreTextRenderer : NSObject
 
@@ -29,8 +32,7 @@ extern NSString *const kShadowBlurRadiusAttributeName;
 - (CGSize)sizeThatFits:(CGSize)inSize;
 - (void)drawInContext:(CGContextRef)inContext;
 
-- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint;
-
+- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint effectiveRange:(NSRange *)outRange;
 - (NSArray *)rectsForRange:(NSRange)inRange;
 
 @end

@@ -33,8 +33,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import "CLinkingCoreTextLabel.h"
 #import "CMarkupValueTransformer.h"
-#import "CCoreTextLabel.h"
 #import "NSAttributedString_DebugExtensions.h"
 
 @interface CFreeformCoreTextViewController () <UITextViewDelegate>
@@ -57,9 +57,10 @@
         .top = 8.0, .bottom = 0.0,
         };
     self.previewView.lineBreakMode = UILineBreakModeWordWrap;
-    self.previewView.URLHandler = ^(NSURL *inURL) {
+    self.previewView.URLHandler = ^(NSRange inRange, NSURL *inURL) {
         UIAlertView *theAlertView = [[UIAlertView alloc] initWithTitle:@"URL" message:[NSString stringWithFormat:@"You tapped: %@", [inURL absoluteString]] delegate:NULL cancelButtonTitle:@"What's it to you?" otherButtonTitles:NULL];
         [theAlertView show];
+        return(YES);
         };
 
     [self textViewDidChange:self.editView];

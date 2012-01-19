@@ -46,10 +46,10 @@
 @property (readwrite, nonatomic, getter=isEnabled) BOOL enabled; // default is YES. changes how the label is drawn
 
 @property (readwrite, nonatomic, assign) UIEdgeInsets insets;
-@property (readwrite, nonatomic, copy) void (^URLHandler)(NSURL *);
 
 + (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode contentInsets:(UIEdgeInsets)inContentInsets thatFits:(CGSize)inSize;
 
 - (NSArray *)rectsForRange:(NSRange)inRange;
+- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint effectiveRange:(NSRange *)outRange;
 
 @end

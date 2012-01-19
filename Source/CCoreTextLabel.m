@@ -41,12 +41,9 @@
 
 @interface CCoreTextLabel ()
 @property (readwrite, nonatomic, retain) CCoreTextRenderer *renderer;
-@property (readwrite, nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
 
 + (CTParagraphStyleRef)createParagraphStyleForAttributes:(NSDictionary *)inAttributes alignment:(CTTextAlignment)inTextAlignment lineBreakMode:(CTLineBreakMode)inLineBreakMode;
-//+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset shadowBlurRadius:(CGFloat)inShadowBlurRadius alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode;
 + (NSAttributedString *)normalizeString:(NSAttributedString *)inString settings:(id)inSettings;
-- (void)tap:(UITapGestureRecognizer *)inGestureRecognizer;
 @end
 
 @implementation CCoreTextLabel
@@ -63,10 +60,8 @@
 @synthesize highlighted;
 @synthesize enabled;
 @synthesize insets;
-@synthesize URLHandler;
 
 @synthesize renderer;
-@synthesize tapRecognizer;
 
 + (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode contentInsets:(UIEdgeInsets)inContentInsets thatFits:(CGSize)inSize 
     {
@@ -269,25 +264,6 @@
     self.renderer = NULL;
     }
 
-- (void)setURLHandler:(void (^)(NSURL *))inURLHandler
-    {
-    if (URLHandler != inURLHandler)
-        {
-        URLHandler = [inURLHandler copy];
-        //
-        if (URLHandler != NULL)
-            {
-            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-            [self addGestureRecognizer:self.tapRecognizer];
-            }
-        else
-            {
-            [self removeGestureRecognizer:self.tapRecognizer];
-            self.tapRecognizer = NULL;
-            }
-        }
-    }
-
 #pragma mark -
 
 - (CCoreTextRenderer *)renderer
@@ -374,6 +350,18 @@
     CGContextRestoreGState(theContext);    
     }
 
+#pragma mark -
+    
+- (NSArray *)rectsForRange:(NSRange)inRange;
+    {
+    return([self.renderer rectsForRange:inRange]);
+    }
+
+- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint effectiveRange:(NSRange *)outRange
+    {
+    return([self.renderer attributesAtPoint:inPoint effectiveRange:outRange]);
+    }
+    
 #pragma mark -
 
 + (CTParagraphStyleRef)createParagraphStyleForAttributes:(NSDictionary *)inAttributes alignment:(CTTextAlignment)inTextAlignment lineBreakMode:(CTLineBreakMode)inLineBreakMode
@@ -510,32 +498,6 @@
         }];
 
     return(theMutableText);
-    }
-
-#pragma mark -
-
-- (void)tap:(UITapGestureRecognizer *)inGestureRecognizer
-    {
-    CGPoint theLocation = [inGestureRecognizer locationInView:self];
-    theLocation.x -= self.insets.left;
-    theLocation.y -= self.insets.top;
-
-    NSDictionary *theAttributes = [self.renderer attributesAtPoint:theLocation];
-    NSURL *theLink = [theAttributes objectForKey:kMarkupLinkAttributeName];
-    if (theLink != NULL)
-        {
-        if (self.URLHandler != NULL)
-            {
-            self.URLHandler(theLink);
-            }
-        }
-    }
-    
-#pragma mark -
-
-- (NSArray *)rectsForRange:(NSRange)inRange;
-    {
-    return([self.renderer rectsForRange:inRange]);
     }
 
 @end

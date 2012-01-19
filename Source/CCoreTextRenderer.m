@@ -20,6 +20,9 @@
 NSString *const kShadowColorAttributeName = @"com.touchcode.shadowColor";
 NSString *const kShadowOffsetAttributeName = @"com.touchcode.shadowOffset";
 NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadius";
+NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
+NSString *const kMarkupBackgroundColorAttributeName = @"com.touchcode.backgroundColor";
+NSString *const kMarkupStrikeColorAttributeName = @"com.touchcode.strikeColor";
 
 @interface CCoreTextRenderer ()
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
@@ -364,7 +367,7 @@ NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadiu
     return(theIndex);
     }
 
-- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint
+- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint effectiveRange:(NSRange *)outRange
     {
     const NSUInteger theIndex = [self indexAtPoint:inPoint];
     if (theIndex == NSNotFound || theIndex >= self.text.length)
@@ -373,7 +376,7 @@ NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadiu
         }
     else
         {
-        NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:NULL];
+        NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:outRange];
         return(theAttributes);
         }
     }
@@ -406,9 +409,6 @@ NSString *const kShadowBlurRadiusAttributeName = @"com.touchcode.shadowBlurRadiu
     CFRelease(theFrame);
     free(theLineOrigins);
 
-    // TODO: We need to coelesce ajacent rectangles here...
-//    NSMutableArray *theCoelescedRects = [NSMutableArray array];
-    
     return(theRects);
     }
 

@@ -37,15 +37,13 @@
 #import "CMarkupValueTransformer.h"
 #import "CSimpleHTMLParser.h"
 #import "CCoreTextAttachment.h"
+#import "CCoreTextRenderer.h"
 
 NSString *const kMarkupLinkAttributeName = @"com.touchcode.link";
 NSString *const kMarkupBoldAttributeName = @"com.touchcode.bold";
 NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
 NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustment";
-NSString *const kMarkupAttachmentAttributeName = @"com.touchcode.attachment";
 NSString *const kMarkupTextColorAttributeName = @"com.touchcode.textColor";
-NSString *const kMarkupBackgroundColorAttributeName = @"com.touchcode.backgroundColor";
-NSString *const kMarkupStrikeColorAttributeName = @"com.touchcode.strikeColor";
 
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTags;

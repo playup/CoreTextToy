@@ -91,7 +91,9 @@
 
     // #########################################################################
 
-    self.label6.text = [[NSAttributedString alloc] initWithString:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Lorem" ofType:@"txt"]]];
+    NSURL *theURL = [[NSBundle mainBundle] URLForResource:@"Lorem" withExtension:@"txt"];
+    NSString *theString = [NSString stringWithContentsOfURL:theURL encoding:NSUTF8StringEncoding error:NULL];
+    self.label6.text = [[NSAttributedString alloc] initWithString:theString];
     self.label6.insets = (UIEdgeInsets){ .left = 20, .top = 20, .right = 20, .bottom = 20 };
     self.label6.lineBreakMode = UILineBreakModeWordWrap;
     
