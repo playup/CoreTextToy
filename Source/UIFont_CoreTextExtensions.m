@@ -103,6 +103,8 @@ static void *kCGFontKey;
 
 - (UIFont *)boldFont
     {
+    if (self == [UIFont systemFontOfSize:self.pointSize]) return [UIFont boldSystemFontOfSize:self.pointSize];
+        
     for (NSString *theFontName in [UIFont fontNamesForFamilyName:self.familyName])
         {
         NSSet *theFeatures = [UIFont featuresForFontName:theFontName];
