@@ -261,18 +261,19 @@
 
 - (NSDictionary *)attributesForTagStack:(NSArray *)inTagStack
     {
-    NSSet *theTagSet = [NSSet setWithArray:[inTagStack valueForKey:@"name"]];
     NSMutableDictionary *theCumulativeAttributes = [NSMutableDictionary dictionary];
-    
-    for (NSDictionary *theDictionary in self.tagHandlers)
-        {
-        NSString *theTag = [theDictionary objectForKey:@"tag"];
 
-        if ([theTagSet containsObject:theTag])
+    for (CTag *theTag in inTagStack)
+        {
+        for (NSDictionary *theTagHandlerDictionary in self.tagHandlers)
             {
-            BTagHandler theHandler = [theDictionary objectForKey:@"handler"];
-            NSDictionary *theAttributes = theHandler();
-            [theCumulativeAttributes addEntriesFromDictionary:theAttributes];
+            if ([[theTagHandlerDictionary objectForKey:@"tag"] isEqualToString:theTag.name])
+                {
+                BTagHandler theHandler = [theTagHandlerDictionary objectForKey:@"handler"];
+                NSDictionary *theAttributes = theHandler();
+                [theCumulativeAttributes addEntriesFromDictionary:theAttributes];
+                break;
+                }
             }
         }
 
