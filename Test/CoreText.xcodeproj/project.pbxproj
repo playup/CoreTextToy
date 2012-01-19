@@ -20,6 +20,7 @@
 		45789C5D145F1338004EA63E /* CCoreTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 45789C5C145F1338004EA63E /* CCoreTextAttachment.m */; };
 		4592051D145A68D000DECA27 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4592051C145A68D000DECA27 /* QuartzCore.framework */; };
 		45920521145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */; };
+		4593F75514C79CBE00F78F92 /* CTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4593F75414C79CBE00F78F92 /* CTestViewController.m */; };
 		45DEC480142BBEDB009FBCC6 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */; };
 		45DEC481142BBEDB009FBCC6 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC479142BBEDB009FBCC6 /* CMarkupValueTransformer.m */; };
 		45DEC482142BBEDB009FBCC6 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DEC47B142BBEDB009FBCC6 /* CSimpleHTMLParser.m */; };
@@ -75,6 +76,8 @@
 		4592051C145A68D000DECA27 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4592051F145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTwitterStyleTweetTextLabel.h; sourceTree = "<group>"; };
 		45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTwitterStyleTweetTextLabel.m; sourceTree = "<group>"; };
+		4593F75314C79CBE00F78F92 /* CTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTestViewController.h; sourceTree = "<group>"; };
+		4593F75414C79CBE00F78F92 /* CTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTestViewController.m; sourceTree = "<group>"; };
 		45DEC476142BBEDB009FBCC6 /* CCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel.h; sourceTree = "<group>"; };
 		45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel.m; sourceTree = "<group>"; };
 		45DEC478142BBEDB009FBCC6 /* CMarkupValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMarkupValueTransformer.h; sourceTree = "<group>"; };
@@ -206,6 +209,8 @@
 				45FF284813CD6920006D9574 /* CFreeformCoreTextViewController.m */,
 				4528EAB71454816F00814B3E /* CExampleCoreTextViewController.h */,
 				4528EAB81454816F00814B3E /* CExampleCoreTextViewController.m */,
+				4593F75314C79CBE00F78F92 /* CTestViewController.h */,
+				4593F75414C79CBE00F78F92 /* CTestViewController.m */,
 				4528EA5F145386F500814B3E /* NSAttributedString_DebugExtensions.h */,
 				4528EA60145386F500814B3E /* NSAttributedString_DebugExtensions.m */,
 				4592051F145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.h */,
@@ -381,6 +386,7 @@
 				4548A9F6145B2422001C5654 /* CResizerThumb.m in Sources */,
 				45789C5D145F1338004EA63E /* CCoreTextAttachment.m in Sources */,
 				37850D021496641A004AAA31 /* UIColor+Hex.m in Sources */,
+				4593F75514C79CBE00F78F92 /* CTestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
