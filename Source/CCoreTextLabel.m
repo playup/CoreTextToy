@@ -76,131 +76,6 @@
     return(theSize);
     }
 
-+ (CTParagraphStyleRef)createParagraphStyleForAttributes:(NSDictionary *)inAttributes alignment:(CTTextAlignment)inTextAlignment lineBreakMode:(CTLineBreakMode)inLineBreakMode
-    {
-    CGFloat theFirstLineHeadIndent;
-    CGFloat theHeadIndent;
-    CGFloat theTailIndent;
-    CFArrayRef theTabStops;
-    CGFloat theDefaultTabInterval;
-    CGFloat theLineHeightMultiple;
-    CGFloat theMaximumLineHeight;
-    CGFloat theMinimumLineHeight;
-    CGFloat theLineSpacing;
-    CGFloat theParagraphSpacing;
-    CGFloat theParagraphSpacingBefore;
-    CTWritingDirection theBaseWritingDirection; 
-
-    BOOL createdCurrentStyle = NO;
-    CTParagraphStyleRef currentParagraphStyle = (__bridge CTParagraphStyleRef)[inAttributes objectForKey:(__bridge NSString *)kCTParagraphStyleAttributeName];
-    if (currentParagraphStyle == NULL)
-        {
-        // Create default style
-        currentParagraphStyle = CTParagraphStyleCreate(NULL, 0);
-        createdCurrentStyle = YES;
-        }
-    
-    // Grab all but the alignment and line break mode
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierFirstLineHeadIndent, sizeof(theFirstLineHeadIndent), &theFirstLineHeadIndent);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierHeadIndent, sizeof(theHeadIndent), &theHeadIndent);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierTailIndent, sizeof(theTailIndent), &theTailIndent);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierTabStops, sizeof(theTabStops), &theTabStops);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierDefaultTabInterval, sizeof(theDefaultTabInterval), &theDefaultTabInterval);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierLineHeightMultiple, sizeof(theLineHeightMultiple), &theLineHeightMultiple);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierMaximumLineHeight, sizeof(theMaximumLineHeight), &theMaximumLineHeight);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierMinimumLineHeight, sizeof(theMinimumLineHeight), &theMinimumLineHeight);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierLineSpacing, sizeof(theLineSpacing), &theLineSpacing);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierParagraphSpacing, sizeof(theParagraphSpacing), &theParagraphSpacing);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierParagraphSpacingBefore, sizeof(theParagraphSpacingBefore), &theParagraphSpacingBefore);
-    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierBaseWritingDirection, sizeof(theBaseWritingDirection), &theBaseWritingDirection);
-    
-    if (createdCurrentStyle)
-        {
-        CFRelease(currentParagraphStyle);
-        }
-    
-    CTParagraphStyleSetting newSettings[] = {
-        { .spec = kCTParagraphStyleSpecifierAlignment, .valueSize = sizeof(inTextAlignment), .value = &inTextAlignment, },
-        { .spec = kCTParagraphStyleSpecifierFirstLineHeadIndent, .valueSize = sizeof(theFirstLineHeadIndent), .value = &theFirstLineHeadIndent, },
-        { .spec = kCTParagraphStyleSpecifierHeadIndent, .valueSize = sizeof(theHeadIndent), .value = &theHeadIndent, },
-        { .spec = kCTParagraphStyleSpecifierTailIndent, .valueSize = sizeof(theTailIndent), .value = &theTailIndent, },
-        { .spec = kCTParagraphStyleSpecifierTabStops, .valueSize = sizeof(theTabStops), .value = &theTabStops, },
-        { .spec = kCTParagraphStyleSpecifierDefaultTabInterval, .valueSize = sizeof(theDefaultTabInterval), .value = &theDefaultTabInterval, },
-        { .spec = kCTParagraphStyleSpecifierLineBreakMode, .valueSize = sizeof(inLineBreakMode), .value = &inLineBreakMode, },
-        { .spec = kCTParagraphStyleSpecifierLineHeightMultiple, .valueSize = sizeof(theLineHeightMultiple), .value = &theLineHeightMultiple, },
-        { .spec = kCTParagraphStyleSpecifierMaximumLineHeight, .valueSize = sizeof(theMaximumLineHeight), .value = &theMaximumLineHeight, },
-        { .spec = kCTParagraphStyleSpecifierMinimumLineHeight, .valueSize = sizeof(theMinimumLineHeight), .value = &theMinimumLineHeight, },
-        { .spec = kCTParagraphStyleSpecifierLineSpacing, .valueSize = sizeof(theLineSpacing), .value = &theLineSpacing, },
-        { .spec = kCTParagraphStyleSpecifierParagraphSpacing, .valueSize = sizeof(theParagraphSpacing), .value = &theParagraphSpacing, },
-        { .spec = kCTParagraphStyleSpecifierParagraphSpacingBefore, .valueSize = sizeof(theParagraphSpacingBefore), .value = &theParagraphSpacingBefore, },
-        { .spec = kCTParagraphStyleSpecifierBaseWritingDirection, .valueSize = sizeof(theBaseWritingDirection), .value = &theBaseWritingDirection, },
-        };
-    return CTParagraphStyleCreate( newSettings, sizeof(newSettings)/sizeof(CTParagraphStyleSetting) );
-    }
-
-+ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset shadowBlurRadius:(CGFloat)inShadowBlurRadius alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode
-    {
-    NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:inBaseFont] mutableCopy];
-
-    UIFont *theFont = inBaseFont ?: [UIFont systemFontOfSize:17.0];
-    UIColor *theColor = inTextColor ?: [UIColor blackColor];
-    
-    
-    [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
-        if ([attrs objectForKey:(__bridge NSString *)kCTFontAttributeName] == NULL)
-            {
-            [theMutableText addAttribute:(__bridge NSString *)kCTFontAttributeName value:(__bridge id)theFont.CTFont range:range];
-            }
-        if ([attrs objectForKey:(__bridge NSString *)kCTForegroundColorAttributeName] == NULL)
-            {
-            [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
-            }
-
-        // [DW]
-        if ([attrs objectForKey:kMarkupTextColorAttributeName] != NULL)
-            {
-            NSString *theColorStr = [attrs objectForKey:kMarkupTextColorAttributeName];
-            if(theColorStr)
-                [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor colorWithHexString:theColorStr].CGColor range:range];
-            }
-        }];
-
-    if (inShadowColor != NULL)
-        {
-        NSMutableDictionary *theShadowAttributes = [NSMutableDictionary dictionary];
-        [theShadowAttributes setObject:(__bridge id)inShadowColor.CGColor forKey:kShadowColorAttributeName];
-        [theShadowAttributes setObject:[NSValue valueWithCGSize:inShadowOffset] forKey:kShadowOffsetAttributeName];
-        [theShadowAttributes setObject:[NSNumber numberWithFloat:inShadowBlurRadius] forKey:kShadowBlurRadiusAttributeName];
-
-        [theMutableText addAttributes:theShadowAttributes range:(NSRange){ .length = [theMutableText length] }];
-        }
-    
-    CTTextAlignment theTextAlignment;
-    switch (inTextAlignment)
-        {
-        case UITextAlignmentLeft:
-            theTextAlignment = kCTLeftTextAlignment;
-            break;
-        case UITextAlignmentCenter:
-            theTextAlignment = kCTCenterTextAlignment;
-            break;
-        case UITextAlignmentRight:
-            theTextAlignment = kCTRightTextAlignment;
-            break;
-        }
-    
-    // UILineBreakMode maps 1:1 to CTLineBreakMode
-    CTLineBreakMode theLineBreakMode = inLineBreakMode;
-
-    [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
-        CTParagraphStyleRef newParagraphStyle = [self createParagraphStyleForAttributes:attrs alignment:theTextAlignment lineBreakMode:theLineBreakMode];
-        [theMutableText addAttribute:(__bridge NSString *)kCTParagraphStyleAttributeName value:(__bridge id)newParagraphStyle range:range];
-        CFRelease(newParagraphStyle);
-        }];
-
-    return(theMutableText);
-    }
-
 #pragma mark -
 
 - (id)initWithFrame:(CGRect)frame
@@ -399,6 +274,135 @@
 //    [UIImagePNGRepresentation(theImage) writeToFile:[NSString stringWithFormat:@"/Users/schwa/Desktop/%d.png", [theImage hash]] atomically:NO];
 //    #endif
     }
+
+#pragma mark -
+
++ (CTParagraphStyleRef)createParagraphStyleForAttributes:(NSDictionary *)inAttributes alignment:(CTTextAlignment)inTextAlignment lineBreakMode:(CTLineBreakMode)inLineBreakMode
+    {
+    CGFloat theFirstLineHeadIndent;
+    CGFloat theHeadIndent;
+    CGFloat theTailIndent;
+    CFArrayRef theTabStops;
+    CGFloat theDefaultTabInterval;
+    CGFloat theLineHeightMultiple;
+    CGFloat theMaximumLineHeight;
+    CGFloat theMinimumLineHeight;
+    CGFloat theLineSpacing;
+    CGFloat theParagraphSpacing;
+    CGFloat theParagraphSpacingBefore;
+    CTWritingDirection theBaseWritingDirection; 
+
+    BOOL createdCurrentStyle = NO;
+    CTParagraphStyleRef currentParagraphStyle = (__bridge CTParagraphStyleRef)[inAttributes objectForKey:(__bridge NSString *)kCTParagraphStyleAttributeName];
+    if (currentParagraphStyle == NULL)
+        {
+        // Create default style
+        currentParagraphStyle = CTParagraphStyleCreate(NULL, 0);
+        createdCurrentStyle = YES;
+        }
+    
+    // Grab all but the alignment and line break mode
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierFirstLineHeadIndent, sizeof(theFirstLineHeadIndent), &theFirstLineHeadIndent);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierHeadIndent, sizeof(theHeadIndent), &theHeadIndent);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierTailIndent, sizeof(theTailIndent), &theTailIndent);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierTabStops, sizeof(theTabStops), &theTabStops);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierDefaultTabInterval, sizeof(theDefaultTabInterval), &theDefaultTabInterval);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierLineHeightMultiple, sizeof(theLineHeightMultiple), &theLineHeightMultiple);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierMaximumLineHeight, sizeof(theMaximumLineHeight), &theMaximumLineHeight);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierMinimumLineHeight, sizeof(theMinimumLineHeight), &theMinimumLineHeight);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierLineSpacing, sizeof(theLineSpacing), &theLineSpacing);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierParagraphSpacing, sizeof(theParagraphSpacing), &theParagraphSpacing);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierParagraphSpacingBefore, sizeof(theParagraphSpacingBefore), &theParagraphSpacingBefore);
+    CTParagraphStyleGetValueForSpecifier(currentParagraphStyle, kCTParagraphStyleSpecifierBaseWritingDirection, sizeof(theBaseWritingDirection), &theBaseWritingDirection);
+    
+    if (createdCurrentStyle)
+        {
+        CFRelease(currentParagraphStyle);
+        }
+    
+    CTParagraphStyleSetting newSettings[] = {
+        { .spec = kCTParagraphStyleSpecifierAlignment, .valueSize = sizeof(inTextAlignment), .value = &inTextAlignment, },
+        { .spec = kCTParagraphStyleSpecifierFirstLineHeadIndent, .valueSize = sizeof(theFirstLineHeadIndent), .value = &theFirstLineHeadIndent, },
+        { .spec = kCTParagraphStyleSpecifierHeadIndent, .valueSize = sizeof(theHeadIndent), .value = &theHeadIndent, },
+        { .spec = kCTParagraphStyleSpecifierTailIndent, .valueSize = sizeof(theTailIndent), .value = &theTailIndent, },
+        { .spec = kCTParagraphStyleSpecifierTabStops, .valueSize = sizeof(theTabStops), .value = &theTabStops, },
+        { .spec = kCTParagraphStyleSpecifierDefaultTabInterval, .valueSize = sizeof(theDefaultTabInterval), .value = &theDefaultTabInterval, },
+        { .spec = kCTParagraphStyleSpecifierLineBreakMode, .valueSize = sizeof(inLineBreakMode), .value = &inLineBreakMode, },
+        { .spec = kCTParagraphStyleSpecifierLineHeightMultiple, .valueSize = sizeof(theLineHeightMultiple), .value = &theLineHeightMultiple, },
+        { .spec = kCTParagraphStyleSpecifierMaximumLineHeight, .valueSize = sizeof(theMaximumLineHeight), .value = &theMaximumLineHeight, },
+        { .spec = kCTParagraphStyleSpecifierMinimumLineHeight, .valueSize = sizeof(theMinimumLineHeight), .value = &theMinimumLineHeight, },
+        { .spec = kCTParagraphStyleSpecifierLineSpacing, .valueSize = sizeof(theLineSpacing), .value = &theLineSpacing, },
+        { .spec = kCTParagraphStyleSpecifierParagraphSpacing, .valueSize = sizeof(theParagraphSpacing), .value = &theParagraphSpacing, },
+        { .spec = kCTParagraphStyleSpecifierParagraphSpacingBefore, .valueSize = sizeof(theParagraphSpacingBefore), .value = &theParagraphSpacingBefore, },
+        { .spec = kCTParagraphStyleSpecifierBaseWritingDirection, .valueSize = sizeof(theBaseWritingDirection), .value = &theBaseWritingDirection, },
+        };
+    return CTParagraphStyleCreate( newSettings, sizeof(newSettings)/sizeof(CTParagraphStyleSetting) );
+    }
+
++ (NSAttributedString *)normalizeString:(NSAttributedString *)inString font:(UIFont *)inBaseFont textColor:(UIColor *)inTextColor shadowColor:(UIColor *)inShadowColor shadowOffset:(CGSize)inShadowOffset shadowBlurRadius:(CGFloat)inShadowBlurRadius alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode
+    {
+    NSMutableAttributedString *theMutableText = [[CMarkupValueTransformer normalizedAttributedStringForAttributedString:inString baseFont:inBaseFont] mutableCopy];
+
+    UIFont *theFont = inBaseFont ?: [UIFont systemFontOfSize:17.0];
+    UIColor *theColor = inTextColor ?: [UIColor blackColor];
+    
+    
+    [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+        if ([attrs objectForKey:(__bridge NSString *)kCTFontAttributeName] == NULL)
+            {
+            [theMutableText addAttribute:(__bridge NSString *)kCTFontAttributeName value:(__bridge id)theFont.CTFont range:range];
+            }
+        if ([attrs objectForKey:(__bridge NSString *)kCTForegroundColorAttributeName] == NULL)
+            {
+            [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)theColor.CGColor range:range];
+            }
+
+        // [DW]
+        if ([attrs objectForKey:kMarkupTextColorAttributeName] != NULL)
+            {
+            NSString *theColorStr = [attrs objectForKey:kMarkupTextColorAttributeName];
+            if(theColorStr)
+                [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor colorWithHexString:theColorStr].CGColor range:range];
+            }
+        }];
+
+    if (inShadowColor != NULL)
+        {
+        NSMutableDictionary *theShadowAttributes = [NSMutableDictionary dictionary];
+        [theShadowAttributes setObject:(__bridge id)inShadowColor.CGColor forKey:kShadowColorAttributeName];
+        [theShadowAttributes setObject:[NSValue valueWithCGSize:inShadowOffset] forKey:kShadowOffsetAttributeName];
+        [theShadowAttributes setObject:[NSNumber numberWithFloat:inShadowBlurRadius] forKey:kShadowBlurRadiusAttributeName];
+
+        [theMutableText addAttributes:theShadowAttributes range:(NSRange){ .length = [theMutableText length] }];
+        }
+    
+    CTTextAlignment theTextAlignment;
+    switch (inTextAlignment)
+        {
+        case UITextAlignmentLeft:
+            theTextAlignment = kCTLeftTextAlignment;
+            break;
+        case UITextAlignmentCenter:
+            theTextAlignment = kCTCenterTextAlignment;
+            break;
+        case UITextAlignmentRight:
+            theTextAlignment = kCTRightTextAlignment;
+            break;
+        }
+    
+    // UILineBreakMode maps 1:1 to CTLineBreakMode
+    CTLineBreakMode theLineBreakMode = inLineBreakMode;
+
+    [theMutableText enumerateAttributesInRange:(NSRange){ .length = theMutableText.length } options:0 usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
+        CTParagraphStyleRef newParagraphStyle = [self createParagraphStyleForAttributes:attrs alignment:theTextAlignment lineBreakMode:theLineBreakMode];
+        [theMutableText addAttribute:(__bridge NSString *)kCTParagraphStyleAttributeName value:(__bridge id)newParagraphStyle range:range];
+        CFRelease(newParagraphStyle);
+        }];
+
+    return(theMutableText);
+    }
+
+#pragma mark -
 
 - (void)tap:(UITapGestureRecognizer *)inGestureRecognizer
     {
