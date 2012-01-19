@@ -35,7 +35,7 @@ extern NSString *const kMarkupLinkAttributeName;
 extern NSString *const kMarkupBoldAttributeName;
 extern NSString *const kMarkupItalicAttributeName;
 extern NSString *const kMarkupSizeAdjustmentAttributeName;
-extern NSString *const kMarkupTextColorAttributeName;
+extern NSString *const kMarkupTextHexColorAttributeName;
 
 @interface CMarkupValueTransformer : NSValueTransformer
 

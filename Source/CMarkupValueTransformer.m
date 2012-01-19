@@ -43,7 +43,7 @@ NSString *const kMarkupLinkAttributeName = @"com.touchcode.link";
 NSString *const kMarkupBoldAttributeName = @"com.touchcode.bold";
 NSString *const kMarkupItalicAttributeName = @"com.touchcode.italic";
 NSString *const kMarkupSizeAdjustmentAttributeName = @"com.touchcode.sizeAdjustment";
-NSString *const kMarkupTextColorAttributeName = @"com.touchcode.textColor";
+NSString *const kMarkupTextHexColorAttributeName = @"com.touchcode.textHexColor";
 
 @interface CMarkupValueTransformer ()
 @property (readwrite, nonatomic, strong) NSMutableArray *attributesForTags;
@@ -171,7 +171,7 @@ NSString *const kMarkupTextColorAttributeName = @"com.touchcode.textColor";
         
         if (theCurrentColor != NULL)
         {
-            [theTextAttributes setObject:theCurrentColor forKey:kMarkupTextColorAttributeName];
+            [theTextAttributes setObject:theCurrentColor forKey:kMarkupTextHexColorAttributeName];
         }
         
 

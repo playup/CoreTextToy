@@ -444,9 +444,9 @@
             }
 
         // [DW]
-        if ([attrs objectForKey:kMarkupTextColorAttributeName] != NULL)
+        if ([attrs objectForKey:kMarkupTextHexColorAttributeName] != NULL)
             {
-            NSString *theColorStr = [attrs objectForKey:kMarkupTextColorAttributeName];
+            NSString *theColorStr = [attrs objectForKey:kMarkupTextHexColorAttributeName];
             if(theColorStr)
                 [theMutableText addAttribute:(__bridge NSString *)kCTForegroundColorAttributeName value:(__bridge id)[UIColor colorWithHexString:theColorStr].CGColor range:range];
             }
