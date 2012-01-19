@@ -38,12 +38,12 @@ enum {
     kSimpleHTMLParserErrorCode_MalformedEntity = -3,
     };
 
-@class CTag;
+@class CSimpleHTMLTag;
 
 @interface CSimpleHTMLParser : NSObject
 
-@property (readwrite, nonatomic, copy) void (^openTagHandler)(CTag *tag, NSArray *tagStack);
-@property (readwrite, nonatomic, copy) void (^closeTagHandler)(CTag *tag, NSArray *tagStack);
+@property (readwrite, nonatomic, copy) void (^openTagHandler)(CSimpleHTMLTag *tag, NSArray *tagStack);
+@property (readwrite, nonatomic, copy) void (^closeTagHandler)(CSimpleHTMLTag *tag, NSArray *tagStack);
 @property (readwrite, nonatomic, copy) void (^textHandler)(NSString *text, NSArray *tagStack);
 
 - (BOOL)parseString:(NSString *)inString error:(NSError **)outError;
@@ -52,7 +52,7 @@ enum {
 
 #pragma mark -
 
-@interface CTag : NSObject
+@interface CSimpleHTMLTag : NSObject
 @property (readwrite, nonatomic, strong) NSString *name;
 @property (readwrite, nonatomic, strong) NSDictionary *attributes;
 @end

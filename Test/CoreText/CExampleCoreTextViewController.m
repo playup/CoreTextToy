@@ -52,7 +52,7 @@
 
     // #########################################################################
 
-    BTagHandler theHandler = ^(CTag *inTag) {
+    BTagHandler theHandler = ^(CSimpleHTMLTag *inTag) {
         NSDictionary *theAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
             (__bridge id)[UIColor colorWithRed:0.761 green:0.486 blue:0.165 alpha:1.000].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
             [NSNumber numberWithInt:1], @"BOLD",

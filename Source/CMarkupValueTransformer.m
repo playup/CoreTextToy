@@ -92,7 +92,7 @@
 
     CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
 
-    theParser.openTagHandler = ^(CTag *inTag, NSArray *tagStack) {
+    theParser.openTagHandler = ^(CSimpleHTMLTag *inTag, NSArray *tagStack) {
         if ([inTag.name isEqualToString:@"a"] == YES)
             {
             NSString *theURLString = [inTag.attributes objectForKey:@"href"];
@@ -138,7 +138,7 @@
             }
         };
 
-    theParser.closeTagHandler = ^(CTag *inTag, NSArray *tagStack) {
+    theParser.closeTagHandler = ^(CSimpleHTMLTag *inTag, NSArray *tagStack) {
         if ([inTag.name isEqualToString:@"a"] == YES == YES)
             {
             theCurrentLink = NULL;
@@ -175,7 +175,7 @@
     BTagHandler theTagHandler = NULL;
 
     // ### b
-    theTagHandler = ^(CTag *inTag) {
+    theTagHandler = ^(CSimpleHTMLTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithBool:YES], kMarkupBoldAttributeName,
             NULL]);
@@ -183,7 +183,7 @@
     [self addHandler:theTagHandler forTag:@"b"];
 
     // ### i
-    theTagHandler = ^(CTag *inTag) {
+    theTagHandler = ^(CSimpleHTMLTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithBool:YES], kMarkupItalicAttributeName,
             NULL]);
@@ -191,7 +191,7 @@
     [self addHandler:theTagHandler forTag:@"i"];
 
     // ### a
-    theTagHandler = ^(CTag *inTag) {
+    theTagHandler = ^(CSimpleHTMLTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
             [NSNumber numberWithInt:kCTUnderlineStyleSingle], (__bridge id)kCTUnderlineStyleAttributeName,
@@ -200,7 +200,7 @@
     [self addHandler:theTagHandler forTag:@"a"];
 
     // ### mark
-    theTagHandler = ^(CTag *inTag) {
+    theTagHandler = ^(CSimpleHTMLTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             (__bridge id)[UIColor yellowColor].CGColor, kMarkupBackgroundColorAttributeName,
             NULL]);
@@ -208,7 +208,7 @@
     [self addHandler:theTagHandler forTag:@"mark"];
 
     // ### strike
-    theTagHandler = ^(CTag *inTag) {
+    theTagHandler = ^(CSimpleHTMLTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             (__bridge id)[UIColor blackColor].CGColor, kMarkupStrikeColorAttributeName,
             NULL]);
@@ -216,7 +216,7 @@
     [self addHandler:theTagHandler forTag:@"strike"];
 
     // ### small
-    theTagHandler = ^(CTag *inTag) {
+    theTagHandler = ^(CSimpleHTMLTag *inTag) {
         return([NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithFloat:-4], kMarkupSizeAdjustmentAttributeName,
             NULL]);
@@ -224,7 +224,7 @@
     [self addHandler:theTagHandler forTag:@"small"];
 
     // ### font
-    theTagHandler = ^(CTag *inTag) {
+    theTagHandler = ^(CSimpleHTMLTag *inTag) {
         NSString *theColorString = [inTag.attributes objectForKey:@"color"];
         UIColor *theColor = [UIColor colorWithHexString:theColorString];
         return([NSDictionary dictionaryWithObjectsAndKeys:
@@ -251,7 +251,7 @@
     {
     NSMutableDictionary *theCumulativeAttributes = [NSMutableDictionary dictionary];
 
-    for (CTag *theTag in inTagStack)
+    for (CSimpleHTMLTag *theTag in inTagStack)
         {
         BTagHandler theHandler = [self.tagHandlers objectForKey:theTag.name]; 
         if (theHandler)

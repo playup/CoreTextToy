@@ -50,8 +50,8 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 	{
 	if ((self = [super init]) != NULL)
 		{
-        openTagHandler = ^(CTag *tag, NSArray *tagStack) {};
-        closeTagHandler = ^(CTag *tag, NSArray *tagStack) {};
+        openTagHandler = ^(CSimpleHTMLTag *tag, NSArray *tagStack) {};
+        closeTagHandler = ^(CSimpleHTMLTag *tag, NSArray *tagStack) {};
         textHandler = ^(NSString *text, NSArray *tagStack) {};
 		}
 	return(self);
@@ -101,7 +101,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 
         if ([theScanner scanCloseTag:&theTagName] == YES)
             {
-            CTag *theTag = [[CTag alloc] init];
+            CSimpleHTMLTag *theTag = [[CSimpleHTMLTag alloc] init];
             theTag.name = theTagName;
             
             if (theString.length > 0)
@@ -130,7 +130,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
             }
         else if ([theScanner scanOpenTag:&theTagName attributes:&theAttributes] == YES)
             {
-            CTag *theTag = [[CTag alloc] init];
+            CSimpleHTMLTag *theTag = [[CSimpleHTMLTag alloc] init];
             theTag.name = theTagName;
             theTag.attributes = theAttributes;
 
@@ -156,7 +156,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
             }
         else if ([theScanner scanStandaloneTag:&theTagName attributes:&theAttributes] == YES)
             {
-            CTag *theTag = [[CTag alloc] init];
+            CSimpleHTMLTag *theTag = [[CSimpleHTMLTag alloc] init];
             theTag.name = theTagName;
             theTag.attributes = theAttributes;
 
@@ -260,7 +260,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 
 #pragma mark - 
 
-@implementation CTag
+@implementation CSimpleHTMLTag
 
 @synthesize name;
 @synthesize attributes;
