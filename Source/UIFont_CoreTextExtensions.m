@@ -121,6 +121,8 @@ static void *kCGFontKey;
 
 - (UIFont *)italicFont
     {
+    if (self == [UIFont systemFontOfSize:self.pointSize]) return [UIFont italicSystemFontOfSize:self.pointSize];
+        
     for (NSString *theFontName in [UIFont fontNamesForFamilyName:self.familyName])
         {
         NSSet *theFeatures = [UIFont featuresForFontName:theFontName];
