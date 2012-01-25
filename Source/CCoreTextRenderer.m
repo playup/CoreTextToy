@@ -52,6 +52,14 @@
             }
         }
     
+        // On iOS 5.0 the function `CTFramesetterSuggestFrameSizeWithConstraints` returns rounded float values (e.g. "15.0").
+        // Prior to iOS 5.0 the function returns float values (e.g. "14.7").
+        // Make sure the return value for `sizeForString:thatFits:" is equal for both versions:
+        if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] == NSOrderedAscending)
+        {
+            theSize = CGSizeMake(roundf(theSize.width), roundf(theSize.height));
+        }
+        
     return(theSize);
     }
 
