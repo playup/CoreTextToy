@@ -103,38 +103,45 @@
             }
         else if ([inTag.name isEqualToString:@"img"] == YES)
             {
-            id theImageSource = [inTag.attributes objectForKey:@"src"];
+            NSString *theImageSource = [inTag.attributes objectForKey:@"src"];
+            if (theImageSource == (id)[NSNull null])
+                {
+                theImageSource = NULL;
+                }
+        
             UIImage *theImage = NULL;
-            if (theImageSource != [NSNull null] && [theImageSource length] > 0)
+            if ([theImageSource length] > 0)
                 {
                 theImage = [UIImage imageNamed:theImageSource];
                 }
-            if (theImage == NULL)
+            else
                 {
                 theImage = [UIImage imageNamed:@"MissingImage.png"];
                 }
-            if (theImage != NULL)
+
+            CCoreTextAttachment *theAttachment = [[CCoreTextAttachment alloc] init];
+            theAttachment.ascent = theImage.size.height;
+            theAttachment.width = theImage.size.width;
+            theAttachment.representedObject = theImageSource;
+            theAttachment.renderer = ^(CCoreTextAttachment *inAttachment, CGContextRef inContext, CGRect inRect) {
+                [theImage drawInRect:inRect];
+                };
+
+            CTRunDelegateRef theRunDelegate = [theAttachment createRunDelegate];
+
+            NSMutableDictionary *theImageAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                theAttachment, kMarkupAttachmentAttributeName,
+                (__bridge_transfer id)theRunDelegate, (__bridge id)kCTRunDelegateAttributeName,
+                NULL];
+            
+            if (theCurrentLink != NULL)
                 {
-                CCoreTextAttachment *theAttachment = [[CCoreTextAttachment alloc] initWithAscent:theImage.size.height descent:0.0 width:theImage.size.width representedObject:theImage renderer:^(CCoreTextAttachment *inAttachment, CGContextRef inContext, CGRect inRect) {
-                    [theImage drawInRect:inRect];
-                    }];
-
-                CTRunDelegateRef theRunDelegate = [theAttachment createRunDelegate];
-
-                NSMutableDictionary *theImageAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                    theAttachment, kMarkupAttachmentAttributeName,
-                    (__bridge_transfer id)theRunDelegate, (__bridge id)kCTRunDelegateAttributeName,
-                    NULL];
-                
-                if (theCurrentLink != NULL)
-                    {
-                    [theImageAttributes setObject:theCurrentLink forKey:kMarkupLinkAttributeName];
-                    }
-
-                // U+FFFC "Object Replacment Character" (thanks to Jens Ayton for the pointer)
-                NSAttributedString *theImageString = [[NSAttributedString alloc] initWithString:@"\uFFFC" attributes:theImageAttributes];
-                [theAttributedString appendAttributedString:theImageString];
+                [theImageAttributes setObject:theCurrentLink forKey:kMarkupLinkAttributeName];
                 }
+
+            // U+FFFC "Object Replacment Character" (thanks to Jens Ayton for the pointer)
+            NSAttributedString *theImageString = [[NSAttributedString alloc] initWithString:@"\uFFFC" attributes:theImageAttributes];
+            [theAttributedString appendAttributedString:theImageString];
             }
         };
 

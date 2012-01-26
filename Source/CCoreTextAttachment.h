@@ -12,11 +12,11 @@
 
 @interface CCoreTextAttachment : NSObject
 
-@property (readonly, nonatomic, assign) CGFloat ascent;
-@property (readonly, nonatomic, assign) CGFloat descent;
-@property (readonly, nonatomic, assign) CGFloat width;
-@property (readonly, nonatomic, copy) void (^renderer)(CCoreTextAttachment *, CGContextRef,CGRect);
-@property (readonly, nonatomic, strong) id representedObject;
+@property (readwrite, nonatomic, assign) CGFloat ascent;
+@property (readwrite, nonatomic, assign) CGFloat descent;
+@property (readwrite, nonatomic, assign) CGFloat width;
+@property (readwrite, nonatomic, copy) void (^renderer)(CCoreTextAttachment *, CGContextRef,CGRect);
+@property (readwrite, nonatomic, strong) id representedObject;
 
 - (id)initWithAscent:(CGFloat)inAscent descent:(CGFloat)inDescent width:(CGFloat)inWidth representedObject:(id)inRepresentedObject renderer:(void (^)(CCoreTextAttachment *,CGContextRef,CGRect))inRenderer;
 
