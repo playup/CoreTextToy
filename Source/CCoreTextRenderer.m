@@ -40,16 +40,18 @@
 + (CGSize)sizeForString:(NSAttributedString *)inString thatFits:(CGSize)inSize
     {
     CTFramesetterRef theFramesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)inString);
-    CGSize theSize = CGSizeZero;
-    if (theFramesetter != NULL)
+    if (theFramesetter == NULL)
         {
-        theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){}, NULL, inSize, NULL);
-        CFRelease(theFramesetter);
-        
-        if (inSize.width < CGFLOAT_MAX && inSize.height == CGFLOAT_MAX)
-            {
-            theSize.width = inSize.width;
-            }
+        NSLog(@"Could not create CTFramesetter");
+        return(CGSizeZero);
+        }
+
+    CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(theFramesetter, (CFRange){}, NULL, inSize, NULL);
+    CFRelease(theFramesetter);
+    
+    if (inSize.width < CGFLOAT_MAX && inSize.height == CGFLOAT_MAX)
+        {
+        theSize.width = inSize.width;
         }
     
     // On iOS 5.0 the function `CTFramesetterSuggestFrameSizeWithConstraints` returns rounded float values (e.g. "15.0").
@@ -87,11 +89,12 @@
 
 - (CTFramesetterRef)framesetter
     {
-    if (framesetter == NULL)
+    if (framesetter == NULL && self.text != NULL)
         {
-        if (self.text != NULL)
+        framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)self.text);
+        if (framesetter == NULL)
             {
-            framesetter = CTFramesetterCreateWithAttributedString((__bridge CFAttributedStringRef)self.text);
+            NSLog(@"Could not create CTFramesetter");
             }
         }
     return(framesetter);
