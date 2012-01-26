@@ -15,12 +15,16 @@
 #import "NSAttributedString_Extensions.h"
 
 @interface CCoreTextRenderer ()
-@property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *prerenderersForAttributes;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *postRenderersForAttributes;
 @property (readwrite, nonatomic, assign) BOOL enableShadowRenderer;
 
-- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler;
+@property (readwrite, nonatomic, assign) CTFramesetterRef framesetter;
+@property (readwrite, nonatomic, assign) CTFrameRef frame;
+@property (readonly, nonatomic, assign) CGPoint *lineOrigins;
+@property (readwrite, nonatomic, strong) NSMutableData *lineOriginsData;
+
+- (void)enumerateRunsInContext:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler;
 - (NSUInteger)indexAtPoint:(CGPoint)inPoint;
 @end
 
@@ -30,11 +34,15 @@
 
 @synthesize text;
 @synthesize size;
+
 @synthesize prerenderersForAttributes;
 @synthesize postRenderersForAttributes;
 @synthesize enableShadowRenderer;
 
 @synthesize framesetter;
+@synthesize frame;
+@synthesize lineOrigins;
+@synthesize lineOriginsData;
 
 + (CGSize)sizeForString:(NSAttributedString *)inString thatFits:(CGSize)inSize
     {
@@ -61,6 +69,8 @@
     return(theSize);
     }
 
+#pragma mark -
+
 - (id)initWithText:(NSAttributedString *)inText size:(CGSize)inSize
     {
     if ((self = [super init]) != NULL)
@@ -74,11 +84,17 @@
             *stop = YES;
             }];
         }
-    return self;
+    return(self);
     }
 
 - (void)dealloc
     {
+    if (frame)
+        {
+        CFRelease(frame);
+        frame = NULL;
+        }
+
     if (framesetter)
         {
         CFRelease(framesetter);
@@ -99,6 +115,33 @@
             }
         }
     return(framesetter);
+    }
+
+- (CTFrameRef)frame
+    {
+    if (frame == NULL && self.text != NULL)
+        {
+        UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
+        frame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
+
+        if (frame == NULL)
+            {
+            NSLog(@"Could not create CTFrameRef");
+            }
+        }
+    return(frame);
+    }
+    
+- (CGPoint *)lineOrigins
+    {
+    if (lineOriginsData == NULL)
+        {
+        NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(self.frame);
+
+        lineOriginsData = [NSMutableData dataWithLength:sizeof(CGPoint) * theLines.count];
+        CTFrameGetLineOrigins(self.frame, (CFRange){}, [lineOriginsData mutableBytes]); 
+        }
+    return([lineOriginsData mutableBytes]);
     }
 
 #pragma mark -
@@ -155,19 +198,10 @@
     CGContextScaleCTM(inContext, 1.0, -1.0);
     CGContextTranslateCTM(inContext, 0, -self.size.height);
 
-    // ### Create a frame...
-    UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
-    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
-
-    // ### Get the lines and the line origin points...
-    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
-    CGPoint *theLineOrigins = malloc(sizeof(CGPoint) * theLines.count);
-    CTFrameGetLineOrigins(theFrame, (CFRange){}, theLineOrigins); 
-
     // ### If we have any pre-render blocks we enumerate over the runs and fire the blocks if the attributes match...
     if (self.prerenderersForAttributes.count > 0)
         {
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
+        [self enumerateRunsInContext:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
             [self.prerenderersForAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 if ([theAttributes objectForKey:key])
@@ -185,17 +219,18 @@
     // ### Render the text...
     if (self.enableShadowRenderer == NO)
         {
-        CTFrameDraw(theFrame, inContext);
+        CTFrameDraw(self.frame, inContext);
         }
     else
         {
         NSUInteger idx = 0;
+        NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(self.frame);
         for (id obj in theLines)
             {
             CTLineRef theLine = (__bridge CTLineRef)obj;
 
             // ### Get the line rect offseting it by the line origin
-            const CGPoint theLineOrigin = theLineOrigins[idx];
+            const CGPoint theLineOrigin = self.lineOrigins[idx];
 
             CGContextSetTextPosition(inContext, theLineOrigin.x, theLineOrigin.y);
             
@@ -240,7 +275,7 @@
     // ### If we have any pre-render blocks we enumerate over the runs and fire the blocks if the attributes match...
     if (self.postRenderersForAttributes.count > 0)
         {
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
+        [self enumerateRunsInContext:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
             [self.postRenderersForAttributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
                 if ([theAttributes objectForKey:key])
@@ -255,7 +290,7 @@
     CGContextRestoreGState(inContext);
 
     // ### Now that the CTM is restored. Iterate through each line and render any attachments.
-    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
+    [self enumerateRunsInContext:inContext handler:^(CGContextRef inContext2, CTRunRef inRun, CGRect inRect) {
         NSDictionary *theAttributes = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
         // ### If we have an image we draw it...
         CCoreTextAttachment *theAttachment = [theAttributes objectForKey:kMarkupAttachmentAttributeName];
@@ -267,16 +302,6 @@
             theAttachment.renderer(theAttachment, inContext2, inRect);
             }
         }];
-
-    if (theLineOrigins)
-        {
-        free(theLineOrigins);
-        }
-
-    if (theFrame)
-        {
-        CFRelease(theFrame);
-        }
     }
 
 #pragma mark -
@@ -298,19 +323,8 @@
 - (NSArray *)rectsForRange:(NSRange)inRange
     {
     NSMutableArray *theRects = [NSMutableArray array];
-    
-    // ### Create a frame...
-    UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
-    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
-    // TODO -- check frame created
 
-    // ### Get the lines and the line origin points...
-    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
-    CGPoint *theLineOrigins = malloc(sizeof(CGPoint) * theLines.count);
-    // TODO -- check line origins
-    CTFrameGetLineOrigins(theFrame, (CFRange){}, theLineOrigins); 
-    
-    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:NULL handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+    [self enumerateRunsInContext:NULL handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
     
         CFRange theRunRange = CTRunGetStringRange(inRun);
         if (theRunRange.location >= (CFIndex)inRange.location && theRunRange.location <= (CFIndex)inRange.location + (CFIndex)inRange.length)
@@ -322,31 +336,22 @@
             }
         }];
 
-    if (theFrame != NULL)
-        {
-        CFRelease(theFrame);
-        }
-        
-    if (theLineOrigins != NULL)
-        {
-        free(theLineOrigins);
-        }
-
     return(theRects);
     }
     
 #pragma mark -
 
-- (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler
+- (void)enumerateRunsInContext:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler
     {
     // ### Iterate through each line...
     NSUInteger idx = 0;
-    for (id obj in (__bridge NSArray *)inLines)
+    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(self.frame);
+    for (id obj in theLines)
         {
         CTLineRef theLine = (__bridge CTLineRef)obj;
 
         // ### Get the line rect offseting it by the line origin
-        const CGPoint theLineOrigin = inLineOrigins[idx];
+        const CGPoint theLineOrigin = self.lineOrigins[idx];
         
         // ### Iterate each run... Keeping track of our X position...
         CGFloat theXPosition = 0;
@@ -380,11 +385,7 @@
     inPoint.y *= -1;
     inPoint.y += self.size.height;
 
-    UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
-
-    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
-
-    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
+    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(self.frame);
 
     __block CGPoint theLastLineOrigin = (CGPoint){ 0, CGFLOAT_MAX };
     __block CFIndex theIndex = NSNotFound;
@@ -392,7 +393,7 @@
     [theLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 
         CGPoint theLineOrigin;
-        CTFrameGetLineOrigins(theFrame, CFRangeMake(idx, 1), &theLineOrigin);
+        CTFrameGetLineOrigins(self.frame, CFRangeMake(idx, 1), &theLineOrigin);
 
         if (inPoint.y > theLineOrigin.y && inPoint.y < theLastLineOrigin.y)
             {
@@ -406,8 +407,7 @@
             }
         theLastLineOrigin = theLineOrigin;
         }];
-        
-    CFRelease(theFrame);
+    
         
     return(theIndex);
     }
