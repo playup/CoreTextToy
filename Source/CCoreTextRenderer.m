@@ -27,6 +27,8 @@
 - (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler;
 @end
 
+#pragma mark -
+
 @implementation CCoreTextRenderer
 
 @synthesize text;
@@ -87,6 +89,8 @@
         }
     }
 
+#pragma mark -
+
 - (CTFramesetterRef)framesetter
     {
     if (framesetter == NULL && self.text != NULL)
@@ -99,6 +103,8 @@
         }
     return(framesetter);
     }
+
+#pragma mark -
 
 - (void)addPrerendererBlock:(void (^)(CGContextRef, CTRunRef, CGRect))inBlock forAttributeKey:(NSString *)inKey;
     {
@@ -119,6 +125,8 @@
         
     [self.postRenderersForAttributes setObject:[inBlock copy] forKey:inKey];
     }
+
+#pragma mark -
 
 - (CGSize)sizeThatFits:(CGSize)inSize
     {
@@ -205,15 +213,12 @@
     CGContextSetTextPosition(inContext, 0, 0);
 
     // ### Render the text...
-
-    // TODO: Optimisation, if we have no shadows we can use the native (presumably faster) renderer.
     if (self.enableShadowRenderer == NO)
         {
         CTFrameDraw(theFrame, inContext);
         }
     else
         {
-
         NSUInteger idx = 0;
         for (id obj in theLines)
             {
@@ -259,7 +264,6 @@
             }
         }
 
-
     // ### Reset the text position (important!)
     CGContextSetTextPosition(inContext, 0, 0);
 
@@ -294,10 +298,18 @@
             }
         }];
 
-    free(theLineOrigins);
+    if (theLineOrigins)
+        {
+        free(theLineOrigins);
+        }
 
-    CFRelease(theFrame);
+    if (theFrame)
+        {
+        CFRelease(theFrame);
+        }
     }
+
+#pragma mark -
 
 - (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler
     {
@@ -374,6 +386,8 @@
     return(theIndex);
     }
 
+#pragma mark -
+
 - (NSDictionary *)attributesAtPoint:(CGPoint)inPoint effectiveRange:(NSRange *)outRange
     {
     const NSUInteger theIndex = [self indexAtPoint:inPoint];
@@ -395,10 +409,12 @@
     // ### Create a frame...
     UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
     CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
+    // TODO -- check frame created
 
     // ### Get the lines and the line origin points...
     NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
     CGPoint *theLineOrigins = malloc(sizeof(CGPoint) * theLines.count);
+    // TODO -- check line origins
     CTFrameGetLineOrigins(theFrame, (CFRange){}, theLineOrigins); 
     
     [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:NULL handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
@@ -413,8 +429,15 @@
             }
         }];
 
-    CFRelease(theFrame);
-    free(theLineOrigins);
+    if (theFrame != NULL)
+        {
+        CFRelease(theFrame);
+        }
+        
+    if (theLineOrigins != NULL)
+        {
+        free(theLineOrigins);
+        }
 
     return(theRects);
     }
