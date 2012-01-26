@@ -1,8 +1,8 @@
 # CoreTextToy
 
-This is a small test project for iOS CoreText related experimentation.
+This codebase implements CCoreTextLabel, a UILabel style class that supports attributed strings and simple HTML.
 
-### License
+## License
 
 This code is licensed under the 2-clause BSD license ("Simplified BSD License" or "FreeBSD License") license. The license is reproduced below:
 
@@ -32,26 +32,35 @@ The views and conclusions contained in the software and documentation are those 
 authors and should not be interpreted as representing official policies, either expressed
 or implied, of Jonathan Wight.
 
-### Automatic Reference Counting (ARC)
+## Automatic Reference Counting (ARC)
 
 The source code in this repository uses Automatic Reference Counting. Older, non-ARC source code may exist in a "feature/nonARC" maintenance branch.
+
+## Design
+
+### CCoreTextLabel
+
+A UILabel workalike that uses CoreText to render NSAttributedString objects. It supports most functionality that UILabel supports (including shadows).
+
+This class is probably the primary reason you're using this codebase.
+
+## CCoreTextLabel_HTMLExtensions
+
+A very simple category on CCoreTextLabel that exposes a "markup" property. This property is a simple NSString that can contain HTML style markup. This is a "write-only" property (the getter only ever returns NULL).
+
+### CCoreTextRenderer
+
+The rendering class that takes NSAttributedStrings and some other parameters and renders them into the current CGContext. This class caches all the relevent information needed to render a certain string at a certain size. If the string or size changes the renderer object should be discarded and regenerated.
 
 ### CMarkupValueTransformer
 
 A value transformer capable of converting _simple_ HTML into a NSAttributedString.
-At the moment it only supports "b" and "i" tags (in any valid, nested combinations) but that is quite easy to expand. Each tag combination can have their set of attributes.
 
 ### UIFont_CoreTextExtensions
 
-Extension on UIFont to get a CTFont and to get bold/italic, etc versions of the font. Scans the font name to work out the attributes of a particular font. This code is crude and effective - but needs to be tested on _all_ iOS font names (esp. the weirder ones).
+Extension on UIFont to get a CTFont and to get bold/italic, etc variations of the font. Scans the font name to work out the attributes of a particular font.
 
-### CCoreTextLabel
-
-Beginning of a UILabel workalike that uses CoreTest to render NSAttributedString objects.
-
-### CCoreTextRenderer
-
-The rendering class that takes NSAttributedStrings and some other parameters and renders them into the current CGContext.
+This code is crude and effective - but needs to be tested on _all_ iOS font names (especially the weirder ones).
 
 ## FAQ
 
@@ -71,7 +80,7 @@ Only a handful of tags are supported right now, but you can define your own quit
 
 Link and image tags are now supported.
 
-The following tags are supported
+The following tags are supported. More tags might be supported, see the source code for details.
 
 * &lt;br&gt;
 * &lt;b&gt;
@@ -89,9 +98,14 @@ The quick way:
     NSError *theError = NULL;
     NSString *theAttributedString = [NSAttributedString attributedStringWithMarkup:theMarkup error:&theError];
     // Error checking goes here.
-    self.label.text = theAttributedString;
+    theCoreTextLabel.markup = theMarkup;
 
-For the long way see "How do I add custom styles?"
+The quicker way (if you want to use the CCoreTextLabel_HTMLExtensions category)
+
+    NSString *theMarkup = @"<b>Hello world</b>";
+    theCoreTextLabel.markup = theMarkup;
+
+For the long way, see "How do I add custom styles?"
 
 ### How do I add custom styles?
 
@@ -116,16 +130,3 @@ For the long way see "How do I add custom styles?"
 
     // Give the attributed string to the CCoreTextLabel.
     self.label.text = theAttributedString;
-
-## TODO
-
-* See github bug list.
-
-## TODO (DONE)
-
-* Support img tags.
-* Support _basic_ CSS styling (changing colour of text perhaps)
-* Support links
-* Support tags like "p" & <s>"br"</s> that don't style the text but do control flow <ins>(br is now implemented)</ins>
-* Support HTML entities
-* Support tags with attributes. This is important for the "a" tag.
