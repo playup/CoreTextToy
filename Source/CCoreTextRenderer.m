@@ -14,8 +14,6 @@
 #import "CCoreTextAttachment.h"
 #import "NSAttributedString_Extensions.h"
 
-//#define CORE_TEXT_SHOW_RUNS 1
-
 @interface CCoreTextRenderer ()
 @property (readonly, nonatomic, assign) CTFramesetterRef framesetter;
 @property (readwrite, nonatomic, retain) NSMutableDictionary *prerenderersForAttributes;
@@ -154,20 +152,6 @@
     // ### Get and set up the context...
     CGContextSaveGState(inContext);
 
-    #if CORE_TEXT_SHOW_RUNS == 1
-        {
-        CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){}, NULL, self.size, NULL);
-
-        CGRect theFrame = { .size = { .width = roundf(theSize.width), .height = roundf(theSize.height) } };
-        
-        CGContextSaveGState(inContext);
-        CGContextSetStrokeColorWithColor(inContext, [[UIColor greenColor] colorWithAlphaComponent:0.5].CGColor);
-        CGContextSetLineWidth(inContext, 0.5);
-        CGContextStrokeRect(inContext, theFrame);
-        CGContextRestoreGState(inContext);
-        }
-    #endif /* CORE_TEXT_SHOW_RUNS == 1 */
-
     CGContextScaleCTM(inContext, 1.0, -1.0);
     CGContextTranslateCTM(inContext, 0, -self.size.height);
 
@@ -179,19 +163,6 @@
     NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
     CGPoint *theLineOrigins = malloc(sizeof(CGPoint) * theLines.count);
     CTFrameGetLineOrigins(theFrame, (CFRange){}, theLineOrigins); 
-
-    #if CORE_TEXT_SHOW_RUNS == 1
-        {
-        CGContextSaveGState(inContext);
-        CGContextSetStrokeColorWithColor(inContext, [[UIColor redColor] colorWithAlphaComponent:0.5].CGColor);
-        CGContextSetLineWidth(inContext, 0.5);
-        [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:inContext handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
-            CGRect theStrokeRect = inRect;
-            CGContextStrokeRect(inContext, theStrokeRect);
-            }];
-        CGContextRestoreGState(inContext);
-        }        
-    #endif /* CORE_TEXT_SHOW_RUNS == 1 */
 
     // ### If we have any pre-render blocks we enumerate over the runs and fire the blocks if the attributes match...
     if (self.prerenderersForAttributes.count > 0)
