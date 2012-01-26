@@ -121,13 +121,16 @@
     {
     if (frame == NULL && self.text != NULL)
         {
-        UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
-        frame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
+        CGPathRef thePath = CGPathCreateWithRect((CGRect){ .size = self.size }, NULL);
+
+        frame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath, NULL);
 
         if (frame == NULL)
             {
             NSLog(@"Could not create CTFrameRef");
             }
+            
+        CFRelease(thePath);
         }
     return(frame);
     }
