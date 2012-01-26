@@ -11,8 +11,6 @@
 #import <CoreText/CoreText.h>
 #import <QuartzCore/QuartzCore.h>
 
-#import "UIFont_CoreTextExtensions.h"
-#import "CMarkupValueTransformer.h"
 #import "CCoreTextAttachment.h"
 #import "NSAttributedString_Extensions.h"
 
