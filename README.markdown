@@ -109,7 +109,7 @@ For the long way see "How do I add custom styles?"
         (__bridge id)[UIColor blueColor].CGColor, (__bridge NSString *)kCTForegroundColorAttributeName,
         (__bridge id)[theTransformer.standardFont boldFont].CTFont, (__bridge NSString *)kCTFontAttributeName,
         NULL];
-    [theTransformer addStyleAttributes:theAttributes forTagSet:[NSSet setWithObject:@"username"]];
+    [theTransformer addStyleHandlerWithAttributes:theAttributes forTagSet:[NSSet setWithObject:@"username"]];
 
     // Transform the markup into a NSAttributedString
     NSAttributedString *theAttributedString = [theTransformer transformedValue:theMarkup error:&theError];
