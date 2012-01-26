@@ -25,6 +25,7 @@
 @property (readwrite, nonatomic, assign) BOOL enableShadowRenderer;
 
 - (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler;
+- (NSUInteger)indexAtPoint:(CGPoint)inPoint;
 @end
 
 #pragma mark -
@@ -311,6 +312,62 @@
 
 #pragma mark -
 
+- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint effectiveRange:(NSRange *)outRange
+    {
+    const NSUInteger theIndex = [self indexAtPoint:inPoint];
+    if (theIndex == NSNotFound || theIndex >= self.text.length)
+        {
+        return(NULL);
+        }
+    else
+        {
+        NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:outRange];
+        return(theAttributes);
+        }
+    }
+    
+- (NSArray *)rectsForRange:(NSRange)inRange
+    {
+    NSMutableArray *theRects = [NSMutableArray array];
+    
+    // ### Create a frame...
+    UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
+    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
+    // TODO -- check frame created
+
+    // ### Get the lines and the line origin points...
+    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
+    CGPoint *theLineOrigins = malloc(sizeof(CGPoint) * theLines.count);
+    // TODO -- check line origins
+    CTFrameGetLineOrigins(theFrame, (CFRange){}, theLineOrigins); 
+    
+    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:NULL handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
+    
+        CFRange theRunRange = CTRunGetStringRange(inRun);
+        if (theRunRange.location >= (CFIndex)inRange.location && theRunRange.location <= (CFIndex)inRange.location + (CFIndex)inRange.length)
+            {
+            inRect.origin.y *= -1;
+            inRect.origin.y += self.size.height -  inRect.size.height;
+            
+            [theRects addObject:[NSValue valueWithCGRect:inRect]];
+            }
+        }];
+
+    if (theFrame != NULL)
+        {
+        CFRelease(theFrame);
+        }
+        
+    if (theLineOrigins != NULL)
+        {
+        free(theLineOrigins);
+        }
+
+    return(theRects);
+    }
+    
+#pragma mark -
+
 - (void)enumerateRunsForLines:(CFArrayRef)inLines lineOrigins:(CGPoint *)inLineOrigins context:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler
     {
     // ### Iterate through each line...
@@ -387,59 +444,5 @@
     }
 
 #pragma mark -
-
-- (NSDictionary *)attributesAtPoint:(CGPoint)inPoint effectiveRange:(NSRange *)outRange
-    {
-    const NSUInteger theIndex = [self indexAtPoint:inPoint];
-    if (theIndex == NSNotFound || theIndex >= self.text.length)
-        {
-        return(NULL);
-        }
-    else
-        {
-        NSDictionary *theAttributes = [self.text attributesAtIndex:theIndex effectiveRange:outRange];
-        return(theAttributes);
-        }
-    }
-    
-- (NSArray *)rectsForRange:(NSRange)inRange
-    {
-    NSMutableArray *theRects = [NSMutableArray array];
-    
-    // ### Create a frame...
-    UIBezierPath *thePath = [UIBezierPath bezierPathWithRect:(CGRect){ .size = self.size }];
-    CTFrameRef theFrame = CTFramesetterCreateFrame(self.framesetter, (CFRange){}, thePath.CGPath, NULL);
-    // TODO -- check frame created
-
-    // ### Get the lines and the line origin points...
-    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(theFrame);
-    CGPoint *theLineOrigins = malloc(sizeof(CGPoint) * theLines.count);
-    // TODO -- check line origins
-    CTFrameGetLineOrigins(theFrame, (CFRange){}, theLineOrigins); 
-    
-    [self enumerateRunsForLines:(__bridge CFArrayRef)theLines lineOrigins:theLineOrigins context:NULL handler:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
-    
-        CFRange theRunRange = CTRunGetStringRange(inRun);
-        if (theRunRange.location >= (CFIndex)inRange.location && theRunRange.location <= (CFIndex)inRange.location + (CFIndex)inRange.length)
-            {
-            inRect.origin.y *= -1;
-            inRect.origin.y += self.size.height -  inRect.size.height;
-            
-            [theRects addObject:[NSValue valueWithCGRect:inRect]];
-            }
-        }];
-
-    if (theFrame != NULL)
-        {
-        CFRelease(theFrame);
-        }
-        
-    if (theLineOrigins != NULL)
-        {
-        free(theLineOrigins);
-        }
-
-    return(theRects);
-    }
 
 @end
