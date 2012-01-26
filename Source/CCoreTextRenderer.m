@@ -52,13 +52,10 @@
             }
         }
     
-        // On iOS 5.0 the function `CTFramesetterSuggestFrameSizeWithConstraints` returns rounded float values (e.g. "15.0").
-        // Prior to iOS 5.0 the function returns float values (e.g. "14.7").
-        // Make sure the return value for `sizeForString:thatFits:" is equal for both versions:
-        if ([[[UIDevice currentDevice] systemVersion] compare:@"5.0" options:NSNumericSearch] == NSOrderedAscending)
-        {
-            theSize = CGSizeMake(roundf(theSize.width), roundf(theSize.height));
-        }
+    // On iOS 5.0 the function `CTFramesetterSuggestFrameSizeWithConstraints` returns rounded float values (e.g. "15.0").
+    // Prior to iOS 5.0 the function returns float values (e.g. "14.7").
+    // Make sure the return value for `sizeForString:thatFits:" is equal for both versions:
+    theSize = (CGSize){ .width = roundf(theSize.width), .height = roundf(theSize.height) };
         
     return(theSize);
     }
@@ -131,8 +128,8 @@
     CFRange theFitRange;
     CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){}, NULL, inSize, &theFitRange);
 
-    theSize.width = MIN(theSize.width, inSize.width);
-    theSize.height = MIN(theSize.height, inSize.height);
+    theSize.width = roundf(MIN(theSize.width, inSize.width));
+    theSize.height = roundf(MIN(theSize.height, inSize.height));
 
     return(theSize);
     }
@@ -151,7 +148,7 @@
         {
         CGSize theSize = CTFramesetterSuggestFrameSizeWithConstraints(self.framesetter, (CFRange){}, NULL, self.size, NULL);
 
-        CGRect theFrame = { .size = theSize };
+        CGRect theFrame = { .size = { .width = roundf(theSize.width), .height = roundf(theSize.height) } };
         
         CGContextSaveGState(inContext);
         CGContextSetStrokeColorWithColor(inContext, [[UIColor greenColor] colorWithAlphaComponent:0.5].CGColor);
