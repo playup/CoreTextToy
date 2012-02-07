@@ -33,12 +33,14 @@
 
 #import <CoreText/CoreText.h>
 #import <QuartzCore/QuartzCore.h>
+#import <ImageIO/ImageIO.h>
 
 #import "CMarkupValueTransformer.h"
 #import "CCoreTextRenderer.h"
 #import "UIFont_CoreTextExtensions.h"
 #import "UIColor+Hex.h"
 #import "NSAttributedString_Extensions.h"
+#import "CCoreTextAttachment.h"
 
 @interface CCoreTextLabel ()
 @property (readwrite, nonatomic, retain) CCoreTextRenderer *renderer;
@@ -147,6 +149,75 @@
     if (text != inText)
         {
         text = inText;
+        
+        [text enumerateAttribute:kMarkupAttachmentAttributeName inRange:(NSRange){ .length = text.length } options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
+
+            if (value == NULL)
+                {
+                return;
+                }
+        
+            NSLog(@"FOUND ATTACHMENT: %@ %@", NSStringFromRange(range), value);
+
+            CCoreTextAttachment *theAttachment = value;
+            theAttachment.renderer = ^(CCoreTextAttachment *inAttachment, CGContextRef inContext, CGRect inFrame) {
+                if (inAttachment.userInfo == NULL)
+                    {
+                    UIImage *theImage = NULL;
+                    
+                    NSURL *theURL = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:inAttachment.representedObject];
+                    
+                    NSData *theData = [NSData dataWithContentsOfURL:theURL];
+                    CGImageSourceRef theImageSource = CGImageSourceCreateWithData((__bridge CFDataRef)theData, NULL);
+                    if (theImageSource != NULL)
+                        {
+                        if (CGImageSourceGetCount(theImageSource) == 1)
+                            {
+                            CGImageRef theCGImage = CGImageSourceCreateImageAtIndex(theImageSource, 0, NULL);
+                            if (theCGImage != NULL)
+                                {
+                                theImage = [UIImage imageWithCGImage:theCGImage scale:0 orientation:UIImageOrientationUp];
+                                CFRelease(theCGImage);
+                                }
+                            }
+                        else
+                            {
+                            NSMutableArray *theImages = [NSMutableArray array];
+                            for (int N = 0; N != CGImageSourceGetCount(theImageSource); ++N)
+                                {
+                                CGImageRef theCGImage = CGImageSourceCreateImageAtIndex(theImageSource, N, NULL);
+                                if (theCGImage != NULL)
+                                    {
+                                    theImage = [UIImage imageWithCGImage:theCGImage scale:0 orientation:UIImageOrientationUp];
+                                    CFRelease(theCGImage);
+                                    
+                                    [theImages addObject:theImage];
+                                    }
+                                }
+                                
+                            theImage = [UIImage animatedImageWithImages:theImages duration:2.0];
+                            }
+
+                        CFRelease(theImageSource);
+                        }
+                    
+                    
+                    UIImageView *theImageView = [[UIImageView alloc] initWithImage:theImage];
+                    theImageView.frame = inFrame;
+                    [theImageView startAnimating];
+                    [self addSubview:theImageView];
+                    inAttachment.userInfo = theImageView;
+                    }
+                else
+                    {
+                    UIImageView *theImageView = inAttachment.userInfo;
+                    theImageView.frame = inFrame;
+                    }
+                };
+            
+
+            }];
+
         
         self.accessibilityLabel = inText.string;
         

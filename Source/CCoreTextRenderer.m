@@ -80,8 +80,11 @@
         enableShadowRenderer = NO;
         
         [text enumerateAttribute:kShadowColorAttributeName inRange:(NSRange){ .length = text.length } options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
-            enableShadowRenderer = YES;
-            *stop = YES;
+            if (value != NULL)
+                {
+                enableShadowRenderer = YES;
+                *stop = YES;
+                }
             }];
         }
     return(self);

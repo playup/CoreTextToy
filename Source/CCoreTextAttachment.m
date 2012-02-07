@@ -20,19 +20,7 @@ static void MyCTRunDelegateDeallocCallback(void *refCon);
 @synthesize width;
 @synthesize representedObject;
 @synthesize renderer;
-
-- (id)initWithAscent:(CGFloat)inAscent descent:(CGFloat)inDescent width:(CGFloat)inWidth representedObject:(id)inRepresentedObject renderer:(void (^)(CCoreTextAttachment *,CGContextRef,CGRect))inRenderer;
-    {
-    if ((self = [super init]) != NULL)
-        {
-        ascent = inAscent;
-        descent = inDescent;
-        width = inWidth;
-        representedObject = inRepresentedObject;
-        renderer = [inRenderer copy];
-        }
-    return self;
-    }
+@synthesize userInfo;
 
 - (CTRunDelegateRef)createRunDelegate
     {

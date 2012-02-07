@@ -17,8 +17,7 @@
 @property (readwrite, nonatomic, assign) CGFloat width;
 @property (readwrite, nonatomic, copy) void (^renderer)(CCoreTextAttachment *, CGContextRef,CGRect);
 @property (readwrite, nonatomic, strong) id representedObject;
-
-- (id)initWithAscent:(CGFloat)inAscent descent:(CGFloat)inDescent width:(CGFloat)inWidth representedObject:(id)inRepresentedObject renderer:(void (^)(CCoreTextAttachment *,CGContextRef,CGRect))inRenderer;
+@property (readwrite, nonatomic, strong) id userInfo;
 
 - (CTRunDelegateRef)createRunDelegate;
 

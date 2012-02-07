@@ -83,7 +83,7 @@
 
     // #########################################################################
 
-    self.label5.markup = @"This should <font color=\"#0000FF\">GLOW</font>";
+    self.label5.markup = @"<img src=\"puke.gif\"/> This should <font color=\"#0000FF\">GLOW</font>.";
     self.label5.backgroundColor = [UIColor grayColor];
     self.label5.font = [UIFont systemFontOfSize:36];
     self.label5.textColor = [UIColor whiteColor];
