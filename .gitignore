@@ -5,3 +5,5 @@
 *.pbxuser
 *.perspectivev3
 xcuserdata/
+
+Test/build
