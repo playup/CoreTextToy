@@ -22,6 +22,7 @@ static void *kMarkupValueTransformerKey;
     if (theMarkupValueTransformer == NULL)
         {
         theMarkupValueTransformer = [[CMarkupValueTransformer alloc] init];
+        theMarkupValueTransformer.whitespaceCharacterSet = [NSCharacterSet whitespaceCharacterSet];
         objc_setAssociatedObject(self, &kMarkupValueTransformerKey, theMarkupValueTransformer, OBJC_ASSOCIATION_RETAIN);
         }
     return(theMarkupValueTransformer);

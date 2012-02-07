@@ -46,6 +46,8 @@ enum {
 @property (readwrite, nonatomic, copy) void (^closeTagHandler)(CSimpleHTMLTag *tag, NSArray *tagStack);
 @property (readwrite, nonatomic, copy) void (^textHandler)(NSString *text, NSArray *tagStack);
 
+@property (readwrite, nonatomic, strong) NSCharacterSet *whitespaceCharacterSet;
+
 - (BOOL)parseString:(NSString *)inString error:(NSError **)outError;
 
 @end

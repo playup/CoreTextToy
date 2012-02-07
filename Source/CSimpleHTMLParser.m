@@ -45,6 +45,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 @synthesize openTagHandler;
 @synthesize closeTagHandler;
 @synthesize textHandler;
+@synthesize whitespaceCharacterSet;
 
 - (id)init
 	{
@@ -53,6 +54,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
         openTagHandler = ^(CSimpleHTMLTag *tag, NSArray *tagStack) {};
         closeTagHandler = ^(CSimpleHTMLTag *tag, NSArray *tagStack) {};
         textHandler = ^(NSString *text, NSArray *tagStack) {};
+        whitespaceCharacterSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
 		}
 	return(self);
 	}
@@ -79,7 +81,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 
 - (BOOL)parseString:(NSString *)inString error:(NSError **)outError
     {
-    NSMutableCharacterSet *theCharacterSet = [[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy];
+    NSMutableCharacterSet *theCharacterSet = [self.whitespaceCharacterSet mutableCopy];
     [theCharacterSet addCharactersInString:@"<&"];
     [theCharacterSet invert];
 
@@ -207,7 +209,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 
             if (theString.length > 0)
                 {
-                theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
+                theLastCharacterWasWhitespace = [self.whitespaceCharacterSet characterIsMember:[theString characterAtIndex:theString.length - 1]];
                 self.textHandler(theString, theTagStack);
                 theString = [NSMutableString string];
                 }
@@ -219,7 +221,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
                 theLastCharacterWasWhitespace = NO;
                 }
             }
-        else if ([theScanner scanCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:NULL])
+        else if ([theScanner scanCharactersFromSet:self.whitespaceCharacterSet intoString:NULL])
             {
             if (theLastCharacterWasWhitespace == NO)
                 {
@@ -230,7 +232,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
         else if ([theScanner scanCharactersFromSet:theCharacterSet intoString:&theRun])
             {
             [theString appendString:theRun];
-            theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
+            theLastCharacterWasWhitespace = [self.whitespaceCharacterSet characterIsMember:[theString characterAtIndex:theString.length - 1]];
             }
         else
             {
@@ -249,7 +251,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 
     if (theString.length > 0)
         {
-        theLastCharacterWasWhitespace = [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[theString characterAtIndex:theString.length - 1]];
+        theLastCharacterWasWhitespace = [self.whitespaceCharacterSet characterIsMember:[theString characterAtIndex:theString.length - 1]];
         self.textHandler(theString, theTagStack);
         }
 

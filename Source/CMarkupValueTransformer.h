@@ -37,6 +37,8 @@ typedef NSDictionary *(^BTagHandler)(CSimpleHTMLTag *);
 
 @interface CMarkupValueTransformer : NSValueTransformer
 
+@property (readwrite, nonatomic, strong) NSCharacterSet *whitespaceCharacterSet;
+
 - (id)transformedValue:(id)value error:(NSError **)outError;
 
 - (void)resetStyles;

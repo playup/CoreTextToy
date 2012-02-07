@@ -51,6 +51,8 @@
 
 @implementation CMarkupValueTransformer
 
+@synthesize whitespaceCharacterSet;
+
 @synthesize tagHandlers;
 
 + (Class)transformedValueClass
@@ -75,7 +77,7 @@
 		}
 	return(self);
 	}
-
+    
 - (id)transformedValue:(id)value
     {
     return([self transformedValue:value error:NULL]);
@@ -91,6 +93,10 @@
     __block NSURL *theCurrentLink = NULL;
 
     CSimpleHTMLParser *theParser = [[CSimpleHTMLParser alloc] init];
+    if (self.whitespaceCharacterSet != NULL)
+        {
+        theParser.whitespaceCharacterSet = self.whitespaceCharacterSet;
+        }
 
     theParser.openTagHandler = ^(CSimpleHTMLTag *inTag, NSArray *tagStack) {
         if ([inTag.name isEqualToString:@"a"] == YES)
