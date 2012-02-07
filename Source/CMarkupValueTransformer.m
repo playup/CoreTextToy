@@ -170,11 +170,20 @@
         [theAttributedString appendAttributedString:[[NSAttributedString alloc] initWithString:inString attributes:theTextAttributes]];
         };
 
-    if ([theParser parseString:theMarkup error:outError] == NO)
+        // In this section we use the NSScanner method
+        // - (BOOL)scanCharactersFromSet:(NSCharacterSet *)scanSet intoString:(NSString **)stringValue
+        // Apparently `stringValue` is autoreleased and ARC does not handle that properly.
+        // Therefore we need this autorelease pool.
+        @autoreleasepool
         {
-        return(NULL);
-        }
+            
+        if ([theParser parseString:theMarkup error:outError] == NO)
+            {
+            return(NULL);
+            }
 
+        }
+        
     return(theAttributedString);
     }
 
