@@ -36,25 +36,8 @@
 		45FF284313CD6920006D9574 /* CoreTextAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FF284213CD6920006D9574 /* CoreTextAppDelegate.m */; };
 		45FF284613CD6920006D9574 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45FF284413CD6920006D9574 /* MainStoryboard.storyboard */; };
 		45FF284913CD6920006D9574 /* CFreeformCoreTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FF284813CD6920006D9574 /* CFreeformCoreTextViewController.m */; };
-		45FF285113CD6920006D9574 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF285013CD6920006D9574 /* SenTestingKit.framework */; };
-		45FF285213CD6920006D9574 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283213CD6920006D9574 /* UIKit.framework */; };
-		45FF285313CD6920006D9574 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283413CD6920006D9574 /* Foundation.framework */; };
-		45FF285413CD6920006D9574 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF283613CD6920006D9574 /* CoreGraphics.framework */; };
-		45FF285C13CD6920006D9574 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45FF285A13CD6920006D9574 /* InfoPlist.strings */; };
-		45FF285E13CD6920006D9574 /* CoreTextTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 45FF285D13CD6920006D9574 /* CoreTextTests.h */; };
-		45FF286013CD6920006D9574 /* CoreTextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FF285F13CD6920006D9574 /* CoreTextTests.m */; };
 		45FF286D13CD695E006D9574 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45FF286C13CD695E006D9574 /* CoreText.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		45FF285513CD6920006D9574 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 45FF282513CD6920006D9574 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 45FF282D13CD6920006D9574;
-			remoteInfo = CoreText;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		37850CFF1496640E004AAA31 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
@@ -79,7 +62,7 @@
 		45920520145A6A9700DECA27 /* CTwitterStyleTweetTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTwitterStyleTweetTextLabel.m; sourceTree = "<group>"; };
 		4593F75714C7C0A300F78F92 /* CLinkingCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLinkingCoreTextLabel.h; sourceTree = "<group>"; };
 		4593F75814C7C0A300F78F92 /* CLinkingCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLinkingCoreTextLabel.m; sourceTree = "<group>"; };
-		4593F76414C7D01D00F78F92 /* NSAttributedString_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NSAttributedString_Extensions.h; sourceTree = "<group>"; };
+		4593F76414C7D01D00F78F92 /* NSAttributedString_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAttributedString_Extensions.h; sourceTree = "<group>"; };
 		4593F76514C7D01D00F78F92 /* NSAttributedString_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedString_Extensions.m; sourceTree = "<group>"; };
 		45DEC476142BBEDB009FBCC6 /* CCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel.h; sourceTree = "<group>"; };
 		45DEC477142BBEDB009FBCC6 /* CCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel.m; sourceTree = "<group>"; };
@@ -97,7 +80,7 @@
 		45FF283213CD6920006D9574 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		45FF283413CD6920006D9574 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		45FF283613CD6920006D9574 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		45FF283A13CD6920006D9574 /* CoreText-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreText-Info.plist"; sourceTree = "<group>"; };
+		45FF283A13CD6920006D9574 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45FF283C13CD6920006D9574 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		45FF283E13CD6920006D9574 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		45FF284013CD6920006D9574 /* CoreText-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreText-Prefix.pch"; sourceTree = "<group>"; };
@@ -106,7 +89,6 @@
 		45FF284513CD6920006D9574 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		45FF284713CD6920006D9574 /* CFreeformCoreTextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CFreeformCoreTextViewController.h; sourceTree = "<group>"; };
 		45FF284813CD6920006D9574 /* CFreeformCoreTextViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CFreeformCoreTextViewController.m; sourceTree = "<group>"; };
-		45FF284F13CD6920006D9574 /* CoreTextTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreTextTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		45FF285013CD6920006D9574 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		45FF285913CD6920006D9574 /* CoreTextTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreTextTests-Info.plist"; sourceTree = "<group>"; };
 		45FF285B13CD6920006D9574 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -125,17 +107,6 @@
 				45FF283313CD6920006D9574 /* UIKit.framework in Frameworks */,
 				45FF283513CD6920006D9574 /* Foundation.framework in Frameworks */,
 				45FF283713CD6920006D9574 /* CoreGraphics.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		45FF284B13CD6920006D9574 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				45FF285113CD6920006D9574 /* SenTestingKit.framework in Frameworks */,
-				45FF285213CD6920006D9574 /* UIKit.framework in Frameworks */,
-				45FF285313CD6920006D9574 /* Foundation.framework in Frameworks */,
-				45FF285413CD6920006D9574 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,7 +222,7 @@
 		45FF283913CD6920006D9574 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				45FF283A13CD6920006D9574 /* CoreText-Info.plist */,
+				45FF283A13CD6920006D9574 /* Info.plist */,
 				45FF283B13CD6920006D9574 /* InfoPlist.strings */,
 				45FF283E13CD6920006D9574 /* main.m */,
 				45FF284013CD6920006D9574 /* CoreText-Prefix.pch */,
@@ -298,25 +269,6 @@
 			productReference = 45FF282E13CD6920006D9574 /* CoreText.app */;
 			productType = "com.apple.product-type.application";
 		};
-		45FF284E13CD6920006D9574 /* CoreTextTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 45FF286613CD6920006D9574 /* Build configuration list for PBXNativeTarget "CoreTextTests" */;
-			buildPhases = (
-				45FF284A13CD6920006D9574 /* Sources */,
-				45FF284B13CD6920006D9574 /* Frameworks */,
-				45FF284C13CD6920006D9574 /* Resources */,
-				45FF284D13CD6920006D9574 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				45FF285613CD6920006D9574 /* PBXTargetDependency */,
-			);
-			name = CoreTextTests;
-			productName = CoreTextTests;
-			productReference = 45FF284F13CD6920006D9574 /* CoreTextTests.octest */;
-			productType = "com.apple.product-type.bundle";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -339,7 +291,6 @@
 			projectRoot = "";
 			targets = (
 				45FF282D13CD6920006D9574 /* CoreText */,
-				45FF284E13CD6920006D9574 /* CoreTextTests */,
 			);
 		};
 /* End PBXProject section */
@@ -370,22 +321,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		45FF284D13CD6920006D9574 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		45FF282A13CD6920006D9574 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -412,23 +347,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		45FF284A13CD6920006D9574 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				45FF286013CD6920006D9574 /* CoreTextTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		45FF285613CD6920006D9574 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 45FF282D13CD6920006D9574 /* CoreText */;
-			targetProxy = 45FF285513CD6920006D9574 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		45FF283B13CD6920006D9574 /* InfoPlist.strings */ = {
@@ -510,7 +429,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreText/CoreText-Prefix.pch";
-				INFOPLIST_FILE = "CoreText/CoreText-Info.plist";
+				INFOPLIST_FILE = CoreText/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
@@ -522,44 +441,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreText/CoreText-Prefix.pch";
-				INFOPLIST_FILE = "CoreText/CoreText-Info.plist";
+				INFOPLIST_FILE = CoreText/Info.plist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		45FF286713CD6920006D9574 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CoreText.app/CoreText";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CoreText/CoreText-Prefix.pch";
-				INFOPLIST_FILE = "CoreTextTests/CoreTextTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		45FF286813CD6920006D9574 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CoreText.app/CoreText";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CoreText/CoreText-Prefix.pch";
-				INFOPLIST_FILE = "CoreTextTests/CoreTextTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
@@ -580,15 +465,6 @@
 			buildConfigurations = (
 				45FF286413CD6920006D9574 /* Debug */,
 				45FF286513CD6920006D9574 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		45FF286613CD6920006D9574 /* Build configuration list for PBXNativeTarget "CoreTextTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				45FF286713CD6920006D9574 /* Debug */,
-				45FF286813CD6920006D9574 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
