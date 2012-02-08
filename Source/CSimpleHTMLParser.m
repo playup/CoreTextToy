@@ -97,9 +97,8 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
 
         while ([theScanner isAtEnd] == NO)
             {
-                
-            @autoreleasepool {
-                          
+            @autoreleasepool
+                {
                 NSString *theRun = NULL;
                 NSString *theTagName = NULL;
                 NSDictionary *theAttributes = NULL;
@@ -258,7 +257,7 @@ NSString *const kSimpleHTMLParserErrorDomain = @"kSimpleHTMLParserErrorDomain";
             theLastCharacterWasWhitespace = [self.whitespaceCharacterSet characterIsMember:[theString characterAtIndex:theString.length - 1]];
             self.textHandler(theString, theTagStack);
             }
-    }
+        }
         
     return(YES);
     }
