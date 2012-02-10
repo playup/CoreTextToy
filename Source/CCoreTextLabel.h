@@ -38,6 +38,7 @@
 @property (readwrite, nonatomic, strong) UIColor *textColor;            // default is nil (text draws black)
 @property (readwrite, nonatomic, assign) UITextAlignment textAlignment; // default is UITextAlignmentLeft
 @property (readwrite, nonatomic, assign) UILineBreakMode lineBreakMode; // default is UILineBreakModeTailTruncation. used for single and multiple lines of text
+@property (readwrite, nonatomic, assign) UILineBreakMode lastLineBreakMode; // default is UILineBreakModeTailTruncation. used for last line of text if different from lineBreakMode.
 @property (readwrite, nonatomic, strong) UIColor *shadowColor;          // default is nil (no shadow)
 @property (readwrite, nonatomic, assign) CGSize shadowOffset;           // default is CGSizeMake(0, -1) -- a top shadow
 @property (readwrite, nonatomic, assign) CGFloat shadowBlurRadius;      // default is 0 (sharp shadow)

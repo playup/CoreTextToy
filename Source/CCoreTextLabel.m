@@ -45,6 +45,7 @@
 
 + (CTParagraphStyleRef)createParagraphStyleForAttributes:(NSDictionary *)inAttributes alignment:(CTTextAlignment)inTextAlignment lineBreakMode:(CTLineBreakMode)inLineBreakMode;
 + (NSAttributedString *)normalizeString:(NSAttributedString *)inString settings:(id)inSettings;
++ (CTLineBreakMode)CTLineBreakModeForUITextAlignment:(UITextAlignment)inAlignment;
 @end
 
 @implementation CCoreTextLabel
@@ -54,6 +55,7 @@
 @synthesize textColor;
 @synthesize textAlignment;
 @synthesize lineBreakMode;
+@synthesize lastLineBreakMode;
 @synthesize shadowColor;
 @synthesize shadowOffset;
 @synthesize shadowBlurRadius;
@@ -99,6 +101,7 @@
         textColor = [UIColor blackColor];
         textAlignment = UITextAlignmentLeft;
         lineBreakMode = UILineBreakModeTailTruncation;
+        lastLineBreakMode = UILineBreakModeTailTruncation;
         shadowColor = NULL;
         shadowOffset = (CGSize){ 0.0, -1.0 };
         shadowBlurRadius = 0.0;
@@ -122,6 +125,7 @@
         textColor = [UIColor blackColor];
         textAlignment = UITextAlignmentLeft;
         lineBreakMode = UILineBreakModeTailTruncation;
+        lastLineBreakMode = UILineBreakModeTailTruncation;
         shadowColor = NULL;
         shadowOffset = (CGSize){ 0.0, -1.0 };
         shadowBlurRadius = 0.0;
@@ -192,6 +196,16 @@
     if (lineBreakMode != inLineBreakMode)
         {
         lineBreakMode = inLineBreakMode;
+        
+        self.renderer = NULL;
+        }
+    }
+
+- (void)setLastLineBreakMode:(UILineBreakMode)inLastLineBreakMode
+    {
+    if (lastLineBreakMode != inLastLineBreakMode)
+        {
+        lastLineBreakMode = inLastLineBreakMode;
         
         self.renderer = NULL;
         }
@@ -271,12 +285,25 @@
     {
     if (renderer == NULL)
         {
-        NSAttributedString *theNormalizedText = [[self class] normalizeString:self.text settings:self];
+        NSMutableAttributedString *theNormalizedText = [[[self class] normalizeString:self.text settings:self] mutableCopy];
 
         CGRect theBounds = self.bounds;
         theBounds = UIEdgeInsetsInsetRect(theBounds, self.insets);
         
         renderer = [[CCoreTextRenderer alloc] initWithText:theNormalizedText size:theBounds.size];
+
+        if (self.lineBreakMode != self.lastLineBreakMode)
+            {
+            NSRange theLastLineRange = [renderer rangeOfLastLine];
+            
+            CTParagraphStyleRef theParagraphStyle = [[self class] createParagraphStyleForAttributes:NULL alignment:[[self class] CTLineBreakModeForUITextAlignment:self.textAlignment] lineBreakMode:kCTLineBreakByTruncatingTail];
+
+            [theNormalizedText addAttribute:(__bridge NSString *)kCTParagraphStyleAttributeName value:(__bridge id)theParagraphStyle range:theLastLineRange];
+            
+            renderer.text = theNormalizedText;
+            }
+        
+
 
         [renderer addPrerendererBlock:^(CGContextRef inContext, CTRunRef inRun, CGRect inRect) {
             NSDictionary *theAttributes2 = (__bridge NSDictionary *)CTRunGetAttributes(inRun);
@@ -489,8 +516,27 @@
         [theMutableText addAttribute:(__bridge NSString *)kCTParagraphStyleAttributeName value:(__bridge id)newParagraphStyle range:range];
         CFRelease(newParagraphStyle);
         }];
-
+        
     return(theMutableText);
+    }
+
++ (CTLineBreakMode)CTLineBreakModeForUITextAlignment:(UITextAlignment)inAlignment
+    {
+    CTTextAlignment theTextAlignment;
+    switch (inAlignment)
+        {
+        case UITextAlignmentCenter:
+            theTextAlignment = kCTCenterTextAlignment;
+            break;
+        case UITextAlignmentRight:
+            theTextAlignment = kCTRightTextAlignment;
+            break;
+        case UITextAlignmentLeft:
+        default:
+            theTextAlignment = kCTLeftTextAlignment;
+            break;
+        }
+    return(theTextAlignment);
     }
 
 @end
