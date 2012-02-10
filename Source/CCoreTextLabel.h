@@ -50,6 +50,8 @@
 
 + (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode contentInsets:(UIEdgeInsets)inContentInsets thatFits:(CGSize)inSize;
 
+- (CGSize)sizeForString:(NSAttributedString *)inText constrainedToSize:(CGSize)inSize;
+
 - (NSArray *)rectsForRange:(NSRange)inRange;
 - (NSDictionary *)attributesAtPoint:(CGPoint)inPoint effectiveRange:(NSRange *)outRange;
 

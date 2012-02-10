@@ -66,6 +66,7 @@
 
 @synthesize renderer;
 
+// TODO rename thatFits -> constrainedToSize
 + (CGSize)sizeForString:(NSAttributedString *)inString font:(UIFont *)inBaseFont alignment:(UITextAlignment)inTextAlignment lineBreakMode:(UILineBreakMode)inLineBreakMode contentInsets:(UIEdgeInsets)inContentInsets thatFits:(CGSize)inSize 
     {
     NSDictionary *theSettings = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -379,6 +380,12 @@
     }
 
 #pragma mark -
+
+- (CGSize)sizeForString:(NSAttributedString *)inText constrainedToSize:(CGSize)inSize
+    {
+    CGSize theSize = [[self class] sizeForString:inText font:self.font alignment:self.textAlignment lineBreakMode:self.lineBreakMode contentInsets:self.insets thatFits:inSize];
+    return(theSize);
+    }
     
 - (NSArray *)rectsForRange:(NSRange)inRange;
     {
