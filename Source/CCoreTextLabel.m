@@ -292,7 +292,7 @@
         
         renderer = [[CCoreTextRenderer alloc] initWithText:theNormalizedText size:theBounds.size];
 
-        if (self.lineBreakMode != self.lastLineBreakMode)
+        if (self.lineBreakMode != self.lastLineBreakMode && renderer.visibleLines.count > 1)
             {
             NSRange theLastLineRange = [renderer rangeOfLastLine];
             
