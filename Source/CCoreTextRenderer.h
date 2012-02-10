@@ -12,8 +12,8 @@
 
 @interface CCoreTextRenderer : NSObject
 
-@property (readonly, nonatomic, strong) NSAttributedString *text;
-@property (readonly, nonatomic, assign) CGSize size;
+@property (readwrite, nonatomic, copy) NSAttributedString *text;
+@property (readwrite, nonatomic, assign) CGSize size;
 
 + (CGSize)sizeForString:(NSAttributedString *)inString thatFits:(CGSize)size;
 
@@ -27,5 +27,8 @@
 
 - (NSDictionary *)attributesAtPoint:(CGPoint)inPoint effectiveRange:(NSRange *)outRange;
 - (NSArray *)rectsForRange:(NSRange)inRange;
+- (NSUInteger)indexAtPoint:(CGPoint)inPoint;
+- (NSArray *)visibleLines;
+- (NSRange)rangeOfLastLine;
 
 @end

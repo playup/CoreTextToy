@@ -21,11 +21,12 @@
 
 @property (readwrite, nonatomic, assign) CTFramesetterRef framesetter;
 @property (readwrite, nonatomic, assign) CTFrameRef frame;
-@property (readonly, nonatomic, assign) CGPoint *lineOrigins;
+@property (readwrite, nonatomic, assign) CGPoint *lineOrigins;
 @property (readwrite, nonatomic, strong) NSMutableData *lineOriginsData;
 
+- (void)reset;
 - (void)enumerateRunsInContext:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler;
-- (NSUInteger)indexAtPoint:(CGPoint)inPoint;
+
 @end
 
 #pragma mark -
@@ -75,7 +76,7 @@
     {
     if ((self = [super init]) != NULL)
         {
-        text = inText;
+        text = [inText copy];
         size = inSize;
         enableShadowRenderer = NO;
         
@@ -133,6 +134,23 @@
         CFRelease(thePath);
         }
     return(frame);
+    }
+    
+- (void)setText:(NSAttributedString *)inText
+    {
+    if (text != inText)
+        {
+        text = [inText copy];
+    
+        [self reset];
+        }
+    }
+    
+- (void)setSize:(CGSize)inSize
+    {
+    size = inSize;
+    
+    [self reset];    
     }
     
 - (CGPoint *)lineOrigins
@@ -342,7 +360,91 @@
     return(theRects);
     }
     
+- (NSUInteger)indexAtPoint:(CGPoint)inPoint
+    {
+    inPoint.y *= -1;
+    inPoint.y += self.size.height;
+
+    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(self.frame);
+
+    __block CGPoint theLastLineOrigin = (CGPoint){ 0, CGFLOAT_MAX };
+    __block CFIndex theIndex = NSNotFound;
+
+    [theLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+        CGPoint theLineOrigin;
+        CTFrameGetLineOrigins(self.frame, CFRangeMake(idx, 1), &theLineOrigin);
+
+        if (inPoint.y > theLineOrigin.y && inPoint.y < theLastLineOrigin.y)
+            {
+            CTLineRef theLine = (__bridge CTLineRef)obj;
+
+            theIndex = CTLineGetStringIndexForPosition(theLine, (CGPoint){ .x = inPoint.x - theLineOrigin.x, inPoint.y - theLineOrigin.y });
+            if (theIndex != NSNotFound && (NSUInteger)theIndex < self.text.length)
+                {
+                *stop = YES;
+                }
+            }
+        theLastLineOrigin = theLineOrigin;
+        }];
+    
+        
+    return(theIndex);
+    }
+
+- (NSArray *)visibleLines
+    {
+    NSMutableArray *theVisibleLines = [NSMutableArray array];
+    
+    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(self.frame);
+
+    [theLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+
+        CGPoint theLineOrigin;
+        CTFrameGetLineOrigins(self.frame, CFRangeMake(idx, 1), &theLineOrigin);
+
+        // TODO use CTLineGetTypographicBounds?
+        if (theLineOrigin.y >= 0.0 && theLineOrigin.y <= self.size.height)
+            {
+            [theVisibleLines addObject:obj];
+            }
+        if (theLineOrigin.y > self.size.height)
+            {
+            *stop = YES;
+            }
+        }];
+        
+    return([theVisibleLines copy]);
+    }
+
+- (NSRange)rangeOfLastLine
+    {
+    CTLineRef theLine = (__bridge CTLineRef)[self.visibleLines lastObject];
+    
+    CFRange theRange = CTLineGetStringRange(theLine);
+    
+    return((NSRange){ .location = theRange.location, .length = theRange.length });
+    }
+
 #pragma mark -
+
+- (void)reset
+    {
+    if (frame)
+        {
+        CFRelease(frame);
+        self.frame = NULL;
+        }
+
+    if (framesetter)
+        {
+        CFRelease(framesetter);
+        self.framesetter = NULL;
+        }
+
+    self.lineOrigins = NULL;
+    self.lineOriginsData = NULL;
+    }
 
 - (void)enumerateRunsInContext:(CGContextRef)inContext handler:(void (^)(CGContextRef, CTRunRef, CGRect))inHandler
     {
@@ -382,39 +484,5 @@
         idx++;
         }
     }
-
-- (NSUInteger)indexAtPoint:(CGPoint)inPoint
-    {
-    inPoint.y *= -1;
-    inPoint.y += self.size.height;
-
-    NSArray *theLines = (__bridge NSArray *)CTFrameGetLines(self.frame);
-
-    __block CGPoint theLastLineOrigin = (CGPoint){ 0, CGFLOAT_MAX };
-    __block CFIndex theIndex = NSNotFound;
-
-    [theLines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-
-        CGPoint theLineOrigin;
-        CTFrameGetLineOrigins(self.frame, CFRangeMake(idx, 1), &theLineOrigin);
-
-        if (inPoint.y > theLineOrigin.y && inPoint.y < theLastLineOrigin.y)
-            {
-            CTLineRef theLine = (__bridge CTLineRef)obj;
-
-            theIndex = CTLineGetStringIndexForPosition(theLine, (CGPoint){ .x = inPoint.x - theLineOrigin.x, inPoint.y - theLineOrigin.y });
-            if (theIndex != NSNotFound && (NSUInteger)theIndex < self.text.length)
-                {
-                *stop = YES;
-                }
-            }
-        theLastLineOrigin = theLineOrigin;
-        }];
-    
-        
-    return(theIndex);
-    }
-
-#pragma mark -
 
 @end
