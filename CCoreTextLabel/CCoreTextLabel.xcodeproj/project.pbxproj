@@ -10,32 +10,32 @@
 		AA35258514E859D100C295E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA35258414E859D100C295E5 /* Foundation.framework */; };
 		AA35258B14E859D100C295E5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA35258914E859D100C295E5 /* InfoPlist.strings */; };
 		AA3525AC14E859E300C295E5 /* CCoreTextAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259314E859E300C295E5 /* CCoreTextAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525AD14E859E300C295E5 /* CCoreTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259414E859E300C295E5 /* CCoreTextAttachment.m */; };
 		AA3525AE14E859E300C295E5 /* CCoreTextLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259514E859E300C295E5 /* CCoreTextLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525AF14E859E300C295E5 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259614E859E300C295E5 /* CCoreTextLabel.m */; };
 		AA3525B014E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259714E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525B114E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259814E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.m */; };
 		AA3525B214E859E300C295E5 /* CCoreTextRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259914E859E300C295E5 /* CCoreTextRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525B314E859E300C295E5 /* CCoreTextRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259A14E859E300C295E5 /* CCoreTextRenderer.m */; };
 		AA3525B414E859E300C295E5 /* CLinkingCoreTextLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259B14E859E300C295E5 /* CLinkingCoreTextLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525B514E859E300C295E5 /* CLinkingCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259C14E859E300C295E5 /* CLinkingCoreTextLabel.m */; };
 		AA3525B614E859E300C295E5 /* CMarkupValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259D14E859E300C295E5 /* CMarkupValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525B714E859E300C295E5 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259E14E859E300C295E5 /* CMarkupValueTransformer.m */; };
 		AA3525B814E859E300C295E5 /* CSimpleHTMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259F14E859E300C295E5 /* CSimpleHTMLParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525B914E859E300C295E5 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A014E859E300C295E5 /* CSimpleHTMLParser.m */; };
 		AA3525BA14E859E300C295E5 /* MissingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3525A114E859E300C295E5 /* MissingImage.png */; };
 		AA3525BB14E859E300C295E5 /* NSAttributedString_Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525A214E859E300C295E5 /* NSAttributedString_Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525BC14E859E300C295E5 /* NSAttributedString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A314E859E300C295E5 /* NSAttributedString_Extensions.m */; };
 		AA3525BD14E859E300C295E5 /* NSScanner_HTMLExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525A414E859E300C295E5 /* NSScanner_HTMLExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525BE14E859E300C295E5 /* NSScanner_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A514E859E300C295E5 /* NSScanner_HTMLExtensions.m */; };
 		AA3525BF14E859E300C295E5 /* NSString_HTMLExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525A614E859E300C295E5 /* NSString_HTMLExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525C014E859E300C295E5 /* NSString_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A714E859E300C295E5 /* NSString_HTMLExtensions.m */; };
 		AA3525C114E859E300C295E5 /* UIColor+Hex.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525A814E859E300C295E5 /* UIColor+Hex.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525C214E859E300C295E5 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A914E859E300C295E5 /* UIColor+Hex.m */; };
 		AA3525C314E859E300C295E5 /* UIFont_CoreTextExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525AA14E859E300C295E5 /* UIFont_CoreTextExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA3525C414E859E300C295E5 /* UIFont_CoreTextExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525AB14E859E300C295E5 /* UIFont_CoreTextExtensions.m */; };
 		AA3525C714E85A8F00C295E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3525C514E85A7E00C295E5 /* UIKit.framework */; };
 		AA3525CA14E85B3800C295E5 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3525C814E85B2900C295E5 /* CoreText.framework */; };
+		AA3525D914E85E8D00C295E5 /* CCoreTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259414E859E300C295E5 /* CCoreTextAttachment.m */; };
+		AA3525DA14E85E8D00C295E5 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259614E859E300C295E5 /* CCoreTextLabel.m */; };
+		AA3525DB14E85E8D00C295E5 /* CCoreTextLabel_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259814E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.m */; };
+		AA3525DC14E85E8D00C295E5 /* CCoreTextRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259A14E859E300C295E5 /* CCoreTextRenderer.m */; };
+		AA3525DD14E85E8D00C295E5 /* CLinkingCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259C14E859E300C295E5 /* CLinkingCoreTextLabel.m */; };
+		AA3525DE14E85E8D00C295E5 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259E14E859E300C295E5 /* CMarkupValueTransformer.m */; };
+		AA3525DF14E85E8D00C295E5 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A014E859E300C295E5 /* CSimpleHTMLParser.m */; };
+		AA3525E014E85E8D00C295E5 /* NSAttributedString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A314E859E300C295E5 /* NSAttributedString_Extensions.m */; };
+		AA3525E114E85E8D00C295E5 /* NSScanner_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A514E859E300C295E5 /* NSScanner_HTMLExtensions.m */; };
+		AA3525E214E85E8D00C295E5 /* NSString_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A714E859E300C295E5 /* NSString_HTMLExtensions.m */; };
+		AA3525E314E85E8D00C295E5 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A914E859E300C295E5 /* UIColor+Hex.m */; };
+		AA3525E414E85E8D00C295E5 /* UIFont_CoreTextExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525AB14E859E300C295E5 /* UIFont_CoreTextExtensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -276,18 +276,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA3525AD14E859E300C295E5 /* CCoreTextAttachment.m in Sources */,
-				AA3525AF14E859E300C295E5 /* CCoreTextLabel.m in Sources */,
-				AA3525B114E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.m in Sources */,
-				AA3525B314E859E300C295E5 /* CCoreTextRenderer.m in Sources */,
-				AA3525B514E859E300C295E5 /* CLinkingCoreTextLabel.m in Sources */,
-				AA3525B714E859E300C295E5 /* CMarkupValueTransformer.m in Sources */,
-				AA3525B914E859E300C295E5 /* CSimpleHTMLParser.m in Sources */,
-				AA3525BC14E859E300C295E5 /* NSAttributedString_Extensions.m in Sources */,
-				AA3525BE14E859E300C295E5 /* NSScanner_HTMLExtensions.m in Sources */,
-				AA3525C014E859E300C295E5 /* NSString_HTMLExtensions.m in Sources */,
-				AA3525C214E859E300C295E5 /* UIColor+Hex.m in Sources */,
-				AA3525C414E859E300C295E5 /* UIFont_CoreTextExtensions.m in Sources */,
+				AA3525D914E85E8D00C295E5 /* CCoreTextAttachment.m in Sources */,
+				AA3525DA14E85E8D00C295E5 /* CCoreTextLabel.m in Sources */,
+				AA3525DB14E85E8D00C295E5 /* CCoreTextLabel_HTMLExtensions.m in Sources */,
+				AA3525DC14E85E8D00C295E5 /* CCoreTextRenderer.m in Sources */,
+				AA3525DD14E85E8D00C295E5 /* CLinkingCoreTextLabel.m in Sources */,
+				AA3525DE14E85E8D00C295E5 /* CMarkupValueTransformer.m in Sources */,
+				AA3525DF14E85E8D00C295E5 /* CSimpleHTMLParser.m in Sources */,
+				AA3525E014E85E8D00C295E5 /* NSAttributedString_Extensions.m in Sources */,
+				AA3525E114E85E8D00C295E5 /* NSScanner_HTMLExtensions.m in Sources */,
+				AA3525E214E85E8D00C295E5 /* NSString_HTMLExtensions.m in Sources */,
+				AA3525E314E85E8D00C295E5 /* UIColor+Hex.m in Sources */,
+				AA3525E414E85E8D00C295E5 /* UIFont_CoreTextExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,7 +309,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					"$(ARCHS_STANDARD_32_BIT)",
+					armv6,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -333,7 +336,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					"$(ARCHS_STANDARD_32_BIT)",
+					armv6,
+				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -396,6 +402,7 @@
 				AA35259114E859D100C295E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
