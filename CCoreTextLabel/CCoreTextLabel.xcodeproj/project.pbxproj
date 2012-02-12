@@ -1,0 +1,403 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA35258514E859D100C295E5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA35258414E859D100C295E5 /* Foundation.framework */; };
+		AA35258B14E859D100C295E5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA35258914E859D100C295E5 /* InfoPlist.strings */; };
+		AA3525AC14E859E300C295E5 /* CCoreTextAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259314E859E300C295E5 /* CCoreTextAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525AD14E859E300C295E5 /* CCoreTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259414E859E300C295E5 /* CCoreTextAttachment.m */; };
+		AA3525AE14E859E300C295E5 /* CCoreTextLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259514E859E300C295E5 /* CCoreTextLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525AF14E859E300C295E5 /* CCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259614E859E300C295E5 /* CCoreTextLabel.m */; };
+		AA3525B014E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259714E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525B114E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259814E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.m */; };
+		AA3525B214E859E300C295E5 /* CCoreTextRenderer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259914E859E300C295E5 /* CCoreTextRenderer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525B314E859E300C295E5 /* CCoreTextRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259A14E859E300C295E5 /* CCoreTextRenderer.m */; };
+		AA3525B414E859E300C295E5 /* CLinkingCoreTextLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259B14E859E300C295E5 /* CLinkingCoreTextLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525B514E859E300C295E5 /* CLinkingCoreTextLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259C14E859E300C295E5 /* CLinkingCoreTextLabel.m */; };
+		AA3525B614E859E300C295E5 /* CMarkupValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259D14E859E300C295E5 /* CMarkupValueTransformer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525B714E859E300C295E5 /* CMarkupValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA35259E14E859E300C295E5 /* CMarkupValueTransformer.m */; };
+		AA3525B814E859E300C295E5 /* CSimpleHTMLParser.h in Headers */ = {isa = PBXBuildFile; fileRef = AA35259F14E859E300C295E5 /* CSimpleHTMLParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525B914E859E300C295E5 /* CSimpleHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A014E859E300C295E5 /* CSimpleHTMLParser.m */; };
+		AA3525BA14E859E300C295E5 /* MissingImage.png in Resources */ = {isa = PBXBuildFile; fileRef = AA3525A114E859E300C295E5 /* MissingImage.png */; };
+		AA3525BB14E859E300C295E5 /* NSAttributedString_Extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525A214E859E300C295E5 /* NSAttributedString_Extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525BC14E859E300C295E5 /* NSAttributedString_Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A314E859E300C295E5 /* NSAttributedString_Extensions.m */; };
+		AA3525BD14E859E300C295E5 /* NSScanner_HTMLExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525A414E859E300C295E5 /* NSScanner_HTMLExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525BE14E859E300C295E5 /* NSScanner_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A514E859E300C295E5 /* NSScanner_HTMLExtensions.m */; };
+		AA3525BF14E859E300C295E5 /* NSString_HTMLExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525A614E859E300C295E5 /* NSString_HTMLExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525C014E859E300C295E5 /* NSString_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A714E859E300C295E5 /* NSString_HTMLExtensions.m */; };
+		AA3525C114E859E300C295E5 /* UIColor+Hex.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525A814E859E300C295E5 /* UIColor+Hex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525C214E859E300C295E5 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A914E859E300C295E5 /* UIColor+Hex.m */; };
+		AA3525C314E859E300C295E5 /* UIFont_CoreTextExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3525AA14E859E300C295E5 /* UIFont_CoreTextExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA3525C414E859E300C295E5 /* UIFont_CoreTextExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525AB14E859E300C295E5 /* UIFont_CoreTextExtensions.m */; };
+		AA3525C714E85A8F00C295E5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3525C514E85A7E00C295E5 /* UIKit.framework */; };
+		AA3525CA14E85B3800C295E5 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3525C814E85B2900C295E5 /* CoreText.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA35258114E859D100C295E5 /* CCoreTextLabel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework.static; includeInIndex = 0; path = CCoreTextLabel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA35258414E859D100C295E5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AA35258814E859D100C295E5 /* CCoreTextLabel-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCoreTextLabel-Info.plist"; sourceTree = "<group>"; };
+		AA35258A14E859D100C295E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AA35258C14E859D100C295E5 /* CCoreTextLabel-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCoreTextLabel-Prefix.pch"; sourceTree = "<group>"; };
+		AA35259314E859E300C295E5 /* CCoreTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextAttachment.h; sourceTree = "<group>"; };
+		AA35259414E859E300C295E5 /* CCoreTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextAttachment.m; sourceTree = "<group>"; };
+		AA35259514E859E300C295E5 /* CCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel.h; sourceTree = "<group>"; };
+		AA35259614E859E300C295E5 /* CCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel.m; sourceTree = "<group>"; };
+		AA35259714E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextLabel_HTMLExtensions.h; sourceTree = "<group>"; };
+		AA35259814E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextLabel_HTMLExtensions.m; sourceTree = "<group>"; };
+		AA35259914E859E300C295E5 /* CCoreTextRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCoreTextRenderer.h; sourceTree = "<group>"; };
+		AA35259A14E859E300C295E5 /* CCoreTextRenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCoreTextRenderer.m; sourceTree = "<group>"; };
+		AA35259B14E859E300C295E5 /* CLinkingCoreTextLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLinkingCoreTextLabel.h; sourceTree = "<group>"; };
+		AA35259C14E859E300C295E5 /* CLinkingCoreTextLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLinkingCoreTextLabel.m; sourceTree = "<group>"; };
+		AA35259D14E859E300C295E5 /* CMarkupValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMarkupValueTransformer.h; sourceTree = "<group>"; };
+		AA35259E14E859E300C295E5 /* CMarkupValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMarkupValueTransformer.m; sourceTree = "<group>"; };
+		AA35259F14E859E300C295E5 /* CSimpleHTMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSimpleHTMLParser.h; sourceTree = "<group>"; };
+		AA3525A014E859E300C295E5 /* CSimpleHTMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSimpleHTMLParser.m; sourceTree = "<group>"; };
+		AA3525A114E859E300C295E5 /* MissingImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MissingImage.png; sourceTree = "<group>"; };
+		AA3525A214E859E300C295E5 /* NSAttributedString_Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAttributedString_Extensions.h; sourceTree = "<group>"; };
+		AA3525A314E859E300C295E5 /* NSAttributedString_Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedString_Extensions.m; sourceTree = "<group>"; };
+		AA3525A414E859E300C295E5 /* NSScanner_HTMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSScanner_HTMLExtensions.h; sourceTree = "<group>"; };
+		AA3525A514E859E300C295E5 /* NSScanner_HTMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScanner_HTMLExtensions.m; sourceTree = "<group>"; };
+		AA3525A614E859E300C295E5 /* NSString_HTMLExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSString_HTMLExtensions.h; sourceTree = "<group>"; };
+		AA3525A714E859E300C295E5 /* NSString_HTMLExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSString_HTMLExtensions.m; sourceTree = "<group>"; };
+		AA3525A814E859E300C295E5 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		AA3525A914E859E300C295E5 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		AA3525AA14E859E300C295E5 /* UIFont_CoreTextExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFont_CoreTextExtensions.h; sourceTree = "<group>"; };
+		AA3525AB14E859E300C295E5 /* UIFont_CoreTextExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFont_CoreTextExtensions.m; sourceTree = "<group>"; };
+		AA3525C514E85A7E00C295E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		AA3525C814E85B2900C295E5 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA35257C14E859D100C295E5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA3525CA14E85B3800C295E5 /* CoreText.framework in Frameworks */,
+				AA3525C714E85A8F00C295E5 /* UIKit.framework in Frameworks */,
+				AA35258514E859D100C295E5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA35257314E859D100C295E5 = {
+			isa = PBXGroup;
+			children = (
+				AA35258714E859D100C295E5 /* Supporting Files */,
+				AA35259214E859E300C295E5 /* Source */,
+				AA35258314E859D100C295E5 /* Frameworks */,
+				AA35258214E859D100C295E5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA35258214E859D100C295E5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA35258114E859D100C295E5 /* CCoreTextLabel.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA35258314E859D100C295E5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA3525C814E85B2900C295E5 /* CoreText.framework */,
+				AA3525C514E85A7E00C295E5 /* UIKit.framework */,
+				AA35258414E859D100C295E5 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA35258714E859D100C295E5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AA35258814E859D100C295E5 /* CCoreTextLabel-Info.plist */,
+				AA35258914E859D100C295E5 /* InfoPlist.strings */,
+				AA35258C14E859D100C295E5 /* CCoreTextLabel-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			path = CCoreTextLabel;
+			sourceTree = "<group>";
+		};
+		AA35259214E859E300C295E5 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				AA35259314E859E300C295E5 /* CCoreTextAttachment.h */,
+				AA35259414E859E300C295E5 /* CCoreTextAttachment.m */,
+				AA35259514E859E300C295E5 /* CCoreTextLabel.h */,
+				AA35259614E859E300C295E5 /* CCoreTextLabel.m */,
+				AA35259714E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.h */,
+				AA35259814E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.m */,
+				AA35259914E859E300C295E5 /* CCoreTextRenderer.h */,
+				AA35259A14E859E300C295E5 /* CCoreTextRenderer.m */,
+				AA35259B14E859E300C295E5 /* CLinkingCoreTextLabel.h */,
+				AA35259C14E859E300C295E5 /* CLinkingCoreTextLabel.m */,
+				AA35259D14E859E300C295E5 /* CMarkupValueTransformer.h */,
+				AA35259E14E859E300C295E5 /* CMarkupValueTransformer.m */,
+				AA35259F14E859E300C295E5 /* CSimpleHTMLParser.h */,
+				AA3525A014E859E300C295E5 /* CSimpleHTMLParser.m */,
+				AA3525A114E859E300C295E5 /* MissingImage.png */,
+				AA3525A214E859E300C295E5 /* NSAttributedString_Extensions.h */,
+				AA3525A314E859E300C295E5 /* NSAttributedString_Extensions.m */,
+				AA3525A414E859E300C295E5 /* NSScanner_HTMLExtensions.h */,
+				AA3525A514E859E300C295E5 /* NSScanner_HTMLExtensions.m */,
+				AA3525A614E859E300C295E5 /* NSString_HTMLExtensions.h */,
+				AA3525A714E859E300C295E5 /* NSString_HTMLExtensions.m */,
+				AA3525A814E859E300C295E5 /* UIColor+Hex.h */,
+				AA3525A914E859E300C295E5 /* UIColor+Hex.m */,
+				AA3525AA14E859E300C295E5 /* UIFont_CoreTextExtensions.h */,
+				AA3525AB14E859E300C295E5 /* UIFont_CoreTextExtensions.m */,
+			);
+			name = Source;
+			path = ../Source;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		AA35257D14E859D100C295E5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA3525AC14E859E300C295E5 /* CCoreTextAttachment.h in Headers */,
+				AA3525AE14E859E300C295E5 /* CCoreTextLabel.h in Headers */,
+				AA3525B014E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.h in Headers */,
+				AA3525B214E859E300C295E5 /* CCoreTextRenderer.h in Headers */,
+				AA3525B414E859E300C295E5 /* CLinkingCoreTextLabel.h in Headers */,
+				AA3525B614E859E300C295E5 /* CMarkupValueTransformer.h in Headers */,
+				AA3525B814E859E300C295E5 /* CSimpleHTMLParser.h in Headers */,
+				AA3525BB14E859E300C295E5 /* NSAttributedString_Extensions.h in Headers */,
+				AA3525BD14E859E300C295E5 /* NSScanner_HTMLExtensions.h in Headers */,
+				AA3525BF14E859E300C295E5 /* NSString_HTMLExtensions.h in Headers */,
+				AA3525C114E859E300C295E5 /* UIColor+Hex.h in Headers */,
+				AA3525C314E859E300C295E5 /* UIFont_CoreTextExtensions.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		AA35258014E859D100C295E5 /* CCoreTextLabel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA35258F14E859D100C295E5 /* Build configuration list for PBXNativeTarget "CCoreTextLabel" */;
+			buildPhases = (
+				AA35257A14E859D100C295E5 /* ShellScript */,
+				AA35257B14E859D100C295E5 /* Sources */,
+				AA35257C14E859D100C295E5 /* Frameworks */,
+				AA35257D14E859D100C295E5 /* Headers */,
+				AA35257E14E859D100C295E5 /* Resources */,
+				AA35257F14E859D100C295E5 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CCoreTextLabel;
+			productName = CCoreTextLabel;
+			productReference = AA35258114E859D100C295E5 /* CCoreTextLabel.framework */;
+			productType = "com.apple.product-type.framework.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA35257514E859D100C295E5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = com.toxicsoftware;
+			};
+			buildConfigurationList = AA35257814E859D100C295E5 /* Build configuration list for PBXProject "CCoreTextLabel" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = AA35257314E859D100C295E5;
+			productRefGroup = AA35258214E859D100C295E5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA35258014E859D100C295E5 /* CCoreTextLabel */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA35257E14E859D100C295E5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA35258B14E859D100C295E5 /* InfoPlist.strings in Resources */,
+				AA3525BA14E859E300C295E5 /* MissingImage.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AA35257A14E859D100C295E5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nset +u\nif [[ $UFW_MASTER_SCRIPT_RUNNING ]]\nthen\n    # Nothing for the slave script to do\n    exit 0\nfi\nset -u\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\n    UFW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find platform name from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\n\tUFW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find sdk version  from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$UFW_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\n    UFW_OTHER_PLATFORM=iphonesimulator\nelse\n    UFW_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$UFW_SDK_PLATFORM$ ]]\nthen\n    UFW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${UFW_OTHER_PLATFORM}\"\nelse\n    echo \"Could not find $UFW_SDK_PLATFORM in $BUILT_PRODUCTS_DIR\"\n    exit 1\nfi\n\nONLY_ACTIVE_PLATFORM=${ONLY_ACTIVE_PLATFORM:-$ONLY_ACTIVE_ARCH}\n\n# Short-circuit if all binaries are up to date\n\nif [[ -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && \\\n   [[ -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n   [[ ! \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n  ([[ \"${ONLY_ACTIVE_PLATFORM}\" == \"YES\" ]] || \\\n    ([[ -f \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && \\\n     [[ -f \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && \\\n     [[ ! \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\n    )\n  )\nthen\n    exit 0\nfi\n\n\n# Clean other platform if needed\n\nif [[ ! -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && [[ \"${ONLY_ACTIVE_PLATFORM}\" != \"YES\" ]]\nthen\n\techo \"Platform \\\"$UFW_SDK_PLATFORM\\\" was cleaned recently. Cleaning \\\"$UFW_OTHER_PLATFORM\\\" as well\"\n\techo xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" clean\n\txcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" clean\nfi\n\n\n# Make sure we are building from fresh binaries\n\nrm -rf \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\n\nif [[ \"${ONLY_ACTIVE_PLATFORM}\" != \"YES\" ]]\nthen\n    rm -rf \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\n    rm -rf \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\nfi\n";
+		};
+		AA35257F14E859D100C295E5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nset +u\nif [[ $UFW_MASTER_SCRIPT_RUNNING ]]\nthen\n    # Nothing for the slave script to do\n    exit 0\nfi\nset -u\nexport UFW_MASTER_SCRIPT_RUNNING=1\n\n\n# Functions\n\n## List files in the specified directory, storing to the specified array.\n#\n# @param $1 The path to list\n# @param $2 The name of the array to fill\n#\n##\nlist_files ()\n{\n    filelist=$(ls \"$1\")\n    while read line\n    do\n        eval \"$2[\\${#$2[*]}]=\\\"\\$line\\\"\"\n    done <<< \"$filelist\"\n}\n\n\n# Sanity check\n\nif [[ ! -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]]\nthen\n    echo \"Framework target \\\"${TARGET_NAME}\\\" had no source files to build from. Make sure your source files have the correct target membership\"\n    exit 1\nfi\n\n\n# Gather information\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\n    UFW_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find platform name from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\n    UFW_SDK_VERSION=${BASH_REMATCH[1]}\nelse\n    echo \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\n    exit 1\nfi\n\nif [[ \"$UFW_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\n    UFW_OTHER_PLATFORM=iphonesimulator\nelse\n    UFW_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$UFW_SDK_PLATFORM$ ]]\nthen\n    UFW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${UFW_OTHER_PLATFORM}\"\nelse\n    echo \"Could not find $UFW_SDK_PLATFORM in $BUILT_PRODUCTS_DIR\"\n    exit 1\nfi\n\nONLY_ACTIVE_PLATFORM=${ONLY_ACTIVE_PLATFORM:-$ONLY_ACTIVE_ARCH}\n\n# Short-circuit if all binaries are up to date.\n# We already checked the other platform in the prerun script.\n\nif [[ -f \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" ]] && [[ -f \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]] && [[ ! \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -nt \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/${EXECUTABLE_PATH}\" ]]\nthen\n    exit 0\nfi\n\nif [ \"${ONLY_ACTIVE_PLATFORM}\" == \"YES\" ]\nthen\n    echo \"ONLY_ACTIVE_PLATFORM=${ONLY_ACTIVE_PLATFORM}: Skipping other platform build\"\nelse\n    # Make sure the other platform gets built\n    \n    echo \"Build other platform\"\n    \n    echo xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" $ACTION\n    xcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" $ACTION\n    \n    \n    # Build the fat static library binary\n    \n    echo \"Create universal static library\"\n    \n    echo \"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n    \"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n    \n    echo mv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\n    mv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nfi\n\n# Build embedded framework structure\n\necho \"Build Embedded Framework\"\n\necho rm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\nrm -rf \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework\"\necho mkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources\"\necho cp -a \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/\"\ncp -a \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/\"\n\ndeclare -a UFW_FILE_LIST\nlist_files \"${BUILT_PRODUCTS_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\" UFW_FILE_LIST\nfor filename in \"${UFW_FILE_LIST[@]}\"\ndo\n    if [[ \"${filename}\" != \"Info.plist\" ]] && [[ ! \"${filename}\" =~ .*\\.lproj$ ]]\n    then\n        echo ln -sf \"../${WRAPPER_NAME}/Resources/${filename}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources/${filename}\"\n        ln -sf \"../${WRAPPER_NAME}/Resources/${filename}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.embeddedframework/Resources/${filename}\"\n    fi\ndone\n\n\nif [ \"${ONLY_ACTIVE_PLATFORM}\" != \"YES\" ]\nthen\n    # Replace other platform's framework with a copy of this one (so that both have the same universal binary)\n    \n    echo \"Copy from $UFW_SDK_PLATFORM to $UFW_OTHER_PLATFORM\"\n    \n    echo rm -rf \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\n    rm -rf \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\n    echo cp -a \"${BUILD_DIR}/${CONFIGURATION}-${UFW_SDK_PLATFORM}\" \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\n    cp -a \"${BUILD_DIR}/${CONFIGURATION}-${UFW_SDK_PLATFORM}\" \"${BUILD_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA35257B14E859D100C295E5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA3525AD14E859E300C295E5 /* CCoreTextAttachment.m in Sources */,
+				AA3525AF14E859E300C295E5 /* CCoreTextLabel.m in Sources */,
+				AA3525B114E859E300C295E5 /* CCoreTextLabel_HTMLExtensions.m in Sources */,
+				AA3525B314E859E300C295E5 /* CCoreTextRenderer.m in Sources */,
+				AA3525B514E859E300C295E5 /* CLinkingCoreTextLabel.m in Sources */,
+				AA3525B714E859E300C295E5 /* CMarkupValueTransformer.m in Sources */,
+				AA3525B914E859E300C295E5 /* CSimpleHTMLParser.m in Sources */,
+				AA3525BC14E859E300C295E5 /* NSAttributedString_Extensions.m in Sources */,
+				AA3525BE14E859E300C295E5 /* NSScanner_HTMLExtensions.m in Sources */,
+				AA3525C014E859E300C295E5 /* NSString_HTMLExtensions.m in Sources */,
+				AA3525C214E859E300C295E5 /* UIColor+Hex.m in Sources */,
+				AA3525C414E859E300C295E5 /* UIFont_CoreTextExtensions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AA35258914E859D100C295E5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA35258A14E859D100C295E5 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AA35258D14E859D100C295E5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		AA35258E14E859D100C295E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AA35259014E859D100C295E5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCoreTextLabel/CCoreTextLabel-Prefix.pch";
+				INFOPLIST_FILE = "CCoreTextLabel/CCoreTextLabel-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		AA35259114E859D100C295E5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CCoreTextLabel/CCoreTextLabel-Prefix.pch";
+				INFOPLIST_FILE = "CCoreTextLabel/CCoreTextLabel-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA35257814E859D100C295E5 /* Build configuration list for PBXProject "CCoreTextLabel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA35258D14E859D100C295E5 /* Debug */,
+				AA35258E14E859D100C295E5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA35258F14E859D100C295E5 /* Build configuration list for PBXNativeTarget "CCoreTextLabel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA35259014E859D100C295E5 /* Debug */,
+				AA35259114E859D100C295E5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AA35257514E859D100C295E5 /* Project object */;
+}

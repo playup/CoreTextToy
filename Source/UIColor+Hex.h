@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 Punch Media, Inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface UIColor (i7HexColor)
 
