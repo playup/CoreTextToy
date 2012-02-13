@@ -36,6 +36,8 @@
 		AA3525E214E85E8D00C295E5 /* NSString_HTMLExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A714E859E300C295E5 /* NSString_HTMLExtensions.m */; };
 		AA3525E314E85E8D00C295E5 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525A914E859E300C295E5 /* UIColor+Hex.m */; };
 		AA3525E414E85E8D00C295E5 /* UIFont_CoreTextExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3525AB14E859E300C295E5 /* UIFont_CoreTextExtensions.m */; };
+		AA413E4F14E91C6C00C16E5B /* libarclite_iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA413E4D14E91C6C00C16E5B /* libarclite_iphoneos.a */; };
+		AA413E5014E91C6C00C16E5B /* libarclite_iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA413E4E14E91C6C00C16E5B /* libarclite_iphonesimulator.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +73,8 @@
 		AA3525AB14E859E300C295E5 /* UIFont_CoreTextExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFont_CoreTextExtensions.m; sourceTree = "<group>"; };
 		AA3525C514E85A7E00C295E5 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AA3525C814E85B2900C295E5 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		AA413E4D14E91C6C00C16E5B /* libarclite_iphoneos.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libarclite_iphoneos.a; path = Platforms/iPhoneOS.platform/Developer/usr/lib/arc/libarclite_iphoneos.a; sourceTree = DEVELOPER_DIR; };
+		AA413E4E14E91C6C00C16E5B /* libarclite_iphonesimulator.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libarclite_iphonesimulator.a; path = usr/lib/arc/libarclite_iphonesimulator.a; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 				AA3525CA14E85B3800C295E5 /* CoreText.framework in Frameworks */,
 				AA3525C714E85A8F00C295E5 /* UIKit.framework in Frameworks */,
 				AA35258514E859D100C295E5 /* Foundation.framework in Frameworks */,
+				AA413E4F14E91C6C00C16E5B /* libarclite_iphoneos.a in Frameworks */,
+				AA413E5014E91C6C00C16E5B /* libarclite_iphonesimulator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +114,8 @@
 		AA35258314E859D100C295E5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA413E4D14E91C6C00C16E5B /* libarclite_iphoneos.a */,
+				AA413E4E14E91C6C00C16E5B /* libarclite_iphonesimulator.a */,
 				AA3525C814E85B2900C295E5 /* CoreText.framework */,
 				AA3525C514E85A7E00C295E5 /* UIKit.framework */,
 				AA35258414E859D100C295E5 /* Foundation.framework */,
@@ -362,6 +370,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CCoreTextLabel/CCoreTextLabel-Prefix.pch";
 				INFOPLIST_FILE = "CCoreTextLabel/CCoreTextLabel-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
+					"\"$(DEVELOPER_DIR)/usr/lib/arc\"",
+				);
+				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
@@ -377,6 +392,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CCoreTextLabel/CCoreTextLabel-Prefix.pch";
 				INFOPLIST_FILE = "CCoreTextLabel/CCoreTextLabel-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/usr/lib/arc\"",
+					"\"$(DEVELOPER_DIR)/usr/lib/arc\"",
+				);
+				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
