@@ -379,6 +379,7 @@
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				STRIP_STYLE = debugging;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Debug;
@@ -401,6 +402,7 @@
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				STRIP_STYLE = debugging;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
